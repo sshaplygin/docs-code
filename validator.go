@@ -78,3 +78,7 @@ func ValidateOGRNIP(ogrnip string) (bool, error) {
 func ValidateSNILS(snils string) (bool, error) {
 	return false, nil
 }
+
+func ValidateKPP(kpp string) (bool, error) {
+	return false, nil
+}

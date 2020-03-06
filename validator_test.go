@@ -28,12 +28,12 @@ func TestValidateINN(t *testing.T) {
 		testCases := []TestINNCase{
 			TestINNCase{
 				INN:     "12345678",
-				Error:   errInvalidLength,
+				Error:   errInvalidINNLength,
 				IsValid: false,
 			},
 			TestINNCase{
 				INN:     "9876543211123",
-				Error:   errInvalidLength,
+				Error:   errInvalidINNLength,
 				IsValid: false,
 			},
 			TestINNCase{
@@ -107,6 +107,14 @@ func TestValidateOGRNIP(t *testing.T) {
 }
 
 func TestValidateSNILS(t *testing.T) {
+	t.Parallel()
+
+	t.Run("", func(t *testing.T) {
+
+	})
+}
+
+func TestValidateKPP(t *testing.T) {
 	t.Parallel()
 
 	t.Run("", func(t *testing.T) {
