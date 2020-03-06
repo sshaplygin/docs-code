@@ -7,22 +7,34 @@ import (
 )
 
 var (
-	errInvalidLength = errors.New("invalid inn length")
-	errInvalidValue  = errors.New("invalid inn value")
+	errInvalidINNLength = errors.New("invalid inn length")
+	errInvalidBIKLength = errors.New("invalid bik length")
+
+	errInvalidValue = errors.New("invalid code value")
+
+	errInvalidBIKCountryCode = errors.New("invalid bik country code")
 )
+
+func strToArr(str string) ([]int, error) {
+	numbers := strings.Split(str, "")
+	arr := make([]int, 0, len(numbers))
+	for _, number := range numbers {
+		number, err := strconv.Atoi(number)
+		if err != nil {
+			return []int{}, errInvalidValue
+		}
+		arr = append(arr, number)
+	}
+	return arr, nil
+}
 
 func ValidateINN(inn string) (bool, error) {
 	if len(inn) != 10 && len(inn) != 12 {
-		return false, errInvalidLength
+		return false, errInvalidINNLength
 	}
-	innNumbers := strings.Split(inn, "")
-	innArr := make([]int, 0, len(inn))
-	for _, str := range innNumbers {
-		number, err := strconv.Atoi(str)
-		if err != nil {
-			return false, errInvalidValue
-		}
-		innArr = append(innArr, number)
+	innArr, err := strToArr(inn)
+	if err != nil {
+		return false, err
 	}
 	if len(inn) == 10 {
 		controlNumber := ((2*innArr[0] + 4*innArr[1] + 10*innArr[2] + 3*innArr[3] + 5*innArr[4] + 9*innArr[5] + 4*innArr[6] + 6*innArr[7] + 8*innArr[8]) % 11) % 10
@@ -34,7 +46,25 @@ func ValidateINN(inn string) (bool, error) {
 }
 
 func ValidateBIK(bik string) (bool, error) {
-	return false, nil
+	if len(bik) != 9 {
+		return false, errInvalidBIKLength
+	}
+	bikArr, err := strToArr(bik)
+	if err != nil {
+		return false, err
+	}
+	if bikArr[0] != 0 && bik[1] != 4 {
+		return false, errInvalidBIKCountryCode
+	}
+	if bikArr[6] == 0 && bikArr[7] == 1 && bikArr[8] == 0 {
+		return true, nil
+	}
+	latestTriadStr := bik[6:]
+	code, err := strconv.Atoi(latestTriadStr)
+	if err != nil {
+		return false, errInvalidValue
+	}
+	return code >= 50 && code < 1000, nil
 }
 
 func ValidateOGRN(ogrn string) (bool, error) {
