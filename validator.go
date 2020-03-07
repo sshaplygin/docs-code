@@ -7,12 +7,12 @@ import (
 )
 
 var (
-	errInvalidINNLength = errors.New("invalid inn length")
-	errInvalidBIKLength = errors.New("invalid bik length")
+	ErrInvalidINNLength = errors.New("invalid inn length")
+	ErrInvalidBIKLength = errors.New("invalid bik length")
 
-	errInvalidValue = errors.New("invalid code value")
+	ErrInvalidValue = errors.New("invalid code value")
 
-	errInvalidBIKCountryCode = errors.New("invalid bik country code")
+	ErrInvalidBIKCountryCode = errors.New("invalid bik country code")
 )
 
 func strToArr(str string) ([]int, error) {
@@ -21,7 +21,7 @@ func strToArr(str string) ([]int, error) {
 	for _, number := range numbers {
 		number, err := strconv.Atoi(number)
 		if err != nil {
-			return []int{}, errInvalidValue
+			return []int{}, ErrInvalidValue
 		}
 		arr = append(arr, number)
 	}
@@ -30,7 +30,7 @@ func strToArr(str string) ([]int, error) {
 
 func ValidateINN(inn string) (bool, error) {
 	if len(inn) != 10 && len(inn) != 12 {
-		return false, errInvalidINNLength
+		return false, ErrInvalidINNLength
 	}
 	innArr, err := strToArr(inn)
 	if err != nil {
@@ -47,23 +47,21 @@ func ValidateINN(inn string) (bool, error) {
 
 func ValidateBIK(bik string) (bool, error) {
 	if len(bik) != 9 {
-		return false, errInvalidBIKLength
+		return false, ErrInvalidBIKLength
 	}
 	bikArr, err := strToArr(bik)
 	if err != nil {
 		return false, err
 	}
-	if bikArr[0] != 0 && bik[1] != 4 {
-		return false, errInvalidBIKCountryCode
+	if bikArr[0] != 0 || bikArr[1] != 4 {
+		return false, ErrInvalidBIKCountryCode
 	}
-	if bikArr[6] == 0 && bikArr[7] == 1 && bikArr[8] == 0 {
+	// special code
+	if bikArr[6] == 0 && bikArr[7] == 1 && bikArr[8] == 2 {
 		return true, nil
 	}
 	latestTriadStr := bik[6:]
-	code, err := strconv.Atoi(latestTriadStr)
-	if err != nil {
-		return false, errInvalidValue
-	}
+	code, _ := strconv.Atoi(latestTriadStr)
 	return code >= 50 && code < 1000, nil
 }
 
