@@ -1,18 +1,8 @@
 package go_codes_validator
 
 import (
-	"errors"
 	"strconv"
 	"strings"
-)
-
-var (
-	ErrInvalidINNLength = errors.New("invalid inn length")
-	ErrInvalidBIKLength = errors.New("invalid bik length")
-
-	ErrInvalidValue = errors.New("invalid code value")
-
-	ErrInvalidBIKCountryCode = errors.New("invalid bik country code")
 )
 
 func strToArr(str string) ([]int, error) {
@@ -28,7 +18,7 @@ func strToArr(str string) ([]int, error) {
 	return arr, nil
 }
 
-func ValidateINN(inn string) (bool, error) {
+func IsINNValid(inn string) (bool, error) {
 	if len(inn) != 10 && len(inn) != 12 {
 		return false, ErrInvalidINNLength
 	}
@@ -45,7 +35,7 @@ func ValidateINN(inn string) (bool, error) {
 	return firstControlNumber == innArr[len(innArr)-2] && secondControlNumber == innArr[len(innArr)-1], nil
 }
 
-func ValidateBIK(bik string) (bool, error) {
+func IsBIKValid(bik string) (bool, error) {
 	if len(bik) != 9 {
 		return false, ErrInvalidBIKLength
 	}
@@ -65,18 +55,21 @@ func ValidateBIK(bik string) (bool, error) {
 	return code >= 50 && code < 1000, nil
 }
 
-func ValidateOGRN(ogrn string) (bool, error) {
+func IsOGRNValid(ogrn string) (bool, error) {
 	return false, nil
 }
 
-func ValidateOGRNIP(ogrnip string) (bool, error) {
+func IsOGRNIPValid(ogrnip string) (bool, error) {
 	return false, nil
 }
 
-func ValidateSNILS(snils string) (bool, error) {
+func IsSNILSValid(snils string) (bool, error) {
 	return false, nil
 }
 
-func ValidateKPP(kpp string) (bool, error) {
-	return false, nil
+func IsKPPValid(kpp string) (bool, error) {
+	if len(kpp) == 9 {
+		return true, nil
+	}
+	return false, ErrInvalidKPPLength
 }
