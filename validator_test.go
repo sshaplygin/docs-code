@@ -159,8 +159,69 @@ func TestIsINNValid(t *testing.T) {
 func TestValidateOGRN(t *testing.T) {
 	t.Parallel()
 
-	t.Run("", func(t *testing.T) {
+	t.Run("invalid ogrn length", func(t *testing.T) {
+		testCases := []TestCodeCase{
+			TestCodeCase{
+				Code:    "1027700132195",
+				Error:   nil,
+				IsValid: true,
+			},
+			TestCodeCase{
+				Code:    "1027739244741",
+				Error:   nil,
+				IsValid: true,
+			},
+			TestCodeCase{
+				Code:    "102773924",
+				Error:   ErrInvalidOGRNLength,
+				IsValid: false,
+			},
+			TestCodeCase{
+				Code:    "10277392447411231",
+				Error:   ErrInvalidOGRNLength,
+				IsValid: false,
+			},
+		}
+		for _, test := range testCases {
+			isValid, err := IsOGRNValid(test.Code)
+			assert.Equal(t, isValid, test.IsValid, test.Code)
+			assert.Equal(t, true, errors.Is(test.Error, err), test.Code)
+		}
+	})
 
+	t.Run("invalid ogrn value", func(t *testing.T) {
+		testCases := []TestCodeCase{
+			TestCodeCase{
+				Code:    "102773??44741",
+				Error:   ErrInvalidValue,
+				IsValid: false,
+			},
+			TestCodeCase{
+				Code:    "1027739244742",
+				Error:   nil,
+				IsValid: false,
+			},
+			TestCodeCase{
+				Code:    "10@7739244%42",
+				Error:   ErrInvalidValue,
+				IsValid: false,
+			},
+			TestCodeCase{
+				Code:    "1027700132195",
+				Error:   nil,
+				IsValid: true,
+			},
+			TestCodeCase{
+				Code:    "1027739244741",
+				Error:   nil,
+				IsValid: true,
+			},
+		}
+		for _, test := range testCases {
+			isValid, err := IsOGRNValid(test.Code)
+			assert.Equal(t, isValid, test.IsValid, test.Code, test.IsValid)
+			assert.Equal(t, true, errors.Is(test.Error, err), test.Code)
+		}
 	})
 }
 
