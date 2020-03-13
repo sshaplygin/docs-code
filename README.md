@@ -1,10 +1,23 @@
 # ru-doc-codes
+[![GoDoc](https://godoc.org/github.com/mrfoe7/ru-doc-code?status.svg)](https://godoc.org/github.com/mrfoe7/ru-doc-code) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/mrfoe7/ru-doc-code/blob/master/LICENSE) [![Go Report Card](https://goreportcard.com/badge/github.com/mrfoe7/ru-doc-code)](https://goreportcard.com/report/github.com/mrfoe7/ru-doc-code)
 
-It is validator about official codes of documents from Russia 
+It is validator about official codes of documents from Russia in Go 
 
 ## Usage 
 
+* go get github.com/mrfoe7/ru-doc-codes
+
+### Example
+ 
 ```go
+
+isValid, err := ru-doc-code.IsSNILSValid("112-233-445 95")
+if err != nil {
+    log.Fatal(err)
+}
+if isValid {
+    log.Println("SNILS is valid")
+}
 
 ```
 
