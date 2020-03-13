@@ -1,5 +1,5 @@
 # ru-doc-codes
-[![GoDoc](https://godoc.org/github.com/mrfoe7/ru-doc-code?status.svg)](https://godoc.org/github.com/mrfoe7/ru-doc-code) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/mrfoe7/ru-doc-code/blob/master/LICENSE) [![Go Report Card](https://goreportcard.com/badge/github.com/mrfoe7/ru-doc-code)](https://goreportcard.com/report/github.com/mrfoe7/ru-doc-code)
+[![GoDoc](https://godoc.org/github.com/mrfoe7/ru-doc-code?status.svg)](https://godoc.org/github.com/mrfoe7/ru-doc-code) [![Build Status](https://travis-ci.org/mrfoe7/ru-doc-code.svg)](https://travis-ci.org/mrfoe7/ru-doc-code.svg?branch=master) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/mrfoe7/ru-doc-code/blob/master/LICENSE) [![Go Report Card](https://goreportcard.com/badge/github.com/mrfoe7/ru-doc-code)](https://goreportcard.com/report/github.com/mrfoe7/ru-doc-code)
 
 It is validator about official codes of documents from Russia in Go 
 
