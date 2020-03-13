@@ -1,4 +1,4 @@
-package go_codes_validator
+package ru_doc_code
 
 import (
 	"errors"
@@ -41,7 +41,7 @@ func TestIsBIKValid(t *testing.T) {
 		}
 		for _, test := range testCases {
 			isValid, err := IsBIKValid(test.Code)
-			assert.Equal(t, isValid, test.IsValid, test.Code)
+			assert.Equal(t, test.IsValid, isValid, test.Code)
 			assert.Equal(t, true, errors.Is(test.Error, err), test.Code)
 		}
 	})
@@ -81,7 +81,7 @@ func TestIsBIKValid(t *testing.T) {
 		}
 		for _, test := range testCases {
 			isValid, err := IsBIKValid(test.Code)
-			assert.Equal(t, isValid, test.IsValid, test.Code, test.IsValid)
+			assert.Equal(t, test.IsValid, isValid, test.Code, test.IsValid)
 			assert.Equal(t, true, errors.Is(test.Error, err), test.Code)
 		}
 	})
@@ -115,7 +115,7 @@ func TestIsINNValid(t *testing.T) {
 		}
 		for _, test := range testCases {
 			isValid, err := IsINNValid(test.Code)
-			assert.Equal(t, isValid, test.IsValid, test.Code)
+			assert.Equal(t, test.IsValid, isValid, test.Code)
 			assert.Equal(t, true, errors.Is(test.Error, err), test.Code)
 		}
 	})
@@ -150,7 +150,7 @@ func TestIsINNValid(t *testing.T) {
 		}
 		for _, test := range testCases {
 			isValid, err := IsINNValid(test.Code)
-			assert.Equal(t, isValid, test.IsValid, test.Code)
+			assert.Equal(t, test.IsValid, isValid, test.Code)
 			assert.Equal(t, true, errors.Is(test.Error, err), test.Code)
 		}
 	})
@@ -184,7 +184,7 @@ func TestValidateOGRN(t *testing.T) {
 		}
 		for _, test := range testCases {
 			isValid, err := IsOGRNValid(test.Code)
-			assert.Equal(t, isValid, test.IsValid, test.Code)
+			assert.Equal(t, test.IsValid, isValid, test.Code)
 			assert.Equal(t, true, errors.Is(test.Error, err), test.Code)
 		}
 	})
@@ -219,7 +219,7 @@ func TestValidateOGRN(t *testing.T) {
 		}
 		for _, test := range testCases {
 			isValid, err := IsOGRNValid(test.Code)
-			assert.Equal(t, isValid, test.IsValid, test.Code, test.IsValid)
+			assert.Equal(t, test.IsValid, isValid, test.Code, test.IsValid)
 			assert.Equal(t, true, errors.Is(test.Error, err), test.Code)
 		}
 	})
@@ -228,16 +228,143 @@ func TestValidateOGRN(t *testing.T) {
 func TestValidateOGRNIP(t *testing.T) {
 	t.Parallel()
 
-	t.Run("", func(t *testing.T) {
+	t.Run("invalid ogrnip length", func(t *testing.T) {
+		testCases := []TestCodeCase{
+			TestCodeCase{
+				Code:    "304500116000157",
+				Error:   nil,
+				IsValid: true,
+			},
+			TestCodeCase{
+				Code:    "312502904600034",
+				Error:   nil,
+				IsValid: true,
+			},
+			TestCodeCase{
+				Code:    "31250290460",
+				Error:   ErrInvalidOGRNIPLength,
+				IsValid: false,
+			},
+			TestCodeCase{
+				Code:    "3045001111236000157",
+				Error:   ErrInvalidOGRNIPLength,
+				IsValid: false,
+			},
+		}
+		for _, test := range testCases {
+			isValid, err := IsOGRNIPValid(test.Code)
+			assert.Equal(t, test.IsValid, isValid, test.Code)
+			assert.Equal(t, true, errors.Is(test.Error, err), test.Code)
+		}
+	})
 
+	t.Run("invalid ogrnip value", func(t *testing.T) {
+		testCases := []TestCodeCase{
+			TestCodeCase{
+				Code:    "312502??4600034",
+				Error:   ErrInvalidValue,
+				IsValid: false,
+			},
+			TestCodeCase{
+				Code:    "304500116000158",
+				Error:   nil,
+				IsValid: false,
+			},
+			TestCodeCase{
+				Code:    "512502904600034",
+				Error:   ErrInvalidValue,
+				IsValid: false,
+			},
+			TestCodeCase{
+				Code:    "304500116000157",
+				Error:   nil,
+				IsValid: true,
+			},
+			TestCodeCase{
+				Code:    "312502904600034",
+				Error:   nil,
+				IsValid: true,
+			},
+		}
+		for _, test := range testCases {
+			isValid, err := IsOGRNIPValid(test.Code)
+			assert.Equal(t, test.IsValid, isValid, test.Code, test.IsValid)
+			assert.Equal(t, true, errors.Is(test.Error, err), test.Code)
+		}
 	})
 }
 
 func TestValidateSNILS(t *testing.T) {
 	t.Parallel()
 
-	t.Run("", func(t *testing.T) {
+	t.Run("invalid snils length", func(t *testing.T) {
+		testCases := []TestCodeCase{
+			TestCodeCase{
+				Code:    "112-233-445 95",
+				Error:   nil,
+				IsValid: true,
+			},
+			TestCodeCase{
+				Code:    "646-663-083 23",
+				Error:   nil,
+				IsValid: true,
+			},
+			TestCodeCase{
+				Code:    "112-233-445 951213",
+				Error:   ErrInvalidSNILSLength,
+				IsValid: false,
+			},
+			TestCodeCase{
+				Code:    "112-233 95",
+				Error:   ErrInvalidSNILSLength,
+				IsValid: false,
+			},
+		}
+		for _, test := range testCases {
+			isValid, err := IsSNILSValid(test.Code)
+			assert.Equal(t, test.IsValid, isValid, test.Code)
+			assert.Equal(t, true, errors.Is(test.Error, err), test.Code)
+		}
+	})
 
+	t.Run("invalid snils value", func(t *testing.T) {
+		testCases := []TestCodeCase{
+			TestCodeCase{
+				Code:    "112-233?445 95",
+				Error:   ErrInvalidFormattedSNILSLength,
+				IsValid: false,
+			},
+			TestCodeCase{
+				Code:    "1M2-234-445 95",
+				Error:   ErrInvalidValue,
+				IsValid: false,
+			},
+			TestCodeCase{
+				Code:    "112-233-445 98",
+				Error:   nil,
+				IsValid: false,
+			},
+			TestCodeCase{
+				Code:    "112-233-445#95",
+				Error:   ErrInvalidFormattedSNILSLength,
+				IsValid: false,
+			},
+			TestCodeCase{
+				Code:    "112-233-445 95",
+				Error:   nil,
+				IsValid: true,
+			},
+			TestCodeCase{
+				Code:    "646-663-083 23",
+				Error:   nil,
+				IsValid: true,
+			},
+		}
+		for _, test := range testCases {
+			isValid, err := IsSNILSValid(test.Code)
+			assert.Equal(t, test.IsValid, isValid, test.Code, test.IsValid)
+			assert.Equal(t, true, errors.Is(test.Error, err), test.Code)
+		}
 	})
 }
 
@@ -254,6 +381,36 @@ func TestValidateKPP(t *testing.T) {
 			TestCodeCase{
 				Code:    "044525",
 				Error:   ErrInvalidKPPLength,
+				IsValid: false,
+			},
+			TestCodeCase{
+				Code:    "773643301",
+				Error:   nil,
+				IsValid: true,
+			},
+			TestCodeCase{
+				Code:    "773643001",
+				Error:   nil,
+				IsValid: true,
+			},
+		}
+		for _, test := range testCases {
+			isValid, err := IsKPPValid(test.Code)
+			assert.Equal(t, isValid, test.IsValid, test.Code)
+			assert.Equal(t, true, errors.Is(test.Error, err), test.Code)
+		}
+	})
+
+	t.Run("invalid kpp value", func(t *testing.T) {
+		testCases := []TestCodeCase{
+			TestCodeCase{
+				Code:    "773$N3301",
+				Error:   ErrInvalidValue,
+				IsValid: false,
+			},
+			TestCodeCase{
+				Code:    "7736#3&01",
+				Error:   ErrInvalidValue,
 				IsValid: false,
 			},
 			TestCodeCase{

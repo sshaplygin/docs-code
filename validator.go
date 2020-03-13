@@ -1,4 +1,4 @@
-package go_codes_validator
+package ru_doc_code
 
 import (
 	"strconv"
@@ -18,8 +18,8 @@ func strToArr(str string) ([]int, error) {
 	return arr, nil
 }
 
-// IsINNValid
-// example valid format is
+// IsINNValid check to valid INN format
+// example valid format is `7707083893`
 func IsINNValid(inn string) (bool, error) {
 	if len(inn) != 10 && len(inn) != 12 {
 		return false, ErrInvalidINNLength
@@ -37,8 +37,8 @@ func IsINNValid(inn string) (bool, error) {
 	return firstControlNumber == innArr[len(innArr)-2] && secondControlNumber == innArr[len(innArr)-1], nil
 }
 
-// IsBIKValid
-// example valid format is
+// IsBIKValid check to valid BIK format
+// example valid format is `044525225`
 func IsBIKValid(bik string) (bool, error) {
 	if len(bik) != 9 {
 		return false, ErrInvalidBIKLength
@@ -59,7 +59,7 @@ func IsBIKValid(bik string) (bool, error) {
 	return code >= 50 && code < 1000, nil
 }
 
-// IsOGRNValid
+// IsOGRNValid check to valid OGRN format
 // example valid format is
 func IsOGRNValid(ogrn string) (bool, error) {
 	if len(ogrn) != 13 {
@@ -74,7 +74,7 @@ func IsOGRNValid(ogrn string) (bool, error) {
 }
 
 // IsOGRNIPValid check to valid OGRNIP format
-// example valid format is
+// example valid format is `304500116000157`
 func IsOGRNIPValid(ogrnip string) (bool, error) {
 	if len(ogrnip) != 15 {
 		return false, ErrInvalidOGRNIPLength
@@ -86,11 +86,11 @@ func IsOGRNIPValid(ogrnip string) (bool, error) {
 	if ogrnipArr[0] != 3 && ogrnipArr[0] != 4 {
 		return false, ErrInvalidValue
 	}
-	code, _ := strconv.Atoi(ogrnip[:12])
+	code, _ := strconv.Atoi(ogrnip[:len(ogrnip)-1])
 	return ogrnipArr[len(ogrnip)-1] == code%13%10, nil
 }
 
-// IsSNILSValid check
+// IsSNILSValid check to valid SNILS format
 // example valid format is `112-233-445 95`
 func IsSNILSValid(snils string) (bool, error) {
 	if len(snils) != 14 {
@@ -106,19 +106,23 @@ func IsSNILSValid(snils string) (bool, error) {
 		return false, err
 	}
 	hashSum := 0
-	hashLen := len(snilsArr) - 2
-	code, _ := strconv.Atoi(snils[hashLen:])
+	hashLen := len(fSnils) - 2
+	code, _ := strconv.Atoi(fSnils[hashLen:])
 	for i, v := range snilsArr[:hashLen] {
 		hashSum += v * (hashLen - i)
 	}
 	return hashSum%101 == code, nil
 }
 
-// IsKPPValid
-// example valid format is
+// IsKPPValid check to valid KPP format
+// example valid format is `773643301`
 func IsKPPValid(kpp string) (bool, error) {
-	if len(kpp) == 9 {
-		return true, nil
+	if len(kpp) != 9 {
+		return false, ErrInvalidKPPLength
 	}
-	return false, ErrInvalidKPPLength
+	_, err := strToArr(kpp)
+	if err != nil {
+		return false, err
+	}
+	return true, nil
 }

@@ -1,4 +1,4 @@
-package go_codes_validator
+package ru_doc_code
 
 import "errors"
 
