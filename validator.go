@@ -98,7 +98,7 @@ func IsSNILSValid(snils string) (bool, error) {
 	}
 	fSnils := strings.ReplaceAll(snils, "-", "")
 	fSnils = strings.ReplaceAll(fSnils, " ", "")
-	if len(snils) != 11 {
+	if len(fSnils) != 11 {
 		return false, ErrInvalidFormattedSNILSLength
 	}
 	snilsArr, err := strToArr(fSnils)
