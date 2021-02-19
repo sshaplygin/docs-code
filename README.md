@@ -1,11 +1,11 @@
-# ru-doc-codes
-[![GoDoc](https://godoc.org/github.com/mrfoe7/ru-doc-code?status.svg)](https://godoc.org/github.com/mrfoe7/ru-doc-code) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/mrfoe7/ru-doc-code/blob/master/LICENSE) [![Go Report Card](https://goreportcard.com/badge/github.com/mrfoe7/ru-doc-code)](https://goreportcard.com/report/github.com/mrfoe7/ru-doc-code)
+# ru-doc-code
+[![GoDoc](https://godoc.org/github.com/mrfoe7/ru-doc-code?status.svg)](https://godoc.org/github.com/mrfoe7/ru-doc-code) [![Build Status](https://travis-ci.org/mrfoe7/ru-doc-code.svg)](https://travis-ci.org/mrfoe7/ru-doc-code.svg?branch=master) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/mrfoe7/ru-doc-code/blob/master/LICENSE) [![Go Report Card](https://goreportcard.com/badge/github.com/mrfoe7/ru-doc-code)](https://goreportcard.com/report/github.com/mrfoe7/ru-doc-code)
 
 It is validator about official of code documents from Russia in Go 
 
 ## Usage 
 
-* go get github.com/mrfoe7/ru-doc-codes
+* go get github.com/mrfoe7/ru-doc-code
 
 ### Example
  
@@ -14,7 +14,7 @@ It is validator about official of code documents from Russia in Go
 import (
 	"log"
 	
-	"github.com/mrfoe7/ru-doc-codes/inn"
+	"github.com/mrfoe7/ru-doc-code/inn"
 )
 
 ...
