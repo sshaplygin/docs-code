@@ -1,6 +1,6 @@
 package kpp
 
-import ru_doc_code "github.com/mrfoe7/go-codes-validator"
+import ru_doc_code "github.com/mrfoe7/ru-doc-code"
 
 // Validate check to valid KPP format
 // example: input format is 773643301

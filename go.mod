@@ -1,4 +1,4 @@
-module github.com/mrfoe7/go-codes-validator
+module github.com/mrfoe7/ru-doc-code
 
 go 1.13
 

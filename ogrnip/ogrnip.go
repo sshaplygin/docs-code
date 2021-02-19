@@ -3,7 +3,7 @@ package ogrnip
 import (
 	"strconv"
 
-	ru_doc_code "github.com/mrfoe7/go-codes-validator"
+	ru_doc_code "github.com/mrfoe7/ru-doc-code"
 )
 
 // Validate check to valid OGRNIP format
