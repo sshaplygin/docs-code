@@ -15,4 +15,6 @@ var (
 	ErrInvalidValue = errors.New("invalid code value")
 
 	ErrInvalidBIKCountryCode = errors.New("invalid bik country code")
+
+	ErrNotImplemented = errors.New("method does not implemented")
 )

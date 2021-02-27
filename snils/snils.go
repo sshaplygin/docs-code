@@ -35,3 +35,8 @@ func Validate(snils string) (bool, error) {
 
 	return hashSum%101 == code, nil
 }
+
+// Generate generate random
+func Generate() string {
+	return ""
+}
