@@ -71,4 +71,24 @@ func TestValidate(t *testing.T) {
 			assert.Equal(t, true, errors.Is(test.Error, err), test.Code)
 		}
 	})
+
+	t.Run("invalid refistration reason code", func(t *testing.T) {
+		testCases := []ru_doc_code.TestCodeCase{
+			{
+				Code:    "773643301",
+				Error:   ru_doc_code.ErrInvalidRegistrationReasonCode,
+				IsValid: false,
+			},
+			{
+				Code:    "773642301",
+				Error:   nil,
+				IsValid: true,
+			},
+		}
+		for _, test := range testCases {
+			isValid, err := Validate(test.Code)
+			assert.Equal(t, isValid, test.IsValid, test.Code)
+			assert.Equal(t, true, errors.Is(test.Error, err), test.Code)
+		}
+	})
 }

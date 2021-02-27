@@ -1,6 +1,10 @@
 package ru_doc_code
 
+type SerialNumber string
+
 type TaxRegionCode string
+
+type RegistrationReasionCode string
 
 type TaxOffice struct {
 	RegionCode TaxRegionCode
@@ -13,14 +17,17 @@ type TaxDepartment struct {
 }
 
 type ReasionRegistration struct {
-	Code        ReasionRegistrationCode
+	Code        RegistrationReasionCode
 	Description string
 }
 
-type ReasionRegistrationCode string
-
 var (
-	SupportedTaxDepartamenstSet = map[TaxRegionCode]string{
+	SupportedTaxOfficesSet = map[TaxRegionCode]string{
+		"": "",
+	}
+
+	SupportedTaxDepartmensSet = map[TaxRegionCode]string{
+		"0000": "ФНС России",
 		"0100": "УФНС России по Республике Адыгея",
 		"0200": "УФНС России по Республике Башкортостан",
 		"0400": "Управление ФНС России по Республике Алтай",
@@ -127,7 +134,7 @@ var (
 		"9998": "ФНС России (Р)",
 	}
 
-	SupportedReasionRegistrationSet = map[ReasionRegistrationCode]string{
+	SupportedRegistrationReasionSet = map[RegistrationReasionCode]string{
 		"01": "Постановка на учет в налоговом органе российской организации в качестве налогоплательщика по месту ее нахождения",
 		"02": "Постановка на учет налогоплательщика - российской организации по месту нахождения ее филиала, исполняющего обязанности организации по уплате налогов и сборов",
 		"03": "Постановка на учет налогоплательщика - российской организации по месту нахождения ее филиала, не исполняющего обязанности организации по уплате налогов и сборов",

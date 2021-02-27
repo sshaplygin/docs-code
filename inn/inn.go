@@ -12,6 +12,14 @@ const (
 	lengthPhysical = 12
 )
 
+type INN struct {
+	Code         ru_doc_code.TaxRegionCode
+	SerialNumber ru_doc_code.SerialNumber
+	Hash10       uint
+	Hash11       uint
+	Hash12       uint
+}
+
 // Validate check to valid inn from input string.
 // example: input format is 7707083893
 func Validate(inn string) (bool, error) {
