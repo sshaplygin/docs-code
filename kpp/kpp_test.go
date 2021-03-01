@@ -17,12 +17,12 @@ func TestValidate(t *testing.T) {
 		testCases := []ru_doc_code.TestCodeCase{
 			{
 				Code:    "1234567888776",
-				Error:   ru_doc_code.ErrInvalidKPPLength,
+				Error:   ru_doc_code.ErrInvalidLength,
 				IsValid: false,
 			},
 			{
 				Code:    "044525",
-				Error:   ru_doc_code.ErrInvalidKPPLength,
+				Error:   ru_doc_code.ErrInvalidLength,
 				IsValid: false,
 			},
 			{
@@ -39,7 +39,11 @@ func TestValidate(t *testing.T) {
 		for i, test := range testCases {
 			isValid, err := Validate(test.Code)
 			assert.Equal(t, isValid, test.IsValid, fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
-			assert.Equal(t, true, errors.Is(test.Error, err), fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+			if err != nil {
+				assert.True(t, errors.As(err, &test.Error), fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+			} else {
+				assert.Empty(t, err, fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+			}
 		}
 	})
 
@@ -69,7 +73,11 @@ func TestValidate(t *testing.T) {
 		for i, test := range testCases {
 			isValid, err := Validate(test.Code)
 			assert.Equal(t, isValid, test.IsValid, fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
-			assert.Equal(t, true, errors.Is(test.Error, err), fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+			if err != nil {
+				assert.True(t, errors.As(err, &test.Error), fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+			} else {
+				assert.Empty(t, err, fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+			}
 		}
 	})
 
@@ -77,7 +85,7 @@ func TestValidate(t *testing.T) {
 		testCases := []ru_doc_code.TestCodeCase{
 			{
 				Code:    "773643301",
-				Error:   ru_doc_code.ErrInvalidRegistrationReasonCode,
+				Error:   ru_doc_code.ErrRegistrationReasonCode,
 				IsValid: false,
 			},
 			{
@@ -89,7 +97,11 @@ func TestValidate(t *testing.T) {
 		for i, test := range testCases {
 			isValid, err := Validate(test.Code)
 			assert.Equal(t, isValid, test.IsValid, fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
-			assert.Equal(t, true, errors.Is(test.Error, err), fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+			if err != nil {
+				assert.True(t, errors.As(err, &test.Error), fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+			} else {
+				assert.Empty(t, err, fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+			}
 		}
 	})
 }

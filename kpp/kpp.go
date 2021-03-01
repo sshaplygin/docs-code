@@ -14,7 +14,14 @@ type KPP struct {
 // example: input format is 773643301
 func Validate(kpp string) (bool, error) {
 	if len(kpp) != 9 {
-		return false, ru_doc_code.ErrInvalidKPPLength
+		pkg, err := ru_doc_code.GetPackageName()
+		if err != nil {
+			return false, err
+		}
+		return false, &ru_doc_code.CommonError{
+			Method: pkg,
+			Err:    ru_doc_code.ErrInvalidLength,
+		}
 	}
 
 	_, err := ru_doc_code.StrToArr(kpp)
@@ -26,7 +33,7 @@ func Validate(kpp string) (bool, error) {
 
 	_, ok := ru_doc_code.SupportedRegistrationReasonSet[ru_doc_code.RegistrationReasonCode(kpp[4:6])]
 	if !ok {
-		return false, ru_doc_code.ErrInvalidRegistrationReasonCode
+		return false, ru_doc_code.ErrRegistrationReasonCode
 	}
 
 	return true, nil
