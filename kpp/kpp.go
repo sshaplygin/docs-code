@@ -6,7 +6,7 @@ import (
 
 type KPP struct {
 	Code         ru_doc_code.TaxRegionCode
-	Reason       ru_doc_code.ReasionRegistration
+	Reason       ru_doc_code.ReasonRegistration
 	SerialNumber ru_doc_code.SerialNumber
 }
 
@@ -24,7 +24,7 @@ func Validate(kpp string) (bool, error) {
 
 	// todo: validate tax region/office ru_doc_code.TaxRegionCode(kpp[:4])
 
-	_, ok := ru_doc_code.SupportedRegistrationReasionSet[ru_doc_code.RegistrationReasionCode(kpp[4:6])]
+	_, ok := ru_doc_code.SupportedRegistrationReasonSet[ru_doc_code.RegistrationReasonCode(kpp[4:6])]
 	if !ok {
 		return false, ru_doc_code.ErrInvalidRegistrationReasonCode
 	}

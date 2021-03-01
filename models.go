@@ -4,7 +4,7 @@ type SerialNumber string
 
 type TaxRegionCode string
 
-type RegistrationReasionCode string
+type RegistrationReasonCode string
 
 type TaxOffice struct {
 	RegionCode TaxRegionCode
@@ -16,8 +16,8 @@ type TaxDepartment struct {
 	DepartName string
 }
 
-type ReasionRegistration struct {
-	Code        RegistrationReasionCode
+type ReasonRegistration struct {
+	Code        RegistrationReasonCode
 	Description string
 }
 
@@ -134,7 +134,7 @@ var (
 		"9998": "ФНС России (Р)",
 	}
 
-	SupportedRegistrationReasionSet = map[RegistrationReasionCode]string{
+	SupportedRegistrationReasonSet = map[RegistrationReasonCode]string{
 		"01": "Постановка на учет в налоговом органе российской организации в качестве налогоплательщика по месту ее нахождения",
 		"02": "Постановка на учет налогоплательщика - российской организации по месту нахождения ее филиала, исполняющего обязанности организации по уплате налогов и сборов",
 		"03": "Постановка на учет налогоплательщика - российской организации по месту нахождения ее филиала, не исполняющего обязанности организации по уплате налогов и сборов",

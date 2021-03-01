@@ -72,7 +72,7 @@ func TestValidate(t *testing.T) {
 		}
 	})
 
-	t.Run("invalid refistration reason code", func(t *testing.T) {
+	t.Run("invalid registration reason code", func(t *testing.T) {
 		testCases := []ru_doc_code.TestCodeCase{
 			{
 				Code:    "773643301",
