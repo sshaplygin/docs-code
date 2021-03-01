@@ -2,6 +2,7 @@ package bik
 
 import (
 	"errors"
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -16,12 +17,12 @@ func TestValidate(t *testing.T) {
 		testCases := []ru_doc_code.TestCodeCase{
 			{
 				Code:    "1234567888776",
-				Error:   ru_doc_code.ErrInvalidBIKLength,
+				Error:   ru_doc_code.ErrInvalidLength,
 				IsValid: false,
 			},
 			{
 				Code:    "044525",
-				Error:   ru_doc_code.ErrInvalidBIKLength,
+				Error:   ru_doc_code.ErrInvalidLength,
 				IsValid: false,
 			},
 			{
@@ -35,10 +36,14 @@ func TestValidate(t *testing.T) {
 				IsValid: true,
 			},
 		}
-		for _, test := range testCases {
+		for i, test := range testCases {
 			isValid, err := Validate(test.Code)
 			assert.Equal(t, test.IsValid, isValid, test.Code)
-			assert.Equal(t, true, errors.Is(test.Error, err), test.Code)
+			if err != nil {
+				assert.True(t, errors.As(err, &test.Error), fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+			} else {
+				assert.Empty(t, err, fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+			}
 		}
 	})
 
@@ -75,10 +80,14 @@ func TestValidate(t *testing.T) {
 				IsValid: true,
 			},
 		}
-		for _, test := range testCases {
+		for i, test := range testCases {
 			isValid, err := Validate(test.Code)
 			assert.Equal(t, test.IsValid, isValid, test.Code, test.IsValid)
-			assert.Equal(t, true, errors.Is(test.Error, err), test.Code)
+			if err != nil {
+				assert.True(t, errors.As(err, &test.Error), fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+			} else {
+				assert.Empty(t, err, fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+			}
 		}
 	})
 }

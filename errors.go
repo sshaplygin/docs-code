@@ -3,13 +3,9 @@ package ru_doc_code
 import (
 	"errors"
 	"fmt"
+	"path/filepath"
 	"runtime"
 	"strings"
-)
-
-const (
-	unixLikePathSep = "/"
-	windowsPathSep  = "\\"
 )
 
 var (
@@ -49,12 +45,7 @@ func GetPackageName() (string, error) {
 	parts := strings.Split(runtime.FuncForPC(pc).Name(), ".")
 	pl := len(parts)
 
-	sep := unixLikePathSep
-	if runtime.GOOS == "windows" {
-		sep = windowsPathSep
-	}
-
-	pathArr := strings.Split(parts[pl-2], sep)
+	pathArr := strings.Split(parts[pl-2], string(filepath.Separator))
 	if len(pathArr) == 0 {
 		return "", errors.New("invalid path length")
 	}

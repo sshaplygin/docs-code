@@ -24,7 +24,14 @@ type INN struct {
 // example: input format is 7707083893
 func Validate(inn string) (bool, error) {
 	if len(inn) != lengthLegal && len(inn) != lengthPhysical {
-		return false, ru_doc_code.ErrInvalidINNLength
+		pkg, err := ru_doc_code.GetPackageName()
+		if err != nil {
+			return false, err
+		}
+		return false, &ru_doc_code.CommonError{
+			Method: pkg,
+			Err:    ru_doc_code.ErrInvalidLength,
+		}
 	}
 
 	innArr, err := transformInn(inn)

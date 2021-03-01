@@ -10,7 +10,14 @@ import (
 // example: input format is 1027700132195
 func Validate(ogrn string) (bool, error) {
 	if len(ogrn) != 13 {
-		return false, ru_doc_code.ErrInvalidOGRNLength
+		pkg, err := ru_doc_code.GetPackageName()
+		if err != nil {
+			return false, err
+		}
+		return false, &ru_doc_code.CommonError{
+			Method: pkg,
+			Err:    ru_doc_code.ErrInvalidLength,
+		}
 	}
 
 	ogrnArr, err := ru_doc_code.StrToArr(ogrn)
