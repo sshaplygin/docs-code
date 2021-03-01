@@ -2,6 +2,7 @@ package kpp
 
 import (
 	"errors"
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -25,20 +26,20 @@ func TestValidate(t *testing.T) {
 				IsValid: false,
 			},
 			{
-				Code:    "773643301",
+				Code:    "773642301",
 				Error:   nil,
 				IsValid: true,
 			},
 			{
-				Code:    "773643001",
+				Code:    "773642001",
 				Error:   nil,
 				IsValid: true,
 			},
 		}
-		for _, test := range testCases {
+		for i, test := range testCases {
 			isValid, err := Validate(test.Code)
-			assert.Equal(t, isValid, test.IsValid, test.Code)
-			assert.Equal(t, true, errors.Is(test.Error, err), test.Code)
+			assert.Equal(t, isValid, test.IsValid, fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+			assert.Equal(t, true, errors.Is(test.Error, err), fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
 		}
 	})
 
@@ -55,20 +56,20 @@ func TestValidate(t *testing.T) {
 				IsValid: false,
 			},
 			{
-				Code:    "773643301",
+				Code:    "773642301",
 				Error:   nil,
 				IsValid: true,
 			},
 			{
-				Code:    "773643001",
+				Code:    "773642001",
 				Error:   nil,
 				IsValid: true,
 			},
 		}
-		for _, test := range testCases {
+		for i, test := range testCases {
 			isValid, err := Validate(test.Code)
-			assert.Equal(t, isValid, test.IsValid, test.Code)
-			assert.Equal(t, true, errors.Is(test.Error, err), test.Code)
+			assert.Equal(t, isValid, test.IsValid, fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+			assert.Equal(t, true, errors.Is(test.Error, err), fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
 		}
 	})
 
@@ -85,10 +86,10 @@ func TestValidate(t *testing.T) {
 				IsValid: true,
 			},
 		}
-		for _, test := range testCases {
+		for i, test := range testCases {
 			isValid, err := Validate(test.Code)
-			assert.Equal(t, isValid, test.IsValid, test.Code)
-			assert.Equal(t, true, errors.Is(test.Error, err), test.Code)
+			assert.Equal(t, isValid, test.IsValid, fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+			assert.Equal(t, true, errors.Is(test.Error, err), fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
 		}
 	})
 }
