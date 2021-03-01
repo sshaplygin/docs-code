@@ -2,6 +2,7 @@ package ogrn
 
 import (
 	"errors"
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -26,19 +27,23 @@ func TestValidate(t *testing.T) {
 			},
 			{
 				Code:    "102773924",
-				Error:   ru_doc_code.ErrInvalidOGRNLength,
+				Error:   ru_doc_code.ErrInvalidLength,
 				IsValid: false,
 			},
 			{
 				Code:    "10277392447411231",
-				Error:   ru_doc_code.ErrInvalidOGRNLength,
+				Error:   ru_doc_code.ErrInvalidLength,
 				IsValid: false,
 			},
 		}
-		for _, test := range testCases {
+		for i, test := range testCases {
 			isValid, err := Validate(test.Code)
 			assert.Equal(t, test.IsValid, isValid, test.Code)
-			assert.Equal(t, true, errors.Is(test.Error, err), test.Code)
+			if err != nil {
+				assert.True(t, errors.As(err, &test.Error), fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+			} else {
+				assert.Empty(t, err, fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+			}
 		}
 	})
 

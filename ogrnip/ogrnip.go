@@ -10,7 +10,14 @@ import (
 // example: input format is 304500116000157
 func Validate(ogrnip string) (bool, error) {
 	if len(ogrnip) != 15 {
-		return false, ru_doc_code.ErrInvalidOGRNIPLength
+		name, err := ru_doc_code.GetModuleName()
+		if err != nil {
+			return false, err
+		}
+		return false, &ru_doc_code.CommonError{
+			Method: name,
+			Err:    ru_doc_code.ErrInvalidLength,
+		}
 	}
 
 	ogrnipArr, err := ru_doc_code.StrToArr(ogrnip)
