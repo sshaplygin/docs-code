@@ -11,12 +11,12 @@ import (
 // example: input format is 112-233-445 95
 func Validate(snils string) (bool, error) {
 	if len(snils) != 14 {
-		pkg, err := ru_doc_code.GetPackageName()
+		name, err := ru_doc_code.GetModuleName()
 		if err != nil {
 			return false, err
 		}
 		return false, &ru_doc_code.CommonError{
-			Method: pkg,
+			Method: name,
 			Err:    ru_doc_code.ErrInvalidLength,
 		}
 	}

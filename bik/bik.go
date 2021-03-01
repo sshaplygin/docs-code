@@ -10,12 +10,12 @@ import (
 // example valid format is 044525225
 func Validate(bik string) (bool, error) {
 	if len(bik) != 9 {
-		pkg, err := ru_doc_code.GetPackageName()
+		name, err := ru_doc_code.GetModuleName()
 		if err != nil {
 			return false, err
 		}
 		return false, &ru_doc_code.CommonError{
-			Method: pkg,
+			Method: name,
 			Err:    ru_doc_code.ErrInvalidLength,
 		}
 	}

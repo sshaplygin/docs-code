@@ -12,22 +12,23 @@ var (
 	// ErrInvalidLength invalid input document code length
 	ErrInvalidLength = errors.New("invalid length")
 
-	// ErrInvalidFormattedSNILSLength
+	// ErrInvalidFormattedSNILSLength invalid formatted length of snils
 	ErrInvalidFormattedSNILSLength = errors.New("invalid formatted snils length")
 
-	// ErrRegistrationReasonCode
+	// ErrRegistrationReasonCode invalid registration reason code
 	ErrRegistrationReasonCode = errors.New("invalid registration reason code")
 
-	// ErrInvalidValue
+	// ErrInvalidValue invalid input value
 	ErrInvalidValue = errors.New("invalid code value")
 
-	// ErrInvalidBIKCountryCode
+	// ErrInvalidBIKCountryCode invalid bik code country
 	ErrInvalidBIKCountryCode = errors.New("invalid bik country code")
 
-	// ErrNotImplemented
+	// ErrNotImplemented not implemented method error
 	ErrNotImplemented = errors.New("method does not implemented")
 )
 
+// CommonError common error wrapped base error
 type CommonError struct {
 	Method string
 	Err    error
@@ -37,7 +38,8 @@ func (c *CommonError) Error() string {
 	return fmt.Sprintf("%s: %s", c.Method, c.Err.Error())
 }
 
-func GetPackageName() (string, error) {
+// GetModuleName get package name in runtime
+func GetModuleName() (string, error) {
 	pc, _, _, ok := runtime.Caller(1)
 	if !ok {
 		return "", errors.New("invalid runtime caller")

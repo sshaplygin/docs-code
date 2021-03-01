@@ -1,8 +1,6 @@
 package kpp
 
-import (
-	ru_doc_code "github.com/mrfoe7/ru-doc-code"
-)
+import ru_doc_code "github.com/mrfoe7/ru-doc-code"
 
 type KPP struct {
 	Code         ru_doc_code.TaxRegionCode
@@ -14,12 +12,12 @@ type KPP struct {
 // example: input format is 773643301
 func Validate(kpp string) (bool, error) {
 	if len(kpp) != 9 {
-		pkg, err := ru_doc_code.GetPackageName()
+		name, err := ru_doc_code.GetModuleName()
 		if err != nil {
 			return false, err
 		}
 		return false, &ru_doc_code.CommonError{
-			Method: pkg,
+			Method: name,
 			Err:    ru_doc_code.ErrInvalidLength,
 		}
 	}

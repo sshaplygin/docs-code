@@ -10,12 +10,12 @@ import (
 // example: input format is 304500116000157
 func Validate(ogrnip string) (bool, error) {
 	if len(ogrnip) != 15 {
-		pkg, err := ru_doc_code.GetPackageName()
+		name, err := ru_doc_code.GetModuleName()
 		if err != nil {
 			return false, err
 		}
 		return false, &ru_doc_code.CommonError{
-			Method: pkg,
+			Method: name,
 			Err:    ru_doc_code.ErrInvalidLength,
 		}
 	}
