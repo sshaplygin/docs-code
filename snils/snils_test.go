@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	ru_doc_code "github.com/mrfoe7/ru-doc-code"
+	ru_doc_code "github.com/sshaplygin/ru-doc-code"
 )
 
 func TestValidate(t *testing.T) {
