@@ -1,6 +1,6 @@
 package kpp
 
-import ru_doc_code "github.com/mrfoe7/ru-doc-code"
+import ru_doc_code "github.com/sshaplygin/ru-doc-code"
 
 type KPP struct {
 	Code         ru_doc_code.TaxRegionCode
