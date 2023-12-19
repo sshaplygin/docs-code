@@ -30,14 +30,10 @@ linters:
   disable-all: true
   enable:
     - unused
-    - deadcode
     - stylecheck
     - gosimple
     - govet
     - errcheck
-    - deadcode
-    - structcheck
-    - varcheck
     - ineffassign
     - typecheck
     - dupl

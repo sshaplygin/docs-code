@@ -9,6 +9,7 @@ import (
 	ru_doc_code "github.com/sshaplygin/ru-doc-code"
 )
 
+//nolint:dupl
 func TestValidate(t *testing.T) {
 	t.Parallel()
 
@@ -35,13 +36,15 @@ func TestValidate(t *testing.T) {
 				IsValid: true,
 			},
 		}
-		for i, test := range testCases {
-			isValid, err := Validate(test.Code)
-			assert.Equal(t, isValid, test.IsValid, fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+		for i, tc := range testCases {
+			tc := tc
+
+			isValid, err := Validate(tc.Code)
+			assert.Equal(t, isValid, tc.IsValid, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			if err != nil {
-				assert.ErrorAs(t, err, &test.Error, fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+				assert.ErrorAs(t, err, &tc.Error, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			} else {
-				assert.Empty(t, err, fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+				assert.Empty(t, err, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			}
 		}
 	})
@@ -69,13 +72,15 @@ func TestValidate(t *testing.T) {
 				IsValid: true,
 			},
 		}
-		for i, test := range testCases {
-			isValid, err := Validate(test.Code)
-			assert.Equal(t, isValid, test.IsValid, fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+		for i, tc := range testCases {
+			tc := tc
+
+			isValid, err := Validate(tc.Code)
+			assert.Equal(t, isValid, tc.IsValid, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			if err != nil {
-				assert.ErrorAs(t, err, &test.Error, fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+				assert.ErrorAs(t, err, &tc.Error, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			} else {
-				assert.Empty(t, err, fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+				assert.Empty(t, err, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			}
 		}
 	})
@@ -93,13 +98,15 @@ func TestValidate(t *testing.T) {
 				IsValid: true,
 			},
 		}
-		for i, test := range testCases {
-			isValid, err := Validate(test.Code)
-			assert.Equal(t, isValid, test.IsValid, fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+		for i, tc := range testCases {
+			tc := tc
+
+			isValid, err := Validate(tc.Code)
+			assert.Equal(t, isValid, tc.IsValid, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			if err != nil {
-				assert.ErrorAs(t, err, &test.Error, fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+				assert.ErrorAs(t, err, &tc.Error, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			} else {
-				assert.Empty(t, err, fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+				assert.Empty(t, err, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			}
 		}
 	})
