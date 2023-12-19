@@ -24,7 +24,7 @@ func StrToArr(str string) ([]int, error) {
 	for _, number := range numbers {
 		number, err := strconv.Atoi(number)
 		if err != nil {
-			return []int{}, ErrInvalidValue
+			return nil, ErrInvalidValue
 		}
 		arr = append(arr, number)
 	}

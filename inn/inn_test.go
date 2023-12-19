@@ -1,7 +1,6 @@
 package inn
 
 import (
-	"errors"
 	"fmt"
 	"testing"
 
@@ -41,7 +40,7 @@ func TestValidate(t *testing.T) {
 			isValid, err := Validate(test.Code)
 			assert.Equal(t, test.IsValid, isValid, test.Code)
 			if err != nil {
-				assert.True(t, errors.As(err, &test.Error), fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+				assert.ErrorAs(t, err, &test.Error, fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
 			} else {
 				assert.Empty(t, err, fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
 			}
@@ -80,7 +79,7 @@ func TestValidate(t *testing.T) {
 			isValid, err := Validate(test.Code)
 			assert.Equal(t, test.IsValid, isValid, test.Code)
 			if err != nil {
-				assert.True(t, errors.As(err, &test.Error), fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+				assert.ErrorAs(t, err, &test.Error, fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
 			} else {
 				assert.Empty(t, err, fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
 			}
