@@ -36,13 +36,15 @@ func TestValidate(t *testing.T) {
 				IsValid: true,
 			},
 		}
-		for i, test := range testCases {
-			isValid, err := Validate(test.Code)
-			assert.Equal(t, test.IsValid, isValid, test.Code)
+		for i, tc := range testCases {
+			tc := tc
+
+			isValid, err := Validate(tc.Code)
+			assert.Equal(t, tc.IsValid, isValid, tc.Code)
 			if err != nil {
-				assert.ErrorAs(t, err, &test.Error, fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+				assert.ErrorAs(t, err, &tc.Error, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			} else {
-				assert.Empty(t, err, fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+				assert.Empty(t, err, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			}
 		}
 	})
@@ -75,13 +77,15 @@ func TestValidate(t *testing.T) {
 				IsValid: true,
 			},
 		}
-		for i, test := range testCases {
-			isValid, err := Validate(test.Code)
-			assert.Equal(t, test.IsValid, isValid, test.Code)
+		for i, tc := range testCases {
+			tc := tc
+
+			isValid, err := Validate(tc.Code)
+			assert.Equal(t, tc.IsValid, isValid, tc.Code)
 			if err != nil {
-				assert.ErrorAs(t, err, &test.Error, fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+				assert.ErrorAs(t, err, &tc.Error, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			} else {
-				assert.Empty(t, err, fmt.Sprintf("invalid test case %d: input: %s", i, test.Code))
+				assert.Empty(t, err, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			}
 		}
 	})
@@ -155,10 +159,11 @@ func TestGenerate(t *testing.T) {
 		}
 		var digits int64
 
-		for _, test := range tests {
-			digits = ru_doc_code.RandomDigits(test.len)
+		for _, tc := range tests {
+			tc := tc
 
-			assert.True(t, digits >= test.min && digits <= test.max)
+			digits = ru_doc_code.RandomDigits(tc.len)
+			assert.True(t, digits >= tc.min && digits <= tc.max)
 		}
 	})
 }
