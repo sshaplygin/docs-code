@@ -1,4 +1,4 @@
-package ru_doc_code
+package models
 
 type SerialNumber string
 
@@ -184,9 +184,3 @@ var (
 		"87": "Cчет иностранной (международной) организации в связи с открытием счетов в банках на территории Российской Федерации",
 	}
 )
-
-type TestCodeCase struct {
-	Code    string
-	IsValid bool
-	Error   error
-}

@@ -6,14 +6,20 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	ru_doc_code "github.com/sshaplygin/ru-doc-code"
+	"github.com/sshaplygin/ru-doc-code/models"
 )
 
 func TestValidate(t *testing.T) {
 	t.Parallel()
 
 	t.Run("invalid snils length", func(t *testing.T) {
-		testCases := []ru_doc_code.TestCodeCase{
+		type testCase struct {
+			Code    string
+			IsValid bool
+			Error   error
+		}
+
+		testCases := []testCase{
 			{
 				Code:    "112-233-445 95",
 				Error:   nil,
@@ -26,12 +32,12 @@ func TestValidate(t *testing.T) {
 			},
 			{
 				Code:    "112-233-445 951213",
-				Error:   ru_doc_code.ErrInvalidLength,
+				Error:   models.ErrInvalidLength,
 				IsValid: false,
 			},
 			{
 				Code:    "112-233 95",
-				Error:   ru_doc_code.ErrInvalidLength,
+				Error:   models.ErrInvalidLength,
 				IsValid: false,
 			},
 		}
@@ -49,15 +55,21 @@ func TestValidate(t *testing.T) {
 	})
 
 	t.Run("invalid snils value", func(t *testing.T) {
-		testCases := []ru_doc_code.TestCodeCase{
+		type testCase struct {
+			Code    string
+			IsValid bool
+			Error   error
+		}
+
+		testCases := []testCase{
 			{
 				Code:    "112-233?445 95",
-				Error:   ru_doc_code.ErrInvalidFormattedSNILSLength,
+				Error:   ErrInvalidFormattedLength,
 				IsValid: false,
 			},
 			{
 				Code:    "1M2-234-445 95",
-				Error:   ru_doc_code.ErrInvalidValue,
+				Error:   models.ErrInvalidValue,
 				IsValid: false,
 			},
 			{
@@ -67,7 +79,7 @@ func TestValidate(t *testing.T) {
 			},
 			{
 				Code:    "112-233-445#95",
-				Error:   ru_doc_code.ErrInvalidFormattedSNILSLength,
+				Error:   ErrInvalidFormattedLength,
 				IsValid: false,
 			},
 			{

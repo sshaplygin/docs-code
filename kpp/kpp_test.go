@@ -6,7 +6,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	ru_doc_code "github.com/sshaplygin/ru-doc-code"
+	"github.com/sshaplygin/ru-doc-code/models"
 )
 
 //nolint:dupl
@@ -14,15 +14,21 @@ func TestValidate(t *testing.T) {
 	t.Parallel()
 
 	t.Run("invalid kpp length", func(t *testing.T) {
-		testCases := []ru_doc_code.TestCodeCase{
+		type testCase struct {
+			Code    string
+			IsValid bool
+			Error   error
+		}
+
+		testCases := []testCase{
 			{
 				Code:    "1234567888776",
-				Error:   ru_doc_code.ErrInvalidLength,
+				Error:   models.ErrInvalidLength,
 				IsValid: false,
 			},
 			{
 				Code:    "044525",
-				Error:   ru_doc_code.ErrInvalidLength,
+				Error:   models.ErrInvalidLength,
 				IsValid: false,
 			},
 			{
@@ -50,15 +56,21 @@ func TestValidate(t *testing.T) {
 	})
 
 	t.Run("invalid kpp value", func(t *testing.T) {
-		testCases := []ru_doc_code.TestCodeCase{
+		type testCase struct {
+			Code    string
+			IsValid bool
+			Error   error
+		}
+
+		testCases := []testCase{
 			{
 				Code:    "773$N3301",
-				Error:   ru_doc_code.ErrInvalidValue,
+				Error:   models.ErrInvalidValue,
 				IsValid: false,
 			},
 			{
 				Code:    "7736#3&01",
-				Error:   ru_doc_code.ErrInvalidValue,
+				Error:   models.ErrInvalidValue,
 				IsValid: false,
 			},
 			{
@@ -86,10 +98,16 @@ func TestValidate(t *testing.T) {
 	})
 
 	t.Run("invalid registration reason code", func(t *testing.T) {
-		testCases := []ru_doc_code.TestCodeCase{
+		type testCase struct {
+			Code    string
+			IsValid bool
+			Error   error
+		}
+
+		testCases := []testCase{
 			{
 				Code:    "773643301",
-				Error:   ru_doc_code.ErrRegistrationReasonCode,
+				Error:   ErrRegistrationReasonCode,
 				IsValid: false,
 			},
 			{
