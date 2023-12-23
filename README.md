@@ -4,6 +4,10 @@
 
 It is validator about official of code documents from Russia in Go
 
+## Alert
+
+It is not production ready public API! It is possible API will be change it the future. To be attentive for this.
+
 ## Usage
 
 ``` bash
