@@ -6,14 +6,20 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	ru_doc_code "github.com/sshaplygin/ru-doc-code"
+	"github.com/sshaplygin/ru-doc-code/models"
 )
 
 func TestValidate(t *testing.T) {
 	t.Parallel()
 
 	t.Run("invalid ogrnip length", func(t *testing.T) {
-		testCases := []ru_doc_code.TestCodeCase{
+		type testCase struct {
+			Code    string
+			IsValid bool
+			Error   error
+		}
+
+		testCases := []testCase{
 			{
 				Code:    "304500116000157",
 				Error:   nil,
@@ -26,12 +32,12 @@ func TestValidate(t *testing.T) {
 			},
 			{
 				Code:    "31250290460",
-				Error:   ru_doc_code.ErrInvalidLength,
+				Error:   models.ErrInvalidLength,
 				IsValid: false,
 			},
 			{
 				Code:    "3045001111236000157",
-				Error:   ru_doc_code.ErrInvalidLength,
+				Error:   models.ErrInvalidLength,
 				IsValid: false,
 			},
 		}
@@ -49,10 +55,16 @@ func TestValidate(t *testing.T) {
 	})
 
 	t.Run("invalid ogrnip value", func(t *testing.T) {
-		testCases := []ru_doc_code.TestCodeCase{
+		type testCase struct {
+			Code    string
+			IsValid bool
+			Error   error
+		}
+
+		testCases := []testCase{
 			{
 				Code:    "312502??4600034",
-				Error:   ru_doc_code.ErrInvalidValue,
+				Error:   models.ErrInvalidValue,
 				IsValid: false,
 			},
 			{
@@ -62,7 +74,7 @@ func TestValidate(t *testing.T) {
 			},
 			{
 				Code:    "512502904600034",
-				Error:   ru_doc_code.ErrInvalidValue,
+				Error:   models.ErrInvalidValue,
 				IsValid: false,
 			},
 			{

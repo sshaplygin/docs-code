@@ -4,7 +4,8 @@ import (
 	"strconv"
 	"strings"
 
-	ru_doc_code "github.com/sshaplygin/ru-doc-code"
+	"github.com/sshaplygin/ru-doc-code/models"
+	"github.com/sshaplygin/ru-doc-code/utils"
 )
 
 const (
@@ -13,8 +14,8 @@ const (
 )
 
 type INN struct {
-	Code         ru_doc_code.TaxRegionCode
-	SerialNumber ru_doc_code.SerialNumber
+	Code         models.TaxRegionCode
+	SerialNumber models.SerialNumber
 	Hash10       uint
 	Hash11       uint
 	Hash12       uint
@@ -24,13 +25,9 @@ type INN struct {
 // example: input format is 7707083893
 func Validate(inn string) (bool, error) {
 	if len(inn) != lengthLegal && len(inn) != lengthPhysical {
-		name, err := ru_doc_code.GetModuleName()
-		if err != nil {
-			return false, err
-		}
-		return false, &ru_doc_code.CommonError{
-			Method: name,
-			Err:    ru_doc_code.ErrInvalidLength,
+		return false, &models.CommonError{
+			Method: packageName,
+			Err:    models.ErrInvalidLength,
 		}
 	}
 
@@ -47,7 +44,7 @@ func Validate(inn string) (bool, error) {
 
 // GenerateLegal generate legal type inn string value.
 func GenerateLegal() string {
-	inn := strconv.FormatInt(ru_doc_code.RandomDigits(9), 10)
+	inn := strconv.FormatInt(utils.RandomDigits(9), 10)
 	innArr, _ := transformInn(inn)
 
 	return inn + strconv.Itoa(hash10(innArr))
@@ -55,7 +52,7 @@ func GenerateLegal() string {
 
 // GeneratePhysical generate physical type inn string value.
 func GeneratePhysical() string {
-	inn := strconv.FormatInt(ru_doc_code.RandomDigits(10), 10)
+	inn := strconv.FormatInt(utils.RandomDigits(10), 10)
 	innArr, _ := transformInn(inn)
 
 	hash1Num := hash11(innArr)
@@ -75,7 +72,7 @@ func transformInn(inn string) ([]int, error) {
 	for _, str := range innNumbers {
 		number, err := strconv.Atoi(str)
 		if err != nil {
-			return nil, ru_doc_code.ErrInvalidValue
+			return nil, models.ErrInvalidValue
 		}
 		innArr = append(innArr, number)
 	}
@@ -85,7 +82,7 @@ func transformInn(inn string) ([]int, error) {
 
 // Generate generate random type inn string value.
 func Generate() string {
-	if ru_doc_code.RandomDigits(1)%2 == 1 {
+	if utils.RandomDigits(1)%2 == 1 {
 		return GeneratePhysical()
 	}
 

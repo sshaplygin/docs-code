@@ -4,20 +4,17 @@ import (
 	"strconv"
 	"strings"
 
-	ru_doc_code "github.com/sshaplygin/ru-doc-code"
+	"github.com/sshaplygin/ru-doc-code/models"
+	"github.com/sshaplygin/ru-doc-code/utils"
 )
 
 // Validate check to valid SNILS format
 // example: input format is 112-233-445 95
 func Validate(snils string) (bool, error) {
 	if len(snils) != 14 {
-		name, err := ru_doc_code.GetModuleName()
-		if err != nil {
-			return false, err
-		}
-		return false, &ru_doc_code.CommonError{
-			Method: name,
-			Err:    ru_doc_code.ErrInvalidLength,
+		return false, &models.CommonError{
+			Method: packageName,
+			Err:    models.ErrInvalidLength,
 		}
 	}
 
@@ -25,10 +22,10 @@ func Validate(snils string) (bool, error) {
 	fSnils = strings.ReplaceAll(fSnils, " ", "")
 
 	if len(fSnils) != 11 {
-		return false, ru_doc_code.ErrInvalidFormattedSNILSLength
+		return false, ErrInvalidFormattedLength
 	}
 
-	snilsArr, err := ru_doc_code.StrToArr(fSnils)
+	snilsArr, err := utils.StrToArr(fSnils)
 	if err != nil {
 		return false, err
 	}
@@ -45,5 +42,5 @@ func Validate(snils string) (bool, error) {
 
 // Generate generate random
 func Generate() string {
-	return ""
+	panic("not implemented!")
 }

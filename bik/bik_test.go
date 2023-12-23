@@ -6,22 +6,28 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	ru_doc_code "github.com/sshaplygin/ru-doc-code"
+	"github.com/sshaplygin/ru-doc-code/models"
 )
 
 func TestValidate(t *testing.T) {
 	t.Parallel()
 
+	type testCase struct {
+		Code    string
+		IsValid bool
+		Error   error
+	}
+
 	t.Run("invalid bik length", func(t *testing.T) {
-		testCases := []ru_doc_code.TestCodeCase{
+		testCases := []testCase{
 			{
 				Code:    "1234567888776",
-				Error:   ru_doc_code.ErrInvalidLength,
+				Error:   models.ErrInvalidLength,
 				IsValid: false,
 			},
 			{
 				Code:    "044525",
-				Error:   ru_doc_code.ErrInvalidLength,
+				Error:   models.ErrInvalidLength,
 				IsValid: false,
 			},
 			{
@@ -35,6 +41,7 @@ func TestValidate(t *testing.T) {
 				IsValid: true,
 			},
 		}
+
 		for i, tc := range testCases {
 			tc := tc
 
@@ -49,25 +56,31 @@ func TestValidate(t *testing.T) {
 	})
 
 	t.Run("invalid bik value", func(t *testing.T) {
-		testCases := []ru_doc_code.TestCodeCase{
+		type testCase struct {
+			Code    string
+			IsValid bool
+			Error   error
+		}
+
+		testCases := []testCase{
 			{
 				Code:    "0445?5226",
-				Error:   ru_doc_code.ErrInvalidValue,
+				Error:   models.ErrInvalidValue,
 				IsValid: false,
 			},
 			{
 				Code:    "054525225",
-				Error:   ru_doc_code.ErrInvalidBIKCountryCode,
+				Error:   ErrInvalidCountryCode,
 				IsValid: false,
 			},
 			{
 				Code:    "104525225",
-				Error:   ru_doc_code.ErrInvalidBIKCountryCode,
+				Error:   ErrInvalidCountryCode,
 				IsValid: false,
 			},
 			{
 				Code:    "044#55#25",
-				Error:   ru_doc_code.ErrInvalidValue,
+				Error:   models.ErrInvalidValue,
 				IsValid: false,
 			},
 			{

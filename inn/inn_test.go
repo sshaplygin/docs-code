@@ -7,22 +7,29 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	ru_doc_code "github.com/sshaplygin/ru-doc-code"
+	"github.com/sshaplygin/ru-doc-code/models"
+	"github.com/sshaplygin/ru-doc-code/utils"
 )
 
 func TestValidate(t *testing.T) {
 	t.Parallel()
 
 	t.Run("invalid inn length", func(t *testing.T) {
-		testCases := []ru_doc_code.TestCodeCase{
+		type testCase struct {
+			Code    string
+			IsValid bool
+			Error   error
+		}
+
+		testCases := []testCase{
 			{
 				Code:    "12345678",
-				Error:   ru_doc_code.ErrInvalidLength,
+				Error:   models.ErrInvalidLength,
 				IsValid: false,
 			},
 			{
 				Code:    "9876543211123",
-				Error:   ru_doc_code.ErrInvalidLength,
+				Error:   models.ErrInvalidLength,
 				IsValid: false,
 			},
 			{
@@ -50,20 +57,26 @@ func TestValidate(t *testing.T) {
 	})
 
 	t.Run("invalid inn value", func(t *testing.T) {
-		testCases := []ru_doc_code.TestCodeCase{
+		type testCase struct {
+			Code    string
+			IsValid bool
+			Error   error
+		}
+
+		testCases := []testCase{
 			{
 				Code:    "77$7083893",
-				Error:   ru_doc_code.ErrInvalidValue,
+				Error:   models.ErrInvalidValue,
 				IsValid: false,
 			},
 			{
 				Code:    "98754321N123",
-				Error:   ru_doc_code.ErrInvalidValue,
+				Error:   models.ErrInvalidValue,
 				IsValid: false,
 			},
 			{
 				Code:    "9854132d1123",
-				Error:   ru_doc_code.ErrInvalidValue,
+				Error:   models.ErrInvalidValue,
 				IsValid: false,
 			},
 			{
@@ -162,7 +175,7 @@ func TestGenerate(t *testing.T) {
 		for _, tc := range tests {
 			tc := tc
 
-			digits = ru_doc_code.RandomDigits(tc.len)
+			digits = utils.RandomDigits(tc.len)
 			assert.True(t, digits >= tc.min && digits <= tc.max)
 		}
 	})

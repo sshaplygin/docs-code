@@ -1,10 +1,12 @@
-package ru_doc_code
+package utils
 
 import (
 	"crypto/rand"
 	"math/big"
 	"strconv"
 	"strings"
+
+	"github.com/sshaplygin/ru-doc-code/models"
 )
 
 func RandomDigits(len int) int64 {
@@ -24,7 +26,7 @@ func StrToArr(str string) ([]int, error) {
 	for _, number := range numbers {
 		number, err := strconv.Atoi(number)
 		if err != nil {
-			return nil, ErrInvalidValue
+			return nil, models.ErrInvalidValue
 		}
 		arr = append(arr, number)
 	}
