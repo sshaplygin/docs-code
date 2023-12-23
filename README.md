@@ -6,7 +6,9 @@ It is validator about official of code documents from Russia in Go
 
 ## Usage
 
-* go get github.com/sshaplygin/ru-doc-code
+``` bash
+go get github.com/sshaplygin/ru-doc-code
+```
 
 ### Example
 
