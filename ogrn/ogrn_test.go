@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 
 	"github.com/sshaplygin/docs-code/models"
 )
@@ -94,5 +95,11 @@ func TestValidate(t *testing.T) {
 			assert.Equal(t, test.IsValid, isValid, test.Code, test.IsValid)
 			assert.Equal(t, true, errors.Is(test.Error, err), test.Code)
 		}
+	})
+}
+
+func Test_Generate(t *testing.T) {
+	require.Panics(t, func() {
+		Generate()
 	})
 }

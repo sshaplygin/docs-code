@@ -2,7 +2,7 @@ package okato
 
 // Validate check to valid OKATO format
 // example: input format is 17205000000
-func Validate() (bool, error) {
+func Validate(okato string) (bool, error) {
 	panic("not implemented!")
 }
 

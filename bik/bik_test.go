@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 
 	"github.com/sshaplygin/docs-code/models"
 )
@@ -105,5 +106,11 @@ func TestValidate(t *testing.T) {
 				assert.Empty(t, err, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			}
 		}
+	})
+}
+
+func Test_Generate(t *testing.T) {
+	require.Panics(t, func() {
+		Generate()
 	})
 }
