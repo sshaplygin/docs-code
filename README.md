@@ -1,8 +1,8 @@
-# ru-doc-code
+# docs-code
 
-[![GoDoc](https://godoc.org/github.com/sshaplygin/ru-doc-code?status.svg)](https://godoc.org/github.com/sshaplygin/ru-doc-code) [![Go Coverage](https://github.com/sshaplygin/ru-doc-code/wiki/coverage.svg)](https://raw.githack.com/wiki/sshaplygin/ru-doc-code/coverage.html) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/sshaplygin/ru-doc-code/blob/master/LICENSE) [![Go Report Card](https://goreportcard.com/badge/github.com/sshaplygin/ru-doc-code)](https://goreportcard.com/report/github.com/sshaplygin/ru-doc-code)
+[![GoDoc](https://godoc.org/github.com/sshaplygin/docs-code?status.svg)](https://godoc.org/github.com/sshaplygin/docs-code) [![Go Coverage](https://github.com/sshaplygin/docs-code/wiki/coverage.svg)](https://raw.githack.com/wiki/sshaplygin/docs-code/coverage.html) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/sshaplygin/docs-code/blob/master/LICENSE) [![Go Report Card](https://goreportcard.com/badge/github.com/sshaplygin/docs-code)](https://goreportcard.com/report/github.com/sshaplygin/docs-code)
 
-It is validator about official of code documents from Russia in Go
+It is validator about official of documents codes in Go
 
 ## Alert
 
@@ -36,11 +36,14 @@ Status of implementation by code package
 - [ ] SNILS
   - [x] Generation method
   - [ ] Validation method
+- [ ] Swift
+  - [x] Generation method
+  - [ ] Validation method
 
 ## Usage
 
 ``` bash
-go get github.com/sshaplygin/ru-doc-code
+go get github.com/sshaplygin/docs-code
 ```
 
 ### Example
@@ -50,7 +53,7 @@ go get github.com/sshaplygin/ru-doc-code
 import (
 	"log"
 	
-	"github.com/sshaplygin/ru-doc-code/inn"
+	"github.com/sshaplygin/docs-code/inn"
 )
 
 ...
