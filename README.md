@@ -12,30 +12,30 @@ It is not production ready public API! It is API could be change it the future. 
 
 Status of impementation by code package
 
-- [] BIK
+- [ ] BIK
   - [x] Generation method
-  - [] Validation method
+  - [ ] Validation method
 - [x] INN
   - [x] Generation method
   - [x] Validation method
-- [] KPP
+- [ ] KPP
   - [x] Generation method
-  - [] Validation method
-- [] OGRN
+  - [ ] Validation method
+- [ ] OGRN
   - [x] Generation method
-  - [] Validation method
-- [] OGRNIP
+  - [ ] Validation method
+- [ ] OGRNIP
   - [x] Generation method
-  - [] Validation method
-- [] OKATO
-  - [] Generation method
-  - [] Validation method
-- [] OKTMO
-  - [] Generation method
-  - [] Validation method
-- [] SNILS
+  - [ ] Validation method
+- [ ] OKATO
+  - [ ] Generation method
+  - [ ] Validation method
+- [ ] OKTMO
+  - [ ] Generation method
+  - [ ] Validation method
+- [ ] SNILS
   - [x] Generation method
-  - [] Validation method
+  - [ ] Validation method
 
 ## Usage
 
