@@ -10,7 +10,7 @@ It is not production ready public API! It is API could be change it the future. 
 
 ## Status
 
-Status of impementation by code package
+Status of implementation by code package
 
 - [ ] BIK
   - [x] Generation method
