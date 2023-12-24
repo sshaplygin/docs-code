@@ -24,7 +24,7 @@ type INN struct {
 // Validate check to valid inn from input string.
 // example: input format is 7707083893
 func Validate(inn string) (bool, error) {
-	if len(inn) != lengthLegal && len(inn) != lengthPhysical {
+	if !IsCompany(inn) && !IsEntrepreneur(inn) {
 		return false, &models.CommonError{
 			Method: packageName,
 			Err:    models.ErrInvalidLength,
@@ -40,6 +40,25 @@ func Validate(inn string) (bool, error) {
 	}
 
 	return hash11(innArr) == innArr[len(innArr)-2] && hash12(innArr) == innArr[len(innArr)-1], nil
+}
+
+// Generate generate random type inn string value.
+func Generate() string {
+	if utils.RandomDigits(1)%2 == 1 {
+		return GeneratePhysical()
+	}
+
+	return GenerateLegal()
+}
+
+// IsEntrepreneur check inn for Entrepreneur type
+func IsEntrepreneur(inn string) bool {
+	return len(inn) == lengthPhysical
+}
+
+// IsCompany check inn for Company type
+func IsCompany(inn string) bool {
+	return len(inn) == lengthLegal
 }
 
 // GenerateLegal generate legal type inn string value.
@@ -78,25 +97,6 @@ func transformInn(inn string) ([]int, error) {
 	}
 
 	return innArr, nil
-}
-
-// Generate generate random type inn string value.
-func Generate() string {
-	if utils.RandomDigits(1)%2 == 1 {
-		return GeneratePhysical()
-	}
-
-	return GenerateLegal()
-}
-
-// IsEntrepreneur check inn for Entrepreneur type
-func IsEntrepreneur(inn string) bool {
-	return len(inn) == lengthPhysical
-}
-
-// IsCompany check inn for Company type
-func IsCompany(inn string) bool {
-	return len(inn) == lengthLegal
 }
 
 func hash10(innArr []int) int {
