@@ -32,3 +32,11 @@ func StrToArr(str string) ([]int, error) {
 	}
 	return arr, nil
 }
+
+func SliceToInt(data []int) int {
+	var res int
+	for _, num := range data {
+		res = res*10 + num
+	}
+	return res
+}

@@ -1,17 +1,24 @@
 package bik
 
 import (
-	"strconv"
+	"fmt"
 
 	"github.com/sshaplygin/docs-code/models"
 	"github.com/sshaplygin/docs-code/utils"
 )
 
-// Validate check to valid BIK format
-// example valid format is 044525225
-func Validate(bik string) (bool, error) {
-	if len(bik) != 9 {
-		return false, &models.CommonError{
+const codeLength = 9
+
+type BIKStruct struct {
+	country       CountryCode
+	territoryCode TerritoryCode
+	unitNumber    UnitConditionalNumber
+	lastNumber    LastAccountNumbers
+}
+
+func NewBik(bik string) (*BIKStruct, error) {
+	if len(bik) != codeLength {
+		return nil, &models.CommonError{
 			Method: packageName,
 			Err:    models.ErrInvalidLength,
 		}
@@ -19,22 +26,50 @@ func Validate(bik string) (bool, error) {
 
 	bikArr, err := utils.StrToArr(bik)
 	if err != nil {
-		return false, err
+		return nil, fmt.Errorf("cound't parse raw bik: %w", err)
 	}
 
-	if bikArr[0] != 0 || bikArr[1] != 4 {
+	return &BIKStruct{
+		country:       CountryCode(utils.SliceToInt(bikArr[0:2])),
+		territoryCode: TerritoryCode(utils.SliceToInt(bikArr[2:4])),
+		unitNumber:    UnitConditionalNumber(utils.SliceToInt(bikArr[4:6])),
+		lastNumber:    LastAccountNumbers(utils.SliceToInt(bikArr[6:])),
+	}, nil
+}
+
+func (bs *BIKStruct) IsValid() (bool, error) {
+	if bs == nil {
+		return false, ErrNilBik
+	}
+
+	if !bs.country.IsValid() {
 		return false, ErrInvalidCountryCode
 	}
 
-	// special code
-	if bikArr[6] == 0 && bikArr[7] == 1 && bikArr[8] == 2 {
-		return true, nil
+	if !bs.territoryCode.IsValid() {
+		return false, ErrInvalidTerritoryCode
 	}
 
-	latestTriadStr := bik[6:]
-	code, _ := strconv.Atoi(latestTriadStr)
+	if !bs.unitNumber.IsValid() {
+		return false, ErrInvalidUnitConditionalNumber
+	}
 
-	return code >= 50 && code < 1000, nil
+	if !bs.lastNumber.IsValid() {
+		return false, ErrInvalidLastAccountNumbers
+	}
+
+	return true, nil
+}
+
+// Validate check to valid BIK format.
+// Example valid format is 044525225
+func Validate(bik string) (bool, error) {
+	bikData, err := NewBik(bik)
+	if err != nil {
+		return false, fmt.Errorf("create bik model: %w", err)
+	}
+
+	return bikData.IsValid()
 }
 
 func Generate() string {
