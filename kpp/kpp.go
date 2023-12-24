@@ -1,8 +1,8 @@
 package kpp
 
 import (
-	"github.com/sshaplygin/ru-doc-code/models"
-	"github.com/sshaplygin/ru-doc-code/utils"
+	"github.com/sshaplygin/docs-code/models"
+	"github.com/sshaplygin/docs-code/utils"
 )
 
 type KPP struct {

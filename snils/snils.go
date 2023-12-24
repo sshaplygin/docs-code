@@ -4,8 +4,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/sshaplygin/ru-doc-code/models"
-	"github.com/sshaplygin/ru-doc-code/utils"
+	"github.com/sshaplygin/docs-code/models"
+	"github.com/sshaplygin/docs-code/utils"
 )
 
 // Validate check to valid SNILS format

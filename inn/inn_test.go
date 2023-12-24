@@ -7,8 +7,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/sshaplygin/ru-doc-code/models"
-	"github.com/sshaplygin/ru-doc-code/utils"
+	"github.com/sshaplygin/docs-code/models"
+	"github.com/sshaplygin/docs-code/utils"
 )
 
 func TestValidate(t *testing.T) {

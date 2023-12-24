@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/sshaplygin/ru-doc-code/models"
+	"github.com/sshaplygin/docs-code/models"
 )
 
 func RandomDigits(len int) int64 {
