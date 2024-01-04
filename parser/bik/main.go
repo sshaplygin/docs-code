@@ -3,8 +3,11 @@ package main
 import (
 	"encoding/xml"
 	"fmt"
+	"io"
 	"os"
 )
+
+var devNull *os.File
 
 func main() {
 	file, err := os.ReadFile("base.xml")
@@ -14,19 +17,18 @@ func main() {
 	err = xml.Unmarshal(file, &biks)
 	checkErr(err)
 
-	for _, bik := range biks.BikRows {
-		fmt.Println(bik)
-	}
+	writer := devNull
+	fmt.Fprint(writer, "package main", "\n\n")
 
-	// printAvailablesBiks(&biks)
+	printAvailablesBiks(writer, &biks)
 }
 
-func printAvailablesBiks(biks *Biks) {
-	fmt.Println("var existsBIKs = map[string]string{")
+func printAvailablesBiks(writer io.Writer, biks *Biks) {
+	fmt.Fprint(writer, "var existsBIKs = map[string]string{", "\n")
 	for _, bik := range biks.BikRows {
-		fmt.Println(`"` + bik.Bik + `": ` + "`" + bik.Name + "`,")
+		fmt.Fprint(writer, "\t", `"`+bik.Bik+`": `+"`"+bik.Name+"`,", "\n")
 	}
-	fmt.Println("}")
+	fmt.Fprint(writer, "}", "\n")
 }
 
 type Biks struct {
@@ -56,5 +58,13 @@ type Bik struct {
 func checkErr(e error) {
 	if e != nil {
 		panic(e)
+	}
+}
+
+func init() {
+	var err error
+	devNull, err = os.OpenFile(os.DevNull, os.O_WRONLY, 0666)
+	if err != nil {
+		panic(err)
 	}
 }
