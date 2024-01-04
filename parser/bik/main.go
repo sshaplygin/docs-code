@@ -63,7 +63,7 @@ func checkErr(e error) {
 
 func init() {
 	var err error
-	devNull, err = os.OpenFile(os.DevNull, os.O_WRONLY, 0666)
+	devNull, err = os.OpenFile(os.DevNull, os.O_WRONLY, 0600)
 	if err != nil {
 		panic(err)
 	}
