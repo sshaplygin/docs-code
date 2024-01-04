@@ -9,7 +9,7 @@ import (
 func Validate(bik string) (bool, error) {
 	bikData, err := ParseBIK(bik)
 	if err != nil {
-		return false, fmt.Errorf("create %s model: %w", packageName, err)
+		return false, fmt.Errorf("parse %s model: %w", packageName, err)
 	}
 
 	return bikData.IsValid()
@@ -25,7 +25,7 @@ func Exists(bik string) (bool, error) {
 
 	bikData, err := ParseBIK(bik)
 	if err != nil {
-		return false, fmt.Errorf("create %s model: %w", packageName, err)
+		return false, fmt.Errorf("parse %s model: %w", packageName, err)
 	}
 
 	isValid, err := bikData.IsValid()
