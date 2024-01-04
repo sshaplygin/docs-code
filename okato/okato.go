@@ -7,7 +7,7 @@ import (
 // Validate check to valid OKATO format
 // example: input format is 17 205 000 000
 func Validate(okato string) (bool, error) {
-	okatoData, err := NewOKATO(okato)
+	okatoData, err := ParseOKATO(okato)
 	if err != nil {
 		return false, fmt.Errorf("create %s model: %w", packageName, err)
 	}
@@ -18,7 +18,7 @@ func Validate(okato string) (bool, error) {
 // IsExist check to valid OKATO format and check to used code.
 // Example valid format is 01 201 802 003 - Алтайский край/Районы Алтайского края/Алейский район/Сельсоветы Алейского р-на/п Мамонтовский
 func IsExist(bik string) (bool, error) {
-	okatoData, err := NewOKATO(bik)
+	okatoData, err := ParseOKATO(bik)
 	if err != nil {
 		return false, fmt.Errorf("create %s model: %w", packageName, err)
 	}

@@ -1,5 +1,14 @@
 package bik
 
+var countryCodes []CountryCode
+
+var supportedCountryCodes = map[CountryCode]string{
+	DirectParticipationCounty:   "Участник платежной системы с прямым участием",
+	IndirectParticipationCounty: "Участник платежной системы с косвенным участием",
+	NotMemberClientCBRF:         "Клиент Банка России, не являющийся участником платежной системы",
+	RussiaCountryCode:           "Код Российской Федерации",
+}
+
 var existsBIKs = map[string]string{
 	"041280103": `УФК по Астраханской области`,
 	"046577906": `УРАЛЬСКИЙ ФИЛИАЛ АО "РАЙФФАЙЗЕНБАНК"`,
@@ -1607,4 +1616,11 @@ var existsBIKs = map[string]string{
 	"048337000": `РКЦ ТЕРЕК`,
 	"041012718": `ПАО КБ "ВОСТОЧНЫЙ"`,
 	"044525682": `Московский филиал ПАО КБ "Восточный"`,
+}
+
+func init() {
+	countryCodes = make([]CountryCode, 0, len(supportedCountryCodes))
+	for code := range supportedCountryCodes {
+		countryCodes = append(countryCodes, code)
+	}
 }

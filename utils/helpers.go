@@ -58,3 +58,27 @@ func SliceToInt(data []int) int {
 	}
 	return res
 }
+
+// StrCode method could throw two panics.
+func StrCode(val, length int) string {
+	if length < 1 {
+		panic("invalid required code length")
+	}
+
+	var str strings.Builder
+	code := strconv.Itoa(int(val))
+
+	n := length
+	if len(code) > length {
+		panic("invalid int code length")
+	}
+
+	str.Grow(n)
+
+	for i := 0; i+len(code) < length; i++ {
+		str.WriteString("0")
+	}
+	str.WriteString(code)
+
+	return str.String()
+}

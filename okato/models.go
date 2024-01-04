@@ -12,6 +12,8 @@ import (
 const packageName = "okato"
 
 const (
+	stateCodeLength = 2
+
 	minTerritoryCodeLength = 0
 	maxTerritoryCodeLength = 99
 )
@@ -47,7 +49,7 @@ type OKATOStruct struct {
 	fourthLevel FourthLevelCode
 }
 
-func NewOKATO(okato string) (*OKATOStruct, error) {
+func ParseOKATO(okato string) (*OKATOStruct, error) {
 	okatoArr := make([]int, 0, codeLength)
 	var (
 		val int
@@ -123,28 +125,25 @@ func (s StateCode) IsValid() bool {
 }
 
 func (s StateCode) String() string {
-	region, ok := fisrtLevel[int(s)]
+	_, ok := fisrtLevelCodes[s]
 	if !ok {
-		return fisrtLevel[0]
+		return StateCode(0).String()
 	}
 
-	return region
-}
-
-func GenerateStateCode() StateCode {
-	panic("not implemented")
-}
-
-func (cc StateCode) ToString() string {
-	panic("not implemented")
+	return utils.StrCode(int(s), stateCodeLength)
 }
 
 func (s StateCode) GetName() string {
-	panic("not implemented")
+	name, ok := fisrtLevelCodes[s]
+	if !ok {
+		return StateCode(0).GetName()
+	}
+
+	return name
 }
 
-func (s StateCode) GetCenter() string {
-	panic("not implemented")
+func GenerateStateCode() StateCode {
+	return statesCodes[utils.Random(0, len(statesCodes)-1)]
 }
 
 type SecondLevelCode int

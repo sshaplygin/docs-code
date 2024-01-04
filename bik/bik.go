@@ -42,6 +42,6 @@ func Exists(bik string) (bool, error) {
 
 // Generate method generate a valid BIK code, but possible usaged or not usaged in reality.
 // Method guaranteed that code will be valid, but not guaranteed that code will be exists.
-func Generate() string {
-	return NewBIK().String()
+func Generate(opts ...GenerateOpt) string {
+	return NewBIK(opts...).String()
 }

@@ -11,12 +11,27 @@ import (
 
 const packageName = "bik"
 
+const validateErrorTmpl = "%w: %s"
+
 const (
-	maxCountryCodeLength     = 99
-	minInitConditionalNumber = 0
-	maxInitConditionalNumber = 99
-	minLastAccountNumbers    = 50
-	maxLastAccountNumbers    = 999
+	countryCodeLength = 2
+
+	minCountryCodeLength = 0
+	maxCountryCodeLength = 99
+)
+
+const (
+	unitConditionalNumberLength = 2
+
+	minUnitConditionalNumber = 0
+	maxUnitConditionalNumber = 99
+)
+
+const (
+	lastAccountNumbersLength = 3
+
+	minLastAccountNumbers = 50
+	maxLastAccountNumbers = 999
 )
 
 const (
@@ -24,24 +39,17 @@ const (
 )
 
 var (
-	// directParticipationCounty - участник платежной системы с прямым участием
-	directParticipationCounty CountryCode = 0
+	// DirectParticipationCounty - участник платежной системы с прямым участием
+	DirectParticipationCounty CountryCode = 0
 
-	// indirectParticipationCounty - участник платежной системы с косвенным участием
-	indirectParticipationCounty CountryCode = 1
+	// IndirectParticipationCounty - участник платежной системы с косвенным участием
+	IndirectParticipationCounty CountryCode = 1
 
-	// notMemberClientCBRF - клиент Банка России, не являющийся участником платежной системы
-	notMemberClientCBRF CountryCode = 2
+	// NotMemberClientCBRF - клиент Банка России, не являющийся участником платежной системы
+	NotMemberClientCBRF CountryCode = 2
 
-	russiaCountryCode CountryCode = 4
+	RussiaCountryCode CountryCode = 4
 )
-
-var supportedCountryCodes = map[CountryCode]string{
-	directParticipationCounty:   "Участник платежной системы с прямым участием",
-	indirectParticipationCounty: "Участник платежной системы с косвенным участием",
-	notMemberClientCBRF:         "Клиент Банка России, не являющийся участником платежной системы",
-	russiaCountryCode:           "Код Российской Федерации",
-}
 
 type (
 	// CountryCode Required length 2.
@@ -67,7 +75,19 @@ type BIKStruct struct {
 	lastNumber    LastAccountNumbers
 }
 
-func NewBIK() *BIKStruct {
+// generateOptions TODO
+type generateOptions struct {
+}
+
+type GenerateOpt func(options *generateOptions)
+
+func NewBIK(opts ...GenerateOpt) *BIKStruct {
+	var options generateOptions
+
+	for _, o := range opts {
+		o(&options)
+	}
+
 	return &BIKStruct{
 		country:       GenerateCountryCode(),
 		territoryCode: okato.GenerateStateCode(),
@@ -103,19 +123,19 @@ func (bs *BIKStruct) IsValid() (bool, error) {
 	}
 
 	if !bs.country.IsValid() {
-		return false, ErrInvalidCountryCode
+		return false, fmt.Errorf(validateErrorTmpl, ErrInvalidCountryCode, bs.country)
 	}
 
 	if !bs.territoryCode.IsValid() {
-		return false, ErrInvalidTerritoryCode
+		return false, fmt.Errorf(validateErrorTmpl, ErrInvalidTerritoryCode, bs.territoryCode)
 	}
 
 	if !bs.unitNumber.IsValid() {
-		return false, ErrInvalidUnitConditionalNumber
+		return false, fmt.Errorf(validateErrorTmpl, ErrInvalidUnitConditionalNumber, bs.unitNumber)
 	}
 
 	if !bs.lastNumber.IsValid() {
-		return false, ErrInvalidLastAccountNumbers
+		return false, fmt.Errorf(validateErrorTmpl, ErrInvalidLastAccountNumbers, bs.lastNumber)
 	}
 
 	return true, nil
@@ -125,10 +145,10 @@ func (bs *BIKStruct) String() string {
 	var res strings.Builder
 	res.Grow(codeLength)
 
-	res.WriteString(bs.country.ToString())
-	res.WriteString(bs.territoryCode.ToString())
-	res.WriteString(bs.unitNumber.ToString())
-	res.WriteString(bs.lastNumber.ToString())
+	res.WriteString(bs.country.String())
+	res.WriteString(bs.territoryCode.String())
+	res.WriteString(bs.unitNumber.String())
+	res.WriteString(bs.lastNumber.String())
 
 	return res.String()
 }
@@ -143,47 +163,50 @@ func (bs *BIKStruct) Exists() (bool, error) {
 }
 
 func GenerateCountryCode() CountryCode {
-	// len(supportedCountryCodes)
-	return russiaCountryCode
+	return countryCodes[utils.Random(0, len(countryCodes)-1)]
 }
 
 func GenerateUnitConditionalNumber() UnitConditionalNumber {
-	return 0
+	return UnitConditionalNumber(utils.Random(minUnitConditionalNumber, maxUnitConditionalNumber))
 }
 
 func GenerateLastAccountNumbers() LastAccountNumbers {
-	return 0
+	return LastAccountNumbers(utils.Random(minLastAccountNumbers, maxLastAccountNumbers))
 }
 
 func (cc CountryCode) IsValid() bool {
-	if cc > maxCountryCodeLength {
+	if cc < minCountryCodeLength || cc > maxCountryCodeLength {
 		return false
 	}
 
 	_, ok := supportedCountryCodes[cc]
-
 	return ok
 }
 
 func (cc CountryCode) String() string {
-	res, ok := supportedCountryCodes[cc]
+	_, ok := supportedCountryCodes[cc]
+	if !ok {
+		return RussiaCountryCode.String()
+	}
+
+	return utils.StrCode(int(cc), countryCodeLength)
+}
+
+func (cc CountryCode) GetName() string {
+	codeName, ok := supportedCountryCodes[cc]
 	if !ok {
 		return unspecifiedCountryCode
 	}
 
-	return res
-}
-
-func (cc CountryCode) ToString() string {
-	return ""
+	return codeName
 }
 
 func (ucn UnitConditionalNumber) IsValid() bool {
-	return ucn >= minInitConditionalNumber && ucn <= maxInitConditionalNumber
+	return ucn >= minUnitConditionalNumber && ucn <= maxUnitConditionalNumber
 }
 
-func (ucn UnitConditionalNumber) ToString() string {
-	return ""
+func (ucn UnitConditionalNumber) String() string {
+	return utils.StrCode(int(ucn), unitConditionalNumberLength)
 }
 
 const specialCode = 12
@@ -196,6 +219,6 @@ func (lan LastAccountNumbers) IsValid() bool {
 	return lan >= minLastAccountNumbers && lan <= maxLastAccountNumbers
 }
 
-func (lan LastAccountNumbers) ToString() string {
-	return ""
+func (lan LastAccountNumbers) String() string {
+	return utils.StrCode(int(lan), lastAccountNumbersLength)
 }
