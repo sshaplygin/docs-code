@@ -8,7 +8,8 @@ import (
 
 func Test_Validete(t *testing.T) {
 	require.Panics(t, func() {
-		Validate("")
+		_, err := Validate("")
+		require.NoError(t, err)
 	})
 }
 
