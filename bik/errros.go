@@ -3,8 +3,8 @@ package bik
 import "errors"
 
 var (
-	// ErrNilBik try call methods for nil bik struct
-	ErrNilBik = errors.New("nil bik struct")
+	// ErrNilBIK try call methods for nil bik struct
+	ErrNilBIK = errors.New("nil bik struct")
 
 	// ErrInvalidCountryCode invalid bik code country
 	ErrInvalidCountryCode = errors.New("invalid bik country code")

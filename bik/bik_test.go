@@ -114,3 +114,9 @@ func Test_Generate(t *testing.T) {
 		Generate()
 	})
 }
+
+func Test_Exists(t *testing.T) {
+	require.Panics(t, func() {
+		Exists("")
+	})
+}
