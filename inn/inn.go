@@ -8,19 +8,6 @@ import (
 	"github.com/sshaplygin/docs-code/utils"
 )
 
-const (
-	lengthLegal    = 10
-	lengthPhysical = 12
-)
-
-type INNStruct struct {
-	Code         models.TaxRegionCode
-	SerialNumber models.SerialNumber
-	Hash10       uint
-	Hash11       uint
-	Hash12       uint
-}
-
 // Validate check to valid inn from input string.
 // example: input format is 7707083893
 func Validate(inn string) (bool, error) {
