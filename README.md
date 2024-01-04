@@ -12,36 +12,37 @@ It is not production ready public API! It is API could be change it the future. 
 
 Status of implementation by code package:
 
-- [ ] BIK
-  - [ ] Generation method
-  - [x] Validation method
+- [x] BIK
+  - [x] Validate method
+  - [x] Generate method
+  - [x] Exists method
 - [x] INN
-  - [x] Generation method
-  - [x] Validation method
+  - [x] Generate method
+  - [x] Validate method
 - [ ] KPP
-  - [] Generation method
-  - [x] Validation method
+  - [ ] Generate method
+  - [x] Validate method
 - [x] OGRN
-  - [x] Generation method
-  - [ ] Validation method
+  - [x] Generate method
+  - [ ] Validate method
 - [ ] OGRNIP
-  - [x] Generation method
-  - [ ] Validation method
+  - [x] Generate method
+  - [ ] Validate method
 - [ ] OKATO
-  - [ ] Generation method
-  - [ ] Validation method
+  - [ ] Generate method
+  - [ ] Validate method
 - [ ] OKTMO
-  - [ ] Generation method
-  - [ ] Validation method
+  - [ ] Generate method
+  - [ ] Validate method
 - [ ] SNILS
-  - [ ] Generation method
-  - [x] Validation method
+  - [ ] Generate method
+  - [x] Validate method
 - [ ] Swift
-  - [ ] Generation method
-  - [ ] Validation method
+  - [ ] Generate method
+  - [ ] Validate method
 - [ ] KS
-  - [ ] Generation method
-  - [ ] Validation method
+  - [ ] Generate method
+  - [ ] Validate method
 
 ## Usage
 
