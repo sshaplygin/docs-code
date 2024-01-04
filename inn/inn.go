@@ -13,7 +13,7 @@ const (
 	lengthPhysical = 12
 )
 
-type INN struct {
+type INNStruct struct {
 	Code         models.TaxRegionCode
 	SerialNumber models.SerialNumber
 	Hash10       uint

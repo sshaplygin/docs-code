@@ -10,18 +10,18 @@ It is not production ready public API! It is API could be change it the future. 
 
 ## Status
 
-Status of implementation by code package
+Status of implementation by code package:
 
 - [ ] BIK
-  - [x] Generation method
-  - [ ] Validation method
+  - [ ] Generation method
+  - [x] Validation method
 - [x] INN
   - [x] Generation method
   - [x] Validation method
 - [ ] KPP
-  - [x] Generation method
-  - [ ] Validation method
-- [ ] OGRN
+  - [] Generation method
+  - [x] Validation method
+- [x] OGRN
   - [x] Generation method
   - [ ] Validation method
 - [ ] OGRNIP
@@ -34,10 +34,13 @@ Status of implementation by code package
   - [ ] Generation method
   - [ ] Validation method
 - [ ] SNILS
-  - [x] Generation method
-  - [ ] Validation method
+  - [ ] Generation method
+  - [x] Validation method
 - [ ] Swift
-  - [x] Generation method
+  - [ ] Generation method
+  - [ ] Validation method
+- [ ] KS
+  - [ ] Generation method
   - [ ] Validation method
 
 ## Usage

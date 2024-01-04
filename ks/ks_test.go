@@ -1,4 +1,4 @@
-package oktmo
+package ks
 
 import (
 	"testing"

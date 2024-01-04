@@ -1,42 +1,47 @@
 package bik
 
 import (
-	"strconv"
-
-	"github.com/sshaplygin/docs-code/models"
-	"github.com/sshaplygin/docs-code/utils"
+	"fmt"
 )
 
-// Validate check to valid BIK format
-// example valid format is 044525225
+// Validate check to valid BIK format.
+// Example valid format is 044525225
 func Validate(bik string) (bool, error) {
-	if len(bik) != 9 {
-		return false, &models.CommonError{
-			Method: packageName,
-			Err:    models.ErrInvalidLength,
-		}
-	}
-
-	bikArr, err := utils.StrToArr(bik)
+	bikData, err := ParseBIK(bik)
 	if err != nil {
-		return false, err
+		return false, fmt.Errorf("create %s model: %w", packageName, err)
 	}
 
-	if bikArr[0] != 0 || bikArr[1] != 4 {
-		return false, ErrInvalidCountryCode
-	}
+	return bikData.IsValid()
+}
 
-	// special code
-	if bikArr[6] == 0 && bikArr[7] == 1 && bikArr[8] == 2 {
+// Exists check to valid BIK format and check to used code.
+// Example valid format is 044525677 - АО "Яндекс Банк".
+func Exists(bik string) (bool, error) {
+	_, ok := existsBIKs[bik]
+	if ok {
 		return true, nil
 	}
 
-	latestTriadStr := bik[6:]
-	code, _ := strconv.Atoi(latestTriadStr)
+	bikData, err := ParseBIK(bik)
+	if err != nil {
+		return false, fmt.Errorf("create %s model: %w", packageName, err)
+	}
 
-	return code >= 50 && code < 1000, nil
+	isValid, err := bikData.IsValid()
+	if err != nil {
+		return false, fmt.Errorf("check valid %s model: %w", packageName, err)
+	}
+
+	if !isValid {
+		return false, fmt.Errorf("invalid %s model", packageName)
+	}
+
+	return bikData.Exists()
 }
 
-func Generate() string {
-	panic("not implemented!")
+// Generate method generate a valid BIK code, but possible usaged or not usaged in reality.
+// Method guaranteed that code will be valid, but not guaranteed that code will be exists.
+func Generate(opts ...GenerateOpt) string {
+	return NewBIK(opts...).String()
 }
