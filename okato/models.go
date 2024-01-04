@@ -73,7 +73,7 @@ func ParseOKATO(okato string) (*OKATOStruct, error) {
 		okatoArr = append(okatoArr, val)
 	}
 
-	if len(okato) != codeLength {
+	if len(okatoArr) != codeLength {
 		return nil, &models.CommonError{
 			Method: packageName,
 			Err:    models.ErrInvalidLength,
