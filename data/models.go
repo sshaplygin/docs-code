@@ -1,4 +1,4 @@
-package models
+package data
 
 import "github.com/sshaplygin/docs-code/utils"
 
@@ -8,6 +8,18 @@ const (
 
 	minSubjectCodeLength = 0
 	maxSubjectCodeLength = 99
+
+	// Иные территории
+	defaultSubjectStrCode = "99"
+	defaultSubjectCode    = 99
+)
+
+// RegionTaxServiceNumber
+const (
+	regionTaxServiceNumberLength = 2
+
+	minRegionTaxServiceNumberLength  = 0
+	maxRegionTaxServiceNumbereLength = 99
 )
 
 // ConstitutionSubjectCode required length 2.
@@ -19,32 +31,36 @@ func (csc ConstitutionSubjectCode) IsValid() bool {
 		return false
 	}
 
-	_, ok := supportedSubjectsCodes[csc]
+	_, ok := SupportedSubjectsCodes[csc]
 	return ok
 }
 
 func (csc ConstitutionSubjectCode) String() string {
-	_, ok := supportedCountryCodes[cc]
+	_, ok := SupportedSubjectsCodes[csc]
 	if !ok {
-		return RussiaCountryCode.String()
+		return defaultSubjectStrCode
 	}
 
-	return utils.StrCode(int(cc), countryCodeLength)
+	return utils.StrCode(int(csc), subjectCodeLength)
 }
 
 func (csc ConstitutionSubjectCode) GetName() string {
-	codeName, ok := supportedCountryCodes[cc]
+	codeName, ok := SupportedSubjectsCodes[csc]
 	if !ok {
-		return unspecifiedCountryCode
+		return SupportedSubjectsCodes[defaultSubjectCode]
 	}
 
 	return codeName
 }
 
+func GenerateConstitutionSubjectCode() ConstitutionSubjectCode {
+	return subjectsCodes[utils.Random(0, len(subjectsCodes)-1)]
+}
+
 type RegionTaxServiceNumber int
 
-func (rtn RegionTaxServiceNumber) IsValid() bool {
-	if csc < minSubjectCodeLength || csc > maxSubjectCodeLength {
+func (rtsn RegionTaxServiceNumber) IsValid() bool {
+	if rtsn < minRegionTaxServiceNumberLength || rtsn > maxRegionTaxServiceNumbereLength {
 		return false
 	}
 
@@ -52,13 +68,9 @@ func (rtn RegionTaxServiceNumber) IsValid() bool {
 	return ok
 }
 
-func (rtn RegionTaxServiceNumber) String() string {
-	_, ok := supportedCountryCodes[cc]
-	if !ok {
-		return RussiaCountryCode.String()
-	}
-
-	return utils.StrCode(int(cc), countryCodeLength)
+func (rtsn RegionTaxServiceNumber) String() string {
+	// todo:
+	return utils.StrCode(int(rtsn), regionTaxServiceNumberLength)
 }
 
 const rootTaxServiceDepart = "0000"

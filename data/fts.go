@@ -1,16 +1,35 @@
-package models
+package data
 
 // TODO: trie
 // root depart map[region]struct{
 // Name: }map[]
 
 type TaxDepart struct {
-	Code     int
 	Name     string
-	Branches map[string]TaxDepart
+	Branches map[int]TaxDepart
 }
 
-var SupportedTaxDepartment = map[string]string{
+var SupportedTaxDepartment = map[int]TaxDepart{
+	0: TaxDepart{
+		Name: "ФНС России",
+	},
+	1: TaxDepart{
+		Name: "УФНС России по Республике Адыгея",
+		Branches: map[int]TaxDepart{
+			1: {
+				Name: "Межрайонная инспекция Федеральной налоговой службы №2 по Республике Адыгея",
+			},
+			5: {
+				Name: "Межрайонная инспекция Федеральной налоговой службы №1 по Республике Адыгея",
+			},
+			7: {
+				Name: "Межрайонная инспекция Федеральной налоговой службы №3 по Республике Адыгея",
+			},
+		},
+	},
+}
+
+var SupportedTaxDepartmentTmp = map[string]string{
 	"0000": "ФНС России",
 	"0100": "УФНС России по Республике Адыгея",
 	"0200": "УФНС России по Республике Башкортостан",

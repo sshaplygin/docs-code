@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/sshaplygin/docs-code/data"
 	"github.com/sshaplygin/docs-code/models"
 	"github.com/sshaplygin/docs-code/utils"
 )
@@ -56,6 +57,51 @@ type (
 	SerialNumber int
 )
 
+func (rc RecorderCode) String() string {
+	// TODO:
+	return ""
+}
+
+func (rc RecorderCode) IsValid() bool {
+	// TODO:
+	return false
+}
+
+func GenerateRecorderCode() RecorderCode {
+	// TODO:
+	return 0
+}
+
+func (rr RegistrationReason) String() string {
+	// TODO:
+	return ""
+}
+
+func (rr RegistrationReason) IsValid() bool {
+	// TODO:
+	return false
+}
+
+func GenerateRegistrationReason() RegistrationReason {
+	// TODO:
+	return ""
+}
+
+func (sn SerialNumber) IsValid() bool {
+	// TODO:
+	return false
+}
+
+func (sn SerialNumber) String() string {
+	// TODO:
+	return ""
+}
+
+func GenerateSerialNumber() SerialNumber {
+	// TODO:
+	return 0
+}
+
 func ParseKPP(kpp string) (*KPPStruct, error) {
 	if len(kpp) != codeLength {
 		return nil, &models.CommonError{
@@ -80,7 +126,7 @@ func ParseKPP(kpp string) (*KPPStruct, error) {
 	}
 
 	return &KPPStruct{
-		subjectCode:  ConstitutionSubjectCode(utils.SliceToInt(subjectCodeArr)),
+		subjectCode:  data.ConstitutionSubjectCode(utils.SliceToInt(subjectCodeArr)),
 		recorderCode: RecorderCode(utils.SliceToInt(recorderCodeArr)),
 		reasonCode:   RegistrationReason(kpp[4:6]),
 		serialNumber: SerialNumber(utils.SliceToInt(servialNumberArr)),
@@ -88,7 +134,7 @@ func ParseKPP(kpp string) (*KPPStruct, error) {
 }
 
 type KPPStruct struct {
-	subjectCode  models.ConstitutionSubjectCode
+	subjectCode  data.ConstitutionSubjectCode
 	recorderCode RecorderCode
 	reasonCode   RegistrationReason
 	serialNumber SerialNumber
@@ -96,7 +142,7 @@ type KPPStruct struct {
 
 func NewKPP() *KPPStruct {
 	return &KPPStruct{
-		subjectCode:  GenerateConstitutionSubjectCode(),
+		subjectCode:  data.GenerateConstitutionSubjectCode(),
 		recorderCode: GenerateRecorderCode(),
 		reasonCode:   GenerateRegistrationReason(),
 		serialNumber: GenerateSerialNumber(),
@@ -112,19 +158,19 @@ func (kpp *KPPStruct) IsValid() (bool, error) {
 	}
 
 	if !kpp.subjectCode.IsValid() {
-		return false, fmt.Errorf(validateErrorTmpl, ErrInvalidCountryCode, kpp.subjectCode)
+		return false, fmt.Errorf(validateErrorTmpl, ErrInvalidSubjectCode, kpp.subjectCode)
 	}
 
 	if !kpp.recorderCode.IsValid() {
-		return false, fmt.Errorf(validateErrorTmpl, ErrInvalidTerritoryCode, kpp.recorderCode)
+		return false, fmt.Errorf(validateErrorTmpl, ErrInvalidRecorderCode, kpp.recorderCode)
 	}
 
 	if !kpp.reasonCode.IsValid() {
-		return false, fmt.Errorf(validateErrorTmpl, ErrInvalidUnitConditionalNumber, kpp.reasonCode)
+		return false, fmt.Errorf(validateErrorTmpl, ErrInvalidReasonCode, kpp.reasonCode)
 	}
 
 	if !kpp.serialNumber.IsValid() {
-		return false, fmt.Errorf(validateErrorTmpl, ErrInvalidLastAccountNumbers, kpp.serialNumber)
+		return false, fmt.Errorf(validateErrorTmpl, ErrInvalidSerialNumber, kpp.serialNumber)
 	}
 
 	return true, nil

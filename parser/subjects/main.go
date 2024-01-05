@@ -22,24 +22,19 @@ func main() {
 	doc, err := goquery.NewDocumentFromReader(file)
 	checkErr(err)
 
-	// fmt.Println("var fisrtLevel = map[int]string{")
+	var i int
+	fmt.Println("var SupportedSubjectsCodes = map[ConstitutionSubjectCode]string{")
 	doc.Find(".doc-table").Each(func(_ int, s *goquery.Selection) {
-		// fmt.Println(s.Text())
 		s.Find("td").Each(func(_ int, s *goquery.Selection) {
-			// s.
-			fmt.Println("->", strings.TrimSpace(s.Text()))
-			// href, exists := s.Attr("href")
-			// if !exists {
-			// 	return
-			// }
-
-			// parts := strings.Split(href, "/")
-			// name := strings.Split(s.Text(), " - ")
-
-			// fmt.Println(parts[len(parts)-1]+":", `"`+strings.TrimSpace(excludeDigits(name[1]))+`",`)
+			if i%2 == 0 {
+				fmt.Println(strings.TrimSpace(s.Text()) + `: `)
+			} else {
+				fmt.Println(`"` + strings.TrimSpace(s.Text()) + `",`)
+			}
+			i++
 		})
 	})
-	// fmt.Println("}")
+	fmt.Println("}")
 }
 
 func checkErr(e error) {
