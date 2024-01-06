@@ -9,7 +9,7 @@ import (
 )
 
 // Example output:
-// var SupportedTaxDepartment = map[ConstitutionSubjectCode]TaxDepart{
+// var SupportedTaxDepartments = map[ConstitutionRegionCode]TaxDepart{
 // 	0: {
 // 		Name: "ФНС России",
 // 	},
@@ -33,7 +33,7 @@ func main() {
 	}()
 
 	fmt.Println("package main", "\n")
-	fmt.Println("var SupportedTaxDepartment = map[ConstitutionSubjectCode]TaxDepart{")
+	fmt.Println("var SupportedTaxDepartments = map[ConstitutionRegionCode]TaxDepart{")
 
 	scanner := bufio.NewScanner(file)
 	var code int

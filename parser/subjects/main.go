@@ -24,7 +24,7 @@ func main() {
 	checkErr(err)
 
 	var i int
-	fmt.Println("var SupportedSubjectsCodes = map[ConstitutionSubjectCode]string{")
+	fmt.Println("var SupportedRegionsCodes = map[ConstitutionRegionCode]string{")
 	doc.Find(".doc-table").Each(func(_ int, s *goquery.Selection) {
 		s.Find("td").Each(func(_ int, s *goquery.Selection) {
 			if i%2 == 0 {
