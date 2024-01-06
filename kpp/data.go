@@ -1,6 +1,8 @@
 package kpp
 
-var supportedRegistrationReason = map[RegistrationReason]string{
+var registrationsReasonsCodes []RegistrationReason
+
+var supportedRegistrationsReasons = map[RegistrationReason]string{
 	"01": "Постановка на учет в налоговом органе российской организации в качестве налогоплательщика по месту ее нахождения",
 	"02": "Постановка на учет налогоплательщика - российской организации по месту нахождения ее филиала, исполняющего обязанности организации по уплате налогов и сборов",
 	"03": "Постановка на учет налогоплательщика - российской организации по месту нахождения ее филиала, не исполняющего обязанности организации по уплате налогов и сборов",
@@ -48,4 +50,11 @@ var supportedRegistrationReason = map[RegistrationReason]string{
 	"75": "Постановка на учет иностранной (международной) организации, имеющей космические объекты в Российской Федерации",
 	"76": "Постановка на учет иностранной организации, выступающей в качестве инвестора по соглашению о разделе продукции или оператора соглашения",
 	"87": "Cчет иностранной (международной) организации в связи с открытием счетов в банках на территории Российской Федерации",
+}
+
+func init() {
+	registrationsReasonsCodes = make([]RegistrationReason, 0, len(supportedRegistrationsReasons))
+	for code := range supportedRegistrationsReasons {
+		registrationsReasonsCodes = append(registrationsReasonsCodes, code)
+	}
 }

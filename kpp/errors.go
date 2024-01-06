@@ -6,18 +6,12 @@ var (
 	// ErrNilKPP try call methods for nil kpp struct
 	ErrNilKPP = errors.New("nil kpp struct")
 
-	// ErrRegistrationReasonCode invalid registration reason code
-	ErrRegistrationReasonCode = errors.New("invalid registration reason code")
+	// ErrInvalidTaxRegion invalid tax region code
+	ErrInvalidTaxRegion = errors.New("invalid tax region code")
 
-	// ErrInvalidSubjectCode
-	ErrInvalidSubjectCode = errors.New("")
+	// ErrInvalidReasonCode invalid reason code
+	ErrInvalidReasonCode = errors.New("invalid reason code")
 
-	// ErrInvalidRecorderCode
-	ErrInvalidRecorderCode = errors.New("")
-
-	// ErrInvalidReasonCode
-	ErrInvalidReasonCode = errors.New("")
-
-	// ErrInvalidSerialNumber
-	ErrInvalidSerialNumber = errors.New("")
+	// ErrInvalidSerialNumber invalid serial number
+	ErrInvalidSerialNumber = errors.New("invalid serial number")
 )

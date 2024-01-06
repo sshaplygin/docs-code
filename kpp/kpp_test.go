@@ -107,13 +107,11 @@ func TestValidate(t *testing.T) {
 
 		testCases := []testCase{
 			{
-				Code:    "773643301",
-				Error:   ErrRegistrationReasonCode,
-				IsValid: false,
+				Code:    "775001001",
+				IsValid: true,
 			},
 			{
 				Code:    "773642301",
-				Error:   nil,
 				IsValid: true,
 			},
 		}
@@ -132,7 +130,9 @@ func TestValidate(t *testing.T) {
 }
 
 func Test_Generate(t *testing.T) {
-	require.Panics(t, func() {
-		Generate()
-	})
+	kpp := Generate()
+	isValid, err := Validate(kpp)
+	require.NoError(t, err, fmt.Sprintf("invalid kpp value: %s", kpp))
+
+	assert.True(t, isValid)
 }
