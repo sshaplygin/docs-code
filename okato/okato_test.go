@@ -34,6 +34,10 @@ func Test_Validete(t *testing.T) {
 			Code:    "01 201 802 003",
 			IsValid: true,
 		},
+		{
+			Code:    "45286560000",
+			IsValid: true,
+		},
 	}
 
 	for i, tc := range testCases {

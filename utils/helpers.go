@@ -59,6 +59,18 @@ func SliceToInt(data []int) int {
 	return res
 }
 
+func CodeToInts(code int) []int {
+	var res []int
+
+	for code > 0 {
+		digit := code % 10
+		res = append([]int{digit}, res...)
+		code = code / 10
+	}
+
+	return res
+}
+
 // StrCode method could throw two panics.
 func StrCode(val, length int) string {
 	if length < 1 {

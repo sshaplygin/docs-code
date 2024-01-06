@@ -46,6 +46,18 @@ type TaxRegionCode struct {
 	serviceNumber RegionTaxServiceNumber
 }
 
+func (trc *TaxRegionCode) Ints() []int {
+	if trc == nil {
+		return nil
+	}
+
+	res := make([]int, 0, subjectCodeLength+regionTaxServiceNumberLength)
+	res = append(res, utils.CodeToInts(int(trc.subjectCode))...)
+	res = append(res, utils.CodeToInts(int(trc.serviceNumber))...)
+
+	return res
+}
+
 func (trc *TaxRegionCode) IsValid() bool {
 	if trc == nil {
 		return false

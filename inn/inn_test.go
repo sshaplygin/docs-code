@@ -34,12 +34,10 @@ func TestValidate(t *testing.T) {
 			},
 			{
 				Code:    "7707083893",
-				Error:   nil,
 				IsValid: true,
 			},
 			{
 				Code:    "526317984689",
-				Error:   nil,
 				IsValid: true,
 			},
 		}
@@ -70,23 +68,19 @@ func TestValidate(t *testing.T) {
 				IsValid: false,
 			},
 			{
-				Code:    "98754321N123",
-				Error:   models.ErrInvalidValue,
-				IsValid: false,
+				Code:  "98754321N123",
+				Error: models.ErrInvalidValue,
 			},
 			{
-				Code:    "9854132d1123",
-				Error:   models.ErrInvalidValue,
-				IsValid: false,
+				Code:  "9854132d1123",
+				Error: models.ErrInvalidValue,
 			},
 			{
 				Code:    "7707083893",
-				Error:   nil,
 				IsValid: true,
 			},
 			{
 				Code:    "526317984689",
-				Error:   nil,
 				IsValid: true,
 			},
 		}
@@ -113,9 +107,9 @@ func TestGenerate(t *testing.T) {
 		for i := 0; i < 10; i++ {
 			inn = GenerateLegal()
 			isValid, err := Validate(inn)
+			require.NoError(t, err)
 
 			require.True(t, isValid)
-			require.NoError(t, err)
 		}
 	})
 
@@ -125,9 +119,9 @@ func TestGenerate(t *testing.T) {
 		for i := 0; i < 10; i++ {
 			inn = GeneratePhysical()
 			isValid, err := Validate(inn)
+			require.NoError(t, err)
 
 			require.True(t, isValid)
-			require.NoError(t, err)
 		}
 	})
 
@@ -137,13 +131,13 @@ func TestGenerate(t *testing.T) {
 		for i := 0; i < 10; i++ {
 			inn = Generate()
 			isValid, err := Validate(inn)
+			require.NoError(t, err)
 
 			require.True(t, isValid)
-			require.NoError(t, err)
 		}
 	})
 
-	t.Run("generate random digits ", func(t *testing.T) {
+	t.Run("generate random digits", func(t *testing.T) {
 		tests := []struct {
 			len int
 			min int64

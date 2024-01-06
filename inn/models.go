@@ -1,20 +1,247 @@
 package inn
 
-import "github.com/sshaplygin/docs-code/models"
+import (
+	"fmt"
+	"strconv"
+	"strings"
+	"unicode"
 
-const packageName = "packageName"
+	"github.com/sshaplygin/docs-code/fts"
+	"github.com/sshaplygin/docs-code/models"
+	"github.com/sshaplygin/docs-code/utils"
+)
+
+const packageName = "inn"
 
 const (
-	lengthLegal    = 10
-	lengthPhysical = 12
+	legalLength    = 10
+	physicalLength = 12
+)
+
+const (
+	legalSerialNumberLength    = 4
+	physicalSerialNumberLength = 5
+)
+
+type INNType uint
+
+func (t INNType) String() string {
+	switch t {
+	case Legal:
+		return "legal"
+	case ForeignLegal:
+		return "foreign_legal"
+	default:
+		return "physical"
+	}
+}
+
+const (
+	Physical INNType = iota
+	Legal
+	// ForeignLegal start with 9909
+	ForeignLegal
 )
 
 type SerialNumber int
 
+func (sn SerialNumber) String() string {
+	return strconv.Itoa(int(sn))
+}
+
+func GenerateSerailNumber(innType INNType) SerialNumber {
+	if innType == Physical {
+		return SerialNumber(utils.RandomDigits(physicalSerialNumberLength))
+	}
+	return SerialNumber(utils.RandomDigits(legalSerialNumberLength))
+}
+
+type CheckSums []int
+
+func (cs CheckSums) String() string {
+	var res strings.Builder
+	res.Grow(len(cs))
+	for _, s := range cs {
+		res.WriteString(strconv.Itoa(s))
+	}
+	return res.String()
+}
+
 type INNStruct struct {
-	taxCode      models.TaxRegionCode
-	serialNumber SerialNumber
-	hash10       uint
-	hash11       uint
-	hash12       uint
+	taxRegionCode *fts.TaxRegionCode
+	serialNumber  SerialNumber
+	checkSums     CheckSums
+
+	t INNType
+}
+
+func NewINN(innType INNType) *INNStruct {
+	taxRegionCode := fts.GenerateTaxRegionCode()
+	serialNumber := GenerateSerailNumber(innType)
+
+	return &INNStruct{
+		taxRegionCode: taxRegionCode,
+		serialNumber:  serialNumber,
+	}
+}
+
+func ParseINN(inn string) (*INNStruct, error) {
+	if len(inn) != legalLength && len(inn) != physicalLength {
+		return nil, &models.CommonError{
+			Method: packageName,
+			Err:    models.ErrInvalidLength,
+		}
+	}
+
+	taxRegionCode, err := fts.ParseTaxRegionCode(inn[0:4])
+	if err != nil {
+		return nil, fmt.Errorf("parse tax region code raw %s: %w", packageName, err)
+	}
+
+	t := Physical
+	parseIdx := len(inn) - 3
+	if len(inn) == legalLength {
+		t = Legal
+		parseIdx = len(inn) - 2
+		const foreignLegalStartWith = "9909"
+		if inn[0:4] == foreignLegalStartWith {
+			t = ForeignLegal
+		}
+	}
+
+	seraclNumberArr, err := utils.StrToArr(inn[4:parseIdx])
+	if err != nil {
+		return nil, fmt.Errorf("parse raw serial number %s: %w", packageName, err)
+	}
+
+	checkSums, err := getCheckSums(inn[parseIdx:])
+	if err != nil {
+		return nil, fmt.Errorf("get check sums value: %w", err)
+	}
+
+	return &INNStruct{
+		taxRegionCode: taxRegionCode,
+		serialNumber:  SerialNumber(utils.SliceToInt(seraclNumberArr)),
+		checkSums:     checkSums,
+		t:             t,
+	}, nil
+}
+
+type checkSumFuncType func(nums []int) int
+
+func (inn *INNStruct) IsValid() (bool, error) {
+	if inn == nil {
+		return false, ErrNilINN
+	}
+
+	nums := append(inn.taxRegionCode.Ints(), utils.CodeToInts(int(inn.serialNumber))...)
+
+	checkFuncs := []checkSumFuncType{
+		hash10,
+	}
+
+	if inn.IsPhysical() {
+		if len(nums) != physicalLength {
+			return false, fmt.Errorf("invalid nums length for %s type", inn.t)
+		}
+
+		if len(inn.checkSums) != 2 {
+			return false, fmt.Errorf("invalid check sum length for %s type", inn.t)
+		}
+
+		checkFuncs = []checkSumFuncType{
+			hash11, hash12,
+		}
+	}
+
+	if inn.IsLegal() {
+		if len(nums) != legalLength {
+			return false, fmt.Errorf("invalid nums length for %s type", inn.t)
+		}
+
+		if len(inn.checkSums) != 1 {
+			return false, fmt.Errorf("invalid check sum length for %s type", inn.t)
+		}
+	}
+
+	for i, f := range checkFuncs {
+		if inn.checkSums[i] != f(nums) {
+			return false, nil
+		}
+		nums = append(nums, inn.checkSums[i])
+	}
+
+	return true, nil
+}
+
+func (inn *INNStruct) String() string {
+	n := physicalLength
+	snRequired := physicalSerialNumberLength
+	if inn.IsLegal() {
+		n = legalLength
+		snRequired = legalSerialNumberLength
+	}
+
+	var res strings.Builder
+	res.Grow(n)
+
+	res.WriteString(inn.taxRegionCode.String())
+
+	sn := inn.serialNumber.String()
+	if len(sn) < snRequired {
+		sn = strings.Repeat("0", snRequired-len(sn)) + sn
+	}
+
+	res.WriteString(sn)
+	res.WriteString(inn.checkSums.String())
+
+	return res.String()
+}
+
+func (inn *INNStruct) IsLegal() bool {
+	if inn == nil {
+		return false
+	}
+
+	return inn.t == Legal || inn.t == ForeignLegal
+}
+
+func (inn *INNStruct) IsPhysical() bool {
+	if inn == nil {
+		return false
+	}
+
+	return inn.t == Physical
+}
+
+func hash10(innArr []int) int {
+	return ((2*innArr[0] + 4*innArr[1] + 10*innArr[2] + 3*innArr[3] +
+		5*innArr[4] + 9*innArr[5] + 4*innArr[6] + 6*innArr[7] + 8*innArr[8]) % 11) % 10
+}
+
+func hash11(innArr []int) int {
+	return ((7*innArr[0] + 2*innArr[1] + 4*innArr[2] + 10*innArr[3] + 3*innArr[4] +
+		5*innArr[5] + 9*innArr[6] + 4*innArr[7] + 6*innArr[8] + 8*innArr[9]) % 11) % 10
+}
+
+func hash12(innArr []int) int {
+	return ((3*innArr[0] + 7*innArr[1] + 2*innArr[2] + 4*innArr[3] +
+		10*innArr[4] + 3*innArr[5] + 5*innArr[6] + 9*innArr[7] + 4*innArr[8] +
+		6*innArr[9] + 8*innArr[10]) % 11) % 10
+}
+
+func getCheckSums(checkSums string) ([]int, error) {
+	sums := make([]int, 0, len(checkSums))
+	for _, num := range checkSums {
+		if !unicode.IsDigit(num) {
+			return nil, ErrInvalidCheckSumsValue
+		}
+		v, err := strconv.Atoi(string(num))
+		if err != nil {
+			return nil, fmt.Errorf("val '%c': %w", num, err)
+		}
+		sums = append(sums, v)
+	}
+
+	return sums, nil
 }
