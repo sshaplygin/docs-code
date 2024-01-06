@@ -17,8 +17,6 @@ func Generate(docType DocType) string {
 		callFunc = inn.Generate
 	case KPP:
 		callFunc = kpp.Generate
-	default:
-		panic("not implemented method")
 	}
 
 	if callFunc == nil {

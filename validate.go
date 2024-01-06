@@ -17,8 +17,6 @@ func Validate(docType DocType, code string) (bool, error) {
 		callFunc = inn.Validate
 	case KPP:
 		callFunc = kpp.Validate
-	default:
-		panic("not implemented method")
 	}
 
 	if callFunc == nil {
