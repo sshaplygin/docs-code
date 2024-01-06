@@ -51,9 +51,21 @@ func (trc *TaxRegionCode) Ints() []int {
 		return nil
 	}
 
-	res := make([]int, 0, subjectCodeLength+regionTaxServiceNumberLength)
-	res = append(res, utils.CodeToInts(int(trc.subjectCode))...)
-	res = append(res, utils.CodeToInts(int(trc.serviceNumber))...)
+	res := make([]int, subjectCodeLength+regionTaxServiceNumberLength)
+
+	nums := utils.CodeToInts(int(trc.subjectCode))
+	idx := subjectCodeLength - 1
+	for i := len(nums) - 1; i >= 0; i-- {
+		res[idx] = nums[i]
+		idx--
+	}
+
+	nums = utils.CodeToInts(int(trc.serviceNumber))
+	idx = len(res) - 1
+	for i := len(nums) - 1; i >= 0; i-- {
+		res[idx] = nums[i]
+		idx--
+	}
 
 	return res
 }

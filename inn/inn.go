@@ -24,21 +24,10 @@ func Generate() string {
 
 // GenerateLegal generate legal type inn string value
 func GenerateLegal() string {
-	// inn := strconv.FormatInt(utils.RandomDigits(9), 10)
-	// innArr, _ := transformInn(inn)
-
-	// return strings.Join([]string{inn, strconv.Itoa(hash10(innArr))}, "")
 	return NewINN(INNType(utils.RandomDigits(1)%2 + 1)).String()
 }
 
 // GeneratePhysical generate physical type inn string value
 func GeneratePhysical() string {
-	// inn := strconv.FormatInt(utils.RandomDigits(10), 10)
-	// innArr, _ := transformInn(inn)
-
-	// hash1Num := hash11(innArr)
-	// innArr = append(innArr, hash1Num)
-
-	// return strings.Join([]string{inn, strconv.Itoa(hash1Num), strconv.Itoa(hash12(innArr))}, "")
 	return NewINN(INNType(Physical)).String()
 }

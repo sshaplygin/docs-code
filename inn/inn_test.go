@@ -4,11 +4,9 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/sshaplygin/docs-code/models"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-
-	"github.com/sshaplygin/docs-code/models"
-	"github.com/sshaplygin/docs-code/utils"
 )
 
 func TestValidate(t *testing.T) {
@@ -107,9 +105,9 @@ func TestGenerate(t *testing.T) {
 		for i := 0; i < 10; i++ {
 			inn = GenerateLegal()
 			isValid, err := Validate(inn)
-			require.NoError(t, err)
+			require.NoError(t, err, inn)
 
-			require.True(t, isValid)
+			require.True(t, isValid, inn)
 		}
 	})
 
@@ -119,9 +117,9 @@ func TestGenerate(t *testing.T) {
 		for i := 0; i < 10; i++ {
 			inn = GeneratePhysical()
 			isValid, err := Validate(inn)
-			require.NoError(t, err)
+			require.NoError(t, err, inn)
 
-			require.True(t, isValid)
+			require.True(t, isValid, inn)
 		}
 	})
 
@@ -131,46 +129,9 @@ func TestGenerate(t *testing.T) {
 		for i := 0; i < 10; i++ {
 			inn = Generate()
 			isValid, err := Validate(inn)
-			require.NoError(t, err)
+			require.NoError(t, err, inn)
 
-			require.True(t, isValid)
-		}
-	})
-
-	t.Run("generate random digits", func(t *testing.T) {
-		tests := []struct {
-			len int
-			min int64
-			max int64
-		}{
-			{
-				-5,
-				0,
-				9,
-			},
-			{
-				-10,
-				0,
-				9,
-			},
-			{
-				1,
-				0,
-				9,
-			},
-			{
-				3,
-				100,
-				999,
-			},
-		}
-		var digits int64
-
-		for _, tc := range tests {
-			tc := tc
-
-			digits = utils.RandomDigits(tc.len)
-			assert.True(t, digits >= tc.min && digits <= tc.max)
+			require.True(t, isValid, inn)
 		}
 	})
 }

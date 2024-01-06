@@ -19,8 +19,8 @@ const (
 )
 
 const (
-	legalSerialNumberLength    = 4
-	physicalSerialNumberLength = 5
+	legalSerialNumberLength    = 5
+	physicalSerialNumberLength = 6
 )
 
 type INNType uint
@@ -43,17 +43,44 @@ const (
 	ForeignLegal
 )
 
-type SerialNumber int
+type SerialNumber struct {
+	val  int
+	size int
+}
 
 func (sn SerialNumber) String() string {
-	return strconv.Itoa(int(sn))
+	return utils.StrCode(sn.val, sn.size)
+}
+
+func (sn *SerialNumber) Ints() []int {
+	if sn == nil {
+		return nil
+	}
+
+	res := make([]int, sn.size)
+	nums := utils.CodeToInts(sn.val)
+
+	idx := len(res) - 1
+	for i := len(nums) - 1; i >= 0; i-- {
+		res[idx] = nums[i]
+		idx--
+	}
+
+	return res
 }
 
 func GenerateSerailNumber(innType INNType) SerialNumber {
 	if innType == Physical {
-		return SerialNumber(utils.RandomDigits(physicalSerialNumberLength))
+		return SerialNumber{
+			val:  int(utils.RandomDigits(physicalSerialNumberLength)),
+			size: physicalSerialNumberLength,
+		}
 	}
-	return SerialNumber(utils.RandomDigits(legalSerialNumberLength))
+
+	return SerialNumber{
+		val:  int(utils.RandomDigits(legalSerialNumberLength)),
+		size: legalSerialNumberLength,
+	}
 }
 
 type CheckSums []int
@@ -65,6 +92,27 @@ func (cs CheckSums) String() string {
 		res.WriteString(strconv.Itoa(s))
 	}
 	return res.String()
+}
+
+func GenerateCheckSums(innType INNType, nums []int) CheckSums {
+	checkFuncs := []checkSumFuncType{
+		hash10,
+	}
+
+	shiftIdx := -1
+	if innType == Physical {
+		shiftIdx = -2
+		checkFuncs = []checkSumFuncType{
+			hash11, hash12,
+		}
+	}
+
+	for _, f := range checkFuncs {
+		nums = append(nums, f(nums))
+	}
+
+	fmt.Println(nums[len(nums)+shiftIdx:])
+	return nums[len(nums)+shiftIdx:]
 }
 
 type INNStruct struct {
@@ -82,6 +130,7 @@ func NewINN(innType INNType) *INNStruct {
 	return &INNStruct{
 		taxRegionCode: taxRegionCode,
 		serialNumber:  serialNumber,
+		checkSums:     GenerateCheckSums(innType, append(taxRegionCode.Ints(), serialNumber.Ints()...)),
 	}
 }
 
@@ -99,17 +148,19 @@ func ParseINN(inn string) (*INNStruct, error) {
 	}
 
 	t := Physical
-	parseIdx := len(inn) - 3
+	snSize := physicalSerialNumberLength
+	parseIdx := len(inn) - 2
 	if len(inn) == legalLength {
+		snSize = legalSerialNumberLength
 		t = Legal
-		parseIdx = len(inn) - 2
+		parseIdx = len(inn) - 1
 		const foreignLegalStartWith = "9909"
 		if inn[0:4] == foreignLegalStartWith {
 			t = ForeignLegal
 		}
 	}
 
-	seraclNumberArr, err := utils.StrToArr(inn[4:parseIdx])
+	serialNumberArr, err := utils.StrToArr(inn[4:parseIdx])
 	if err != nil {
 		return nil, fmt.Errorf("parse raw serial number %s: %w", packageName, err)
 	}
@@ -121,9 +172,12 @@ func ParseINN(inn string) (*INNStruct, error) {
 
 	return &INNStruct{
 		taxRegionCode: taxRegionCode,
-		serialNumber:  SerialNumber(utils.SliceToInt(seraclNumberArr)),
-		checkSums:     checkSums,
-		t:             t,
+		serialNumber: SerialNumber{
+			val:  utils.SliceToInt(serialNumberArr),
+			size: snSize,
+		},
+		checkSums: checkSums,
+		t:         t,
 	}, nil
 }
 
@@ -134,14 +188,14 @@ func (inn *INNStruct) IsValid() (bool, error) {
 		return false, ErrNilINN
 	}
 
-	nums := append(inn.taxRegionCode.Ints(), utils.CodeToInts(int(inn.serialNumber))...)
+	nums := append(inn.taxRegionCode.Ints(), inn.serialNumber.Ints()...)
 
 	checkFuncs := []checkSumFuncType{
 		hash10,
 	}
 
 	if inn.IsPhysical() {
-		if len(nums) != physicalLength {
+		if len(nums) != physicalLength-2 {
 			return false, fmt.Errorf("invalid nums length for %s type", inn.t)
 		}
 
@@ -155,7 +209,7 @@ func (inn *INNStruct) IsValid() (bool, error) {
 	}
 
 	if inn.IsLegal() {
-		if len(nums) != legalLength {
+		if len(nums) != legalLength-1 {
 			return false, fmt.Errorf("invalid nums length for %s type", inn.t)
 		}
 
@@ -176,23 +230,15 @@ func (inn *INNStruct) IsValid() (bool, error) {
 
 func (inn *INNStruct) String() string {
 	n := physicalLength
-	snRequired := physicalSerialNumberLength
 	if inn.IsLegal() {
 		n = legalLength
-		snRequired = legalSerialNumberLength
 	}
 
 	var res strings.Builder
 	res.Grow(n)
 
 	res.WriteString(inn.taxRegionCode.String())
-
-	sn := inn.serialNumber.String()
-	if len(sn) < snRequired {
-		sn = strings.Repeat("0", snRequired-len(sn)) + sn
-	}
-
-	res.WriteString(sn)
+	res.WriteString(inn.serialNumber.String())
 	res.WriteString(inn.checkSums.String())
 
 	return res.String()

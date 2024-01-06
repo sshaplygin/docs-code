@@ -60,9 +60,9 @@ if err != nil {
 }
 if !isValid {
   log.Println("INN is invalid")
-  return
+} else {
+  log.Println("INN is valid")
 }
-log.Println("INN is valid")
 ```
 
 ## Documentation

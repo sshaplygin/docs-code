@@ -100,3 +100,40 @@ func Test_Generate_InvalidInput(t *testing.T) {
 		})
 	}
 }
+
+func Test_GenerateRandomDigits(t *testing.T) {
+	tests := []struct {
+		len int
+		min int64
+		max int64
+	}{
+		{
+			-5,
+			0,
+			9,
+		},
+		{
+			-10,
+			0,
+			9,
+		},
+		{
+			1,
+			0,
+			9,
+		},
+		{
+			3,
+			100,
+			999,
+		},
+	}
+	var digits int64
+
+	for _, tc := range tests {
+		tc := tc
+
+		digits = RandomDigits(tc.len)
+		assert.True(t, digits >= tc.min && digits <= tc.max)
+	}
+}
