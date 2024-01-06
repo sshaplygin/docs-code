@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"strings"
 	"unicode"
@@ -53,6 +54,6 @@ func excludeDigits(input string) string {
 
 func checkErr(e error) {
 	if e != nil {
-		panic(e)
+		log.Panic(e)
 	}
 }

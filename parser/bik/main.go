@@ -4,6 +4,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io"
+	"log"
 	"os"
 )
 
@@ -57,14 +58,12 @@ type Bik struct {
 
 func checkErr(e error) {
 	if e != nil {
-		panic(e)
+		log.Panic(e)
 	}
 }
 
 func init() {
 	var err error
 	devNull, err = os.OpenFile(os.DevNull, os.O_WRONLY, 0600)
-	if err != nil {
-		panic(err)
-	}
+	checkErr(err)
 }

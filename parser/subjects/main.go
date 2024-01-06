@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"strings"
 
@@ -39,6 +40,6 @@ func main() {
 
 func checkErr(e error) {
 	if e != nil {
-		panic(e)
+		log.Panic(e)
 	}
 }
