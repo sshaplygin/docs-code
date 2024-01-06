@@ -12,17 +12,7 @@ It is not production ready public API! It is API could be change it the future. 
 
 Status of implementation by code package:
 
-- [x] BIK
-  - [x] Validate method
-  - [x] Generate method
-  - [x] Exists method
-- [x] INN
-  - [x] Generate method
-  - [x] Validate method
-- [ ] KPP
-  - [ ] Generate method
-  - [x] Validate method
-- [x] OGRN
+- [ ] OGRN
   - [x] Generate method
   - [ ] Validate method
 - [ ] OGRNIP
@@ -37,12 +27,14 @@ Status of implementation by code package:
 - [ ] SNILS
   - [ ] Generate method
   - [x] Validate method
-- [ ] Swift
+- [ ] SWIFT
   - [ ] Generate method
   - [ ] Validate method
 - [ ] KS
   - [ ] Generate method
   - [ ] Validate method
+
+Full supported codes: BIK, INN, KPP
 
 ## Usage
 
@@ -57,18 +49,20 @@ go get github.com/sshaplygin/docs-code
 import (
 	"log"
 	
-	"github.com/sshaplygin/docs-code/inn"
+	"github.com/sshaplygin/docs-code"
 )
 
 ...
 
-isValid, err := inn.Validate("526317984689")
+isValid, err := docs_code.Validate(docs_code.INN, "526317984689")
 if err != nil {
-    log.Error(err)
+  log.Error(err)
 }
-if isValid {
-    log.Println("INN is valid")
+if !isValid {
+  log.Println("INN is invalid")
+  return
 }
+log.Println("INN is valid")
 ```
 
 ## Documentation
