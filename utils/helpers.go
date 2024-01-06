@@ -65,7 +65,7 @@ func CodeToInts(code int) []int {
 	for code > 0 {
 		digit := code % 10
 		res = append([]int{digit}, res...)
-		code = code / 10
+		code /= 10
 	}
 
 	return res

@@ -15,6 +15,7 @@ func Test_Validate(t *testing.T) {
 
 func Test_Validate_Unsupported(t *testing.T) {
 	require.Panics(t, func() {
-		Validate(DocType(100500), "100500")
+		_, err := Validate(DocType(100500), "100500")
+		require.NoError(t, err)
 	})
 }

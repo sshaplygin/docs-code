@@ -32,7 +32,6 @@ func main() {
 		checkErr(err)
 	}()
 
-	fmt.Println("package main", "\n")
 	fmt.Println("var SupportedTaxDepartments = map[ConstitutionRegionCode]TaxDepart{")
 
 	scanner := bufio.NewScanner(file)
@@ -45,7 +44,6 @@ func main() {
 		if err != nil {
 			var output string
 			if nextRegion {
-				//fmt.Println("},")
 				output += "Name: "
 			}
 			fmt.Println(output + "`" + row + "`,")
