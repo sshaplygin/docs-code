@@ -52,7 +52,7 @@ var (
 )
 
 type (
-	// CountryCode Required length 2.
+	// CountryCode required length 2.
 	CountryCode int
 
 	// UnitConditionalNumber required length 2.
@@ -62,11 +62,94 @@ type (
 	// or the conditional number of the structural division of the Bank of Russia.
 	UnitConditionalNumber int
 
-	// LastAccountNumbers required length 3. It is last correspondent account of the bank. Possible values [050, 999]
+	// LastAccountNumbers required length 3.
+	// It is last correspondent account of the bank. Possible values [050, 999]
 	LastAccountNumbers int
 )
 
+func (cc CountryCode) IsValid() bool {
+	if cc < minCountryCodeLength || cc > maxCountryCodeLength {
+		return false
+	}
+
+	_, ok := supportedCountryCodes[cc]
+	return ok
+}
+
+func (cc CountryCode) String() string {
+	_, ok := supportedCountryCodes[cc]
+	if !ok {
+		return RussiaCountryCode.String()
+	}
+
+	return utils.StrCode(int(cc), countryCodeLength)
+}
+
+func (cc CountryCode) GetName() string {
+	codeName, ok := supportedCountryCodes[cc]
+	if !ok {
+		return unspecifiedCountryCode
+	}
+
+	return codeName
+}
+
+func GenerateCountryCode() CountryCode {
+	return countryCodes[utils.Random(0, len(countryCodes)-1)]
+}
+
+func (ucn UnitConditionalNumber) IsValid() bool {
+	return ucn >= minUnitConditionalNumber && ucn <= maxUnitConditionalNumber
+}
+
+func (ucn UnitConditionalNumber) String() string {
+	return utils.StrCode(int(ucn), unitConditionalNumberLength)
+}
+
+func GenerateUnitConditionalNumber() UnitConditionalNumber {
+	return UnitConditionalNumber(utils.Random(minUnitConditionalNumber, maxUnitConditionalNumber))
+}
+
+const specialCode = 12
+
+func (lan LastAccountNumbers) IsValid() bool {
+	if lan == specialCode {
+		return true
+	}
+
+	return lan >= minLastAccountNumbers && lan <= maxLastAccountNumbers
+}
+
+func (lan LastAccountNumbers) String() string {
+	return utils.StrCode(int(lan), lastAccountNumbersLength)
+}
+
+func GenerateLastAccountNumbers() LastAccountNumbers {
+	return LastAccountNumbers(utils.Random(minLastAccountNumbers, maxLastAccountNumbers))
+}
+
 const codeLength = 9
+
+func ParseBIK(bik string) (*BIKStruct, error) {
+	if len(bik) != codeLength {
+		return nil, &models.CommonError{
+			Method: packageName,
+			Err:    models.ErrInvalidLength,
+		}
+	}
+
+	bikArr, err := utils.StrToArr(bik)
+	if err != nil {
+		return nil, fmt.Errorf("parse raw %s: %w", packageName, err)
+	}
+
+	return &BIKStruct{
+		country:       CountryCode(utils.SliceToInt(bikArr[0:2])),
+		territoryCode: okato.StateCode(utils.SliceToInt(bikArr[2:4])),
+		unitNumber:    UnitConditionalNumber(utils.SliceToInt(bikArr[4:6])),
+		lastNumber:    LastAccountNumbers(utils.SliceToInt(bikArr[6:])),
+	}, nil
+}
 
 type BIKStruct struct {
 	country       CountryCode
@@ -94,27 +177,6 @@ func NewBIK(opts ...GenerateOpt) *BIKStruct {
 		unitNumber:    GenerateUnitConditionalNumber(),
 		lastNumber:    GenerateLastAccountNumbers(),
 	}
-}
-
-func ParseBIK(bik string) (*BIKStruct, error) {
-	if len(bik) != codeLength {
-		return nil, &models.CommonError{
-			Method: packageName,
-			Err:    models.ErrInvalidLength,
-		}
-	}
-
-	bikArr, err := utils.StrToArr(bik)
-	if err != nil {
-		return nil, fmt.Errorf("parse raw %s: %w", packageName, err)
-	}
-
-	return &BIKStruct{
-		country:       CountryCode(utils.SliceToInt(bikArr[0:2])),
-		territoryCode: okato.StateCode(utils.SliceToInt(bikArr[2:4])),
-		unitNumber:    UnitConditionalNumber(utils.SliceToInt(bikArr[4:6])),
-		lastNumber:    LastAccountNumbers(utils.SliceToInt(bikArr[6:])),
-	}, nil
 }
 
 func (bs *BIKStruct) IsValid() (bool, error) {
@@ -160,65 +222,4 @@ func (bs *BIKStruct) Exists() (bool, error) {
 
 	_, ok := existsBIKs[bs.String()]
 	return ok, nil
-}
-
-func GenerateCountryCode() CountryCode {
-	return countryCodes[utils.Random(0, len(countryCodes)-1)]
-}
-
-func GenerateUnitConditionalNumber() UnitConditionalNumber {
-	return UnitConditionalNumber(utils.Random(minUnitConditionalNumber, maxUnitConditionalNumber))
-}
-
-func GenerateLastAccountNumbers() LastAccountNumbers {
-	return LastAccountNumbers(utils.Random(minLastAccountNumbers, maxLastAccountNumbers))
-}
-
-func (cc CountryCode) IsValid() bool {
-	if cc < minCountryCodeLength || cc > maxCountryCodeLength {
-		return false
-	}
-
-	_, ok := supportedCountryCodes[cc]
-	return ok
-}
-
-func (cc CountryCode) String() string {
-	_, ok := supportedCountryCodes[cc]
-	if !ok {
-		return RussiaCountryCode.String()
-	}
-
-	return utils.StrCode(int(cc), countryCodeLength)
-}
-
-func (cc CountryCode) GetName() string {
-	codeName, ok := supportedCountryCodes[cc]
-	if !ok {
-		return unspecifiedCountryCode
-	}
-
-	return codeName
-}
-
-func (ucn UnitConditionalNumber) IsValid() bool {
-	return ucn >= minUnitConditionalNumber && ucn <= maxUnitConditionalNumber
-}
-
-func (ucn UnitConditionalNumber) String() string {
-	return utils.StrCode(int(ucn), unitConditionalNumberLength)
-}
-
-const specialCode = 12
-
-func (lan LastAccountNumbers) IsValid() bool {
-	if lan == specialCode {
-		return true
-	}
-
-	return lan >= minLastAccountNumbers && lan <= maxLastAccountNumbers
-}
-
-func (lan LastAccountNumbers) String() string {
-	return utils.StrCode(int(lan), lastAccountNumbersLength)
 }

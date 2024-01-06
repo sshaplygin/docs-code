@@ -9,7 +9,7 @@ import (
 func Validate(bik string) (bool, error) {
 	bikData, err := ParseBIK(bik)
 	if err != nil {
-		return false, fmt.Errorf("create %s model: %w", packageName, err)
+		return false, fmt.Errorf("parse %s model: %w", packageName, err)
 	}
 
 	return bikData.IsValid()
@@ -25,7 +25,7 @@ func Exists(bik string) (bool, error) {
 
 	bikData, err := ParseBIK(bik)
 	if err != nil {
-		return false, fmt.Errorf("create %s model: %w", packageName, err)
+		return false, fmt.Errorf("parse %s model: %w", packageName, err)
 	}
 
 	isValid, err := bikData.IsValid()
@@ -42,6 +42,6 @@ func Exists(bik string) (bool, error) {
 
 // Generate method generate a valid BIK code, but possible usaged or not usaged in reality.
 // Method guaranteed that code will be valid, but not guaranteed that code will be exists.
-func Generate(opts ...GenerateOpt) string {
-	return NewBIK(opts...).String()
+func Generate() string {
+	return NewBIK().String()
 }

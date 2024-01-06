@@ -10,6 +10,7 @@
 *.xml
 *.csv
 *.html
+*.txt
 
 .DS_Store
 
