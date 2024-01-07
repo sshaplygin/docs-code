@@ -13,26 +13,17 @@ It is not production ready public API! It is API could be change it the future. 
 Status of implementation by code package:
 
 - [ ] OGRN
-  - [x] Generate method
-  - [ ] Validate method
-- [ ] OGRNIP
-  - [x] Generate method
-  - [ ] Validate method
-- [ ] OKATO
   - [ ] Generate method
-  - [ ] Validate method
-- [ ] OKTMO
+  - [x] Validate method
+- [ ] OGRNIP
+  - [ ] Generate method
+  - [x] Validate method
+- [ ] OKATO
   - [ ] Generate method
   - [ ] Validate method
 - [ ] SNILS
   - [ ] Generate method
   - [x] Validate method
-- [ ] SWIFT
-  - [ ] Generate method
-  - [ ] Validate method
-- [ ] KS
-  - [ ] Generate method
-  - [ ] Validate method
 
 Full supported codes: BIK, INN, KPP
 
