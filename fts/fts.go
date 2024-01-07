@@ -150,7 +150,7 @@ func (csc ConstitutionRegionCode) Ints() []int {
 }
 
 func GenerateConstitutionSubjectCode() ConstitutionRegionCode {
-	return regionsCodes[utils.Random(0, len(regionsCodes)-1)]
+	return supportedRegionsCodes[utils.Random(0, len(supportedRegionsCodes)-1)]
 }
 
 type RegionTaxServiceNumber int

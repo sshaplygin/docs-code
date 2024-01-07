@@ -5,6 +5,8 @@ type TaxDepart struct {
 	Branches map[RegionTaxServiceNumber]string
 }
 
+var supportedRegionsCodes []ConstitutionRegionCode
+
 var SupportedTaxDepartments = map[ConstitutionRegionCode]TaxDepart{
 	0: {
 		Name: `Федеральная налоговая служба`,
@@ -1556,8 +1558,7 @@ var SupportedTaxDepartments = map[ConstitutionRegionCode]TaxDepart{
 		},
 	},
 	84: {
-		Name:     `Межрайонная инспекция Федеральной налоговой службы №2 по Красноярскому краю, Таймырскому (Долгано-Ненецкому) и Эвенкийскому автономным округам`,
-		Branches: map[RegionTaxServiceNumber]string{},
+		Name: `Межрайонная инспекция Федеральной налоговой службы №2 по Красноярскому краю, Таймырскому (Долгано-Ненецкому) и Эвенкийскому автономным округам`,
 	},
 	86: {
 		Name: `Управление Федеральной налоговой службы по Ханты-Мансийскому автономному округу - Югре`,
@@ -1588,8 +1589,7 @@ var SupportedTaxDepartments = map[ConstitutionRegionCode]TaxDepart{
 		},
 	},
 	88: {
-		Name:     `Межрайонная инспекция Федеральной налоговой службы №3 по Красноярскому краю, Таймырскому (Долгано-Ненецкому) и Эвенкийскому автономным округам`,
-		Branches: map[RegionTaxServiceNumber]string{},
+		Name: `Межрайонная инспекция Федеральной налоговой службы №3 по Красноярскому краю, Таймырскому (Долгано-Ненецкому) и Эвенкийскому автономным округам`,
 	},
 	89: {
 		Name: `Управление Федеральной налоговой службы по Ямало-Ненецкому автономному округу`,
@@ -1627,4 +1627,11 @@ var SupportedTaxDepartments = map[ConstitutionRegionCode]TaxDepart{
 			78: `Межрегиональная инспекция Федеральной налоговой службы по крупнейшим налогоплательщикам №8`,
 		},
 	},
+}
+
+func init() {
+	supportedRegionsCodes = make([]ConstitutionRegionCode, 0, len(SupportedTaxDepartments))
+	for region := range SupportedTaxDepartments {
+		supportedRegionsCodes = append(supportedRegionsCodes, region)
+	}
 }
