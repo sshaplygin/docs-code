@@ -12,12 +12,6 @@ It is not production ready public API! It is API could be change it the future. 
 
 Status of implementation by code package:
 
-- [ ] OGRN
-  - [ ] Generate method
-  - [x] Validate method
-- [ ] OGRNIP
-  - [ ] Generate method
-  - [x] Validate method
 - [ ] OKATO
   - [ ] Generate method
   - [ ] Validate method
@@ -25,7 +19,7 @@ Status of implementation by code package:
   - [ ] Generate method
   - [x] Validate method
 
-Full supported codes: BIK, INN, KPP
+Full supported codes: BIK, INN, KPP, OGRN, OGRNIP
 
 ## Usage
 
