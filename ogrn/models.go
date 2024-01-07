@@ -80,7 +80,11 @@ type serialNumbers struct {
 }
 
 func (sn serialNumbers) IsValid() bool {
-	return false
+	maxL := 0
+	for i := 0; i < sn.len; i++ {
+		maxL = maxL*10 + 9
+	}
+	return sn.val >= 0 && sn.val <= maxL
 }
 
 func (sn serialNumbers) String() string {
@@ -88,7 +92,9 @@ func (sn serialNumbers) String() string {
 }
 
 func (sn serialNumbers) Ints() []int {
-	return nil
+	res := make([]int, sn.len)
+	utils.FillSlice(utils.CodeToInts(int(sn.val)), res, sn.len-1)
+	return res
 }
 
 type checkSum int
@@ -126,9 +132,9 @@ func GenerateYearsNumbers() YearsNumbers {
 }
 
 func GenerateSerialNumbers(ogrnType OGRNType) serialNumbers {
-	n := legalLength
+	n := legalCodeLength
 	if ogrnType == Physical {
-		n = physicalLength
+		n = physicalCodeLength
 	}
 
 	return serialNumbers{
@@ -271,7 +277,8 @@ func (o *OGRNStruct) makeSliceInts() []int {
 
 	utils.FillSlice(o.yearsNumbers.Ints(), res, 2)
 	utils.FillSlice(o.region.Ints(), res, 4)
-	utils.FillSlice(o.serialNumbers.Ints(), res, n-1)
+	fmt.Println("fillSlice", o.serialNumbers.Ints(), res)
+	utils.FillSlice(o.serialNumbers.Ints(), res, n-2)
 
 	return res
 }

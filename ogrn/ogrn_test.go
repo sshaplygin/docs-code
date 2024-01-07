@@ -1,7 +1,6 @@
 package ogrn
 
 import (
-	"errors"
 	"fmt"
 	"testing"
 
@@ -81,12 +80,16 @@ func TestValidate(t *testing.T) {
 			},
 		}
 
-		for _, tc := range testCases {
+		for i, tc := range testCases {
 			tc := tc
 
 			isValid, err := Validate(tc.Code)
-			assert.Equal(t, tc.IsValid, isValid, tc.Code, tc.IsValid)
-			assert.Equal(t, true, errors.Is(tc.Error, err), tc.Code)
+			assert.Equal(t, tc.IsValid, isValid, tc.Code)
+			if err != nil {
+				assert.ErrorAs(t, err, &tc.Error, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
+			} else {
+				assert.Empty(t, err, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
+			}
 		}
 	})
 }
