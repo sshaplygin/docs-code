@@ -115,3 +115,14 @@ func Test_Exists(t *testing.T) {
 
 	assert.True(t, is)
 }
+
+func BenchmarkValidateCorrect(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_, _ = Validate("044525225")
+	}
+}
+func BenchmarkGenerate(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Generate()
+	}
+}

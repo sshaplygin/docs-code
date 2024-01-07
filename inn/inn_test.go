@@ -136,6 +136,18 @@ func TestGenerate(t *testing.T) {
 	})
 }
 
+func BenchmarkValidateCorrectLegal(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_, _ = Validate("7707083893")
+	}
+}
+
+func BenchmarkValidateCorrectPhysical(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_, _ = Validate("526317984689")
+	}
+}
+
 func BenchmarkGenerate(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		Generate()
