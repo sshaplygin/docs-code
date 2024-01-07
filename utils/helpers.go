@@ -81,7 +81,7 @@ func StrCode(val, length int) string {
 
 	n := length
 	if len(code) > length {
-		panic(fmt.Sprintf("invalid int code length: %d, %d", len(code), length))
+		panic(fmt.Sprintf("invalid int code '%s' length: %d, %d", code, len(code), length))
 	}
 
 	str.Grow(n)

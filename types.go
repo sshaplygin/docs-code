@@ -8,4 +8,5 @@ const (
 	KPP
 	OGRN
 	OGRNIP
+	SNILS
 )

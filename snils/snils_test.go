@@ -75,7 +75,6 @@ func TestValidate(t *testing.T) {
 			},
 			{
 				Code:    "112-233-445 98",
-				Error:   nil,
 				IsValid: false,
 			},
 			{
@@ -85,7 +84,6 @@ func TestValidate(t *testing.T) {
 			},
 			{
 				Code:    "112-233-445 95",
-				Error:   nil,
 				IsValid: true,
 			},
 			{
@@ -109,7 +107,22 @@ func TestValidate(t *testing.T) {
 }
 
 func Test_Generate(t *testing.T) {
-	require.Panics(t, func() {
+	for i := 0; i < 10; i++ {
+		snils := Generate()
+		isValid, err := Validate(snils)
+		require.NoError(t, err, fmt.Sprintf("invalid ogrnip value: %s", snils))
+
+		assert.True(t, isValid)
+	}
+}
+
+func BenchmarkValidateCorrect(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_, _ = Validate("112-233-445 95")
+	}
+}
+func BenchmarkGenerate(b *testing.B) {
+	for i := 0; i < b.N; i++ {
 		Generate()
-	})
+	}
 }

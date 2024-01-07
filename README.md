@@ -15,11 +15,8 @@ Status of implementation by code package:
 - [ ] OKATO
   - [ ] Generate method
   - [ ] Validate method
-- [ ] SNILS
-  - [ ] Generate method
-  - [x] Validate method
 
-Full supported codes: BIK, INN, KPP, OGRN, OGRNIP
+Full supported codes: BIK, INN, KPP, OGRN, OGRNIP, SNILS
 
 ## Usage
 

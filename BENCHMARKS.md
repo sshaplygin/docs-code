@@ -1,5 +1,13 @@
 # Benchmarks
 
+## Notice
+
+Command to update result:
+
+```bash
+go test -benchmem -run=^$ -bench . github.com/sshaplygin/docs-code/snils >> BENCHMARKS.md
+```
+
 ## BIK
 
 ```
@@ -61,4 +69,16 @@ BenchmarkValidateCorrect-10    	 1991065	       580.4 ns/op	    1008 B/op	      
 BenchmarkGenerate-10           	  403179	      3100 ns/op	    1010 B/op	      46 allocs/op
 PASS
 ok  	github.com/sshaplygin/docs-code/ogrnip	3.411s
+```
+
+## SNILS
+
+```
+goos: darwin
+goarch: arm64
+pkg: github.com/sshaplygin/docs-code/snils
+BenchmarkValidateCorrect-10    	 4451258	       263.2 ns/op	     336 B/op	       5 allocs/op
+BenchmarkGenerate-10           	 1302042	       895.3 ns/op	     568 B/op	      25 allocs/op
+PASS
+ok  	github.com/sshaplygin/docs-code/snils	3.768s
 ```
