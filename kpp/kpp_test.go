@@ -136,3 +136,14 @@ func Test_Generate(t *testing.T) {
 
 	assert.True(t, isValid)
 }
+
+func BenchmarkValidateCorrect(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_, _ = Validate("775001001")
+	}
+}
+func BenchmarkGenerate(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Generate()
+	}
+}
