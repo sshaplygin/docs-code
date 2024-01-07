@@ -4,6 +4,8 @@ import (
 	"github.com/sshaplygin/docs-code/bik"
 	"github.com/sshaplygin/docs-code/inn"
 	"github.com/sshaplygin/docs-code/kpp"
+	"github.com/sshaplygin/docs-code/ogrn"
+	"github.com/sshaplygin/docs-code/ogrnip"
 )
 
 type ValidateFunc func(code string) (bool, error)
@@ -17,6 +19,10 @@ func Validate(docType DocType, code string) (bool, error) {
 		callFunc = inn.Validate
 	case KPP:
 		callFunc = kpp.Validate
+	case OGRN:
+		callFunc = ogrn.Validate
+	case OGRNIP:
+		callFunc = ogrnip.Validate
 	}
 
 	if callFunc == nil {

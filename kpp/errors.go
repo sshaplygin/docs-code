@@ -12,6 +12,6 @@ var (
 	// ErrInvalidReasonCode invalid reason code
 	ErrInvalidReasonCode = errors.New("invalid reason code")
 
-	// ErrInvalidSerialNumber invalid serial number
-	ErrInvalidSerialNumber = errors.New("invalid serial number")
+	// ErrInvalidSerialNumbers invalid serial number
+	ErrInvalidSerialNumbers = errors.New("invalid serial number")
 )

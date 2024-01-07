@@ -1,35 +1,22 @@
 package ogrnip
 
 import (
-	"strconv"
+	"fmt"
 
-	"github.com/sshaplygin/docs-code/models"
-	"github.com/sshaplygin/docs-code/utils"
+	"github.com/sshaplygin/docs-code/ogrn"
 )
 
 // Validate check to valid OGRNIP format
 // example: input format is 304500116000157
 func Validate(ogrnip string) (bool, error) {
-	if len(ogrnip) != 15 {
-		return false, &models.CommonError{
-			Method: packageName,
-			Err:    models.ErrInvalidLength,
-		}
-	}
-
-	ogrnipArr, err := utils.StrToArr(ogrnip)
+	ogrnData, err := ogrn.ParseOGRN(ogrn.Physical, ogrnip)
 	if err != nil {
-		return false, err
+		return false, fmt.Errorf("parse %s model: %w", packageName, err)
 	}
 
-	if ogrnipArr[0] != 3 && ogrnipArr[0] != 4 {
-		return false, models.ErrInvalidValue
-	}
-
-	code, _ := strconv.Atoi(ogrnip[:len(ogrnip)-1])
-	return ogrnipArr[len(ogrnip)-1] == code%13%10, nil
+	return ogrnData.IsValid()
 }
 
 func Generate() string {
-	panic("not implemented!")
+	return ogrn.NewOGRN(ogrn.Physical).String()
 }

@@ -102,11 +102,13 @@ func TestValidate(t *testing.T) {
 }
 
 func Test_Generate(t *testing.T) {
-	bik := Generate()
-	isValid, err := Validate(bik)
-	require.NoError(t, err, fmt.Sprintf("invalid bik value: %s", bik))
+	for i := 0; i < 10; i++ {
+		bik := Generate()
+		isValid, err := Validate(bik)
+		require.NoError(t, err, fmt.Sprintf("invalid bik value: %s", bik))
 
-	assert.True(t, isValid)
+		assert.True(t, isValid)
+	}
 }
 
 func Test_Exists(t *testing.T) {

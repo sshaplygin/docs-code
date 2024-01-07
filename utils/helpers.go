@@ -31,8 +31,7 @@ func Random(min, max int) int {
 
 	randomNumber, err := rand.Int(rand.Reader, big.NewInt(int64(max-min+1)))
 	if err != nil {
-		fmt.Println("Error generating random number:", err)
-		return 0
+		panic(fmt.Errorf("generate random number: %w", err))
 	}
 
 	return int(randomNumber.Int64()) + min
@@ -82,7 +81,7 @@ func StrCode(val, length int) string {
 
 	n := length
 	if len(code) > length {
-		panic("invalid int code length")
+		panic(fmt.Sprintf("invalid int code length: %d, %d", len(code), length))
 	}
 
 	str.Grow(n)
@@ -93,4 +92,12 @@ func StrCode(val, length int) string {
 	str.WriteString(code)
 
 	return str.String()
+}
+
+func FillSlice(from, to []int, fromIdx int) {
+	idx := fromIdx
+	for i := len(from) - 1; i >= 0; i-- {
+		to[idx] = from[i]
+		idx--
+	}
 }

@@ -104,7 +104,22 @@ func TestValidate(t *testing.T) {
 }
 
 func Test_Generate(t *testing.T) {
-	require.Panics(t, func() {
+	for i := 0; i < 10; i++ {
+		ogrnip := Generate()
+		isValid, err := Validate(ogrnip)
+		require.NoError(t, err, fmt.Sprintf("invalid ogrnip value: %s", ogrnip))
+
+		assert.True(t, isValid)
+	}
+}
+
+func BenchmarkValidateCorrect(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_, _ = Validate("304500116000157")
+	}
+}
+func BenchmarkGenerate(b *testing.B) {
+	for i := 0; i < b.N; i++ {
 		Generate()
-	})
+	}
 }

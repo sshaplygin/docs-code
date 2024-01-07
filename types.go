@@ -6,4 +6,6 @@ const (
 	BIK DocType = iota
 	INN
 	KPP
+	OGRN
+	OGRNIP
 )

@@ -130,11 +130,13 @@ func TestValidate(t *testing.T) {
 }
 
 func Test_Generate(t *testing.T) {
-	kpp := Generate()
-	isValid, err := Validate(kpp)
-	require.NoError(t, err, fmt.Sprintf("invalid kpp value: %s", kpp))
+	for i := 0; i < 10; i++ {
+		kpp := Generate()
+		isValid, err := Validate(kpp)
+		require.NoError(t, err, fmt.Sprintf("invalid kpp value: %s", kpp))
 
-	assert.True(t, isValid)
+		assert.True(t, isValid)
+	}
 }
 
 func BenchmarkValidateCorrect(b *testing.B) {
