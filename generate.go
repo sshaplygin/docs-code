@@ -6,6 +6,7 @@ import (
 	"github.com/sshaplygin/docs-code/kpp"
 	"github.com/sshaplygin/docs-code/ogrn"
 	"github.com/sshaplygin/docs-code/ogrnip"
+	"github.com/sshaplygin/docs-code/snils"
 )
 
 type GenerateFunc func() string
@@ -23,6 +24,8 @@ func Generate(docType DocType) string {
 		callFunc = ogrn.Generate
 	case OGRNIP:
 		callFunc = ogrnip.Generate
+	case SNILS:
+		callFunc = snils.Generate
 	}
 
 	if callFunc == nil {

@@ -6,6 +6,7 @@ import (
 	"github.com/sshaplygin/docs-code/kpp"
 	"github.com/sshaplygin/docs-code/ogrn"
 	"github.com/sshaplygin/docs-code/ogrnip"
+	"github.com/sshaplygin/docs-code/snils"
 )
 
 type ValidateFunc func(code string) (bool, error)
@@ -23,6 +24,8 @@ func Validate(docType DocType, code string) (bool, error) {
 		callFunc = ogrn.Validate
 	case OGRNIP:
 		callFunc = ogrnip.Validate
+	case SNILS:
+		callFunc = snils.Validate
 	}
 
 	if callFunc == nil {
