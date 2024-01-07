@@ -44,12 +44,12 @@ const (
 )
 
 type SerialNumber struct {
-	val  int
-	size int
+	val int
+	len int
 }
 
 func (sn SerialNumber) String() string {
-	return utils.StrCode(sn.val, sn.size)
+	return utils.StrCode(sn.val, sn.len)
 }
 
 func (sn *SerialNumber) Ints() []int {
@@ -57,14 +57,8 @@ func (sn *SerialNumber) Ints() []int {
 		return nil
 	}
 
-	res := make([]int, sn.size)
-	nums := utils.CodeToInts(sn.val)
-
-	idx := len(res) - 1
-	for i := len(nums) - 1; i >= 0; i-- {
-		res[idx] = nums[i]
-		idx--
-	}
+	res := make([]int, sn.len)
+	utils.FillSlice(utils.CodeToInts(sn.val), res, len(res)-1)
 
 	return res
 }
@@ -72,14 +66,14 @@ func (sn *SerialNumber) Ints() []int {
 func GenerateSerailNumber(innType INNType) SerialNumber {
 	if innType == Physical {
 		return SerialNumber{
-			val:  int(utils.RandomDigits(physicalSerialNumberLength)),
-			size: physicalSerialNumberLength,
+			val: int(utils.RandomDigits(physicalSerialNumberLength)),
+			len: physicalSerialNumberLength,
 		}
 	}
 
 	return SerialNumber{
-		val:  int(utils.RandomDigits(legalSerialNumberLength)),
-		size: legalSerialNumberLength,
+		val: int(utils.RandomDigits(legalSerialNumberLength)),
+		len: legalSerialNumberLength,
 	}
 }
 
@@ -148,10 +142,10 @@ func ParseINN(inn string) (*INNStruct, error) {
 	}
 
 	t := Physical
-	snSize := physicalSerialNumberLength
+	snlen := physicalSerialNumberLength
 	parseIdx := len(inn) - 2
 	if len(inn) == legalLength {
-		snSize = legalSerialNumberLength
+		snlen = legalSerialNumberLength
 		t = Legal
 		parseIdx = len(inn) - 1
 		const foreignLegalStartWith = "9909"
@@ -173,8 +167,8 @@ func ParseINN(inn string) (*INNStruct, error) {
 	return &INNStruct{
 		taxRegionCode: taxRegionCode,
 		serialNumber: SerialNumber{
-			val:  utils.SliceToInt(serialNumberArr),
-			size: snSize,
+			val: utils.SliceToInt(serialNumberArr),
+			len: snlen,
 		},
 		checkSums: checkSums,
 		t:         t,

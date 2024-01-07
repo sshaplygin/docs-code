@@ -1,31 +1,20 @@
 package ogrn
 
 import (
-	"strconv"
-
-	"github.com/sshaplygin/docs-code/models"
-	"github.com/sshaplygin/docs-code/utils"
+	"fmt"
 )
 
 // Validate check to valid OGRN format
 // example: input format is 1027700132195
 func Validate(ogrn string) (bool, error) {
-	if len(ogrn) != 13 {
-		return false, &models.CommonError{
-			Method: packageName,
-			Err:    models.ErrInvalidLength,
-		}
-	}
-
-	ogrnArr, err := utils.StrToArr(ogrn)
+	ogrnData, err := ParseOGRN(Legal, ogrn)
 	if err != nil {
-		return false, err
+		return false, fmt.Errorf("parse %s model: %w", packageName, err)
 	}
 
-	code, _ := strconv.Atoi(ogrn[:12])
-	return ogrnArr[len(ogrn)-1] == code%11%10, nil
+	return ogrnData.IsValid()
 }
 
 func Generate() string {
-	panic("not implemented!")
+	return NewOGRN(Legal).String()
 }

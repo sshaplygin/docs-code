@@ -82,7 +82,7 @@ func StrCode(val, length int) string {
 
 	n := length
 	if len(code) > length {
-		panic("invalid int code length")
+		panic(fmt.Sprintf("invalid int code length: %d, %d", len(code), length))
 	}
 
 	str.Grow(n)
@@ -93,4 +93,12 @@ func StrCode(val, length int) string {
 	str.WriteString(code)
 
 	return str.String()
+}
+
+func FillSlice(from, to []int, fromIdx int) {
+	idx := fromIdx
+	for i := len(from) - 1; i >= 0; i-- {
+		to[idx] = from[i]
+		idx--
+	}
 }

@@ -116,7 +116,7 @@ func (kpp *KPPStruct) IsValid() (bool, error) {
 	}
 
 	if !kpp.serialNumber.IsValid() {
-		return false, fmt.Errorf(validateErrorTmpl, ErrInvalidSerialNumber, kpp.serialNumber)
+		return false, fmt.Errorf(validateErrorTmpl, ErrInvalidSerialNumbers, kpp.serialNumber)
 	}
 
 	return true, nil

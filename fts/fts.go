@@ -53,19 +53,8 @@ func (trc *TaxRegionCode) Ints() []int {
 
 	res := make([]int, subjectCodeLength+regionTaxServiceNumberLength)
 
-	nums := utils.CodeToInts(int(trc.subjectCode))
-	idx := subjectCodeLength - 1
-	for i := len(nums) - 1; i >= 0; i-- {
-		res[idx] = nums[i]
-		idx--
-	}
-
-	nums = utils.CodeToInts(int(trc.serviceNumber))
-	idx = len(res) - 1
-	for i := len(nums) - 1; i >= 0; i-- {
-		res[idx] = nums[i]
-		idx--
-	}
+	utils.FillSlice(utils.CodeToInts(int(trc.subjectCode)), res, subjectCodeLength-1)
+	utils.FillSlice(utils.CodeToInts(int(trc.serviceNumber)), res, len(res)-1)
 
 	return res
 }
@@ -152,6 +141,12 @@ func (csc ConstitutionRegionCode) GetName() string {
 	}
 
 	return codeName
+}
+
+func (csc ConstitutionRegionCode) Ints() []int {
+	res := make([]int, subjectCodeLength)
+	utils.FillSlice(utils.CodeToInts(int(csc)), res, len(res)-1)
+	return res
 }
 
 func GenerateConstitutionSubjectCode() ConstitutionRegionCode {
