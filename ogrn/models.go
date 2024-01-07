@@ -167,8 +167,15 @@ const (
 )
 
 func ParseOGRN(requiredType OGRNType, ogrn string) (*OGRNStruct, error) {
-	if ((requiredType == Legal || requiredType == Government) && len(ogrn) != legalLength) ||
-		(requiredType == Physical && len(ogrn) != physicalLength) {
+	if requiredType != Physical && len(ogrn) != legalLength {
+		return nil, &models.CommonError{
+			Method: packageName,
+			Err:    models.ErrInvalidLength,
+		}
+	}
+
+	if requiredType == Physical && len(ogrn) != physicalLength {
+		fmt.Println(requiredType, len(ogrn))
 		return nil, &models.CommonError{
 			Method: packageName,
 			Err:    models.ErrInvalidLength,
@@ -277,7 +284,6 @@ func (o *OGRNStruct) makeSliceInts() []int {
 
 	utils.FillSlice(o.yearsNumbers.Ints(), res, 2)
 	utils.FillSlice(o.region.Ints(), res, 4)
-	fmt.Println("fillSlice", o.serialNumbers.Ints(), res)
 	utils.FillSlice(o.serialNumbers.Ints(), res, n-2)
 
 	return res

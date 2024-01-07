@@ -31,8 +31,7 @@ func Random(min, max int) int {
 
 	randomNumber, err := rand.Int(rand.Reader, big.NewInt(int64(max-min+1)))
 	if err != nil {
-		fmt.Println("Error generating random number:", err)
-		return 0
+		panic(fmt.Errorf("generate random number: %w", err))
 	}
 
 	return int(randomNumber.Int64()) + min

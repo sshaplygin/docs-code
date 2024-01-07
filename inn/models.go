@@ -105,7 +105,6 @@ func GenerateCheckSums(innType INNType, nums []int) CheckSums {
 		nums = append(nums, f(nums))
 	}
 
-	fmt.Println(nums[len(nums)+shiftIdx:])
 	return nums[len(nums)+shiftIdx:]
 }
 
