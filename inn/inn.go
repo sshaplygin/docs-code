@@ -19,12 +19,12 @@ func Validate(inn string) (bool, error) {
 
 // Generate generate random type inn string value
 func Generate() string {
-	return NewINN(INNType(utils.RandomDigits(1) % 3)).String()
+	return NewINN(_supportedTypes[utils.Random(0, len(_supportedTypes)-1)]).String()
 }
 
 // GenerateLegal generate legal type inn string value
 func GenerateLegal() string {
-	return NewINN(INNType(utils.RandomDigits(1)%2 + 1)).String()
+	return NewINN(_supportedTypes[utils.Random(0, len(_supportedTypes)-1)]).String()
 }
 
 // GeneratePhysical generate physical type inn string value

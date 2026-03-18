@@ -1632,6 +1632,9 @@ var SupportedTaxDepartments = map[ConstitutionRegionCode]TaxDepart{
 func init() {
 	supportedRegionsCodes = make([]ConstitutionRegionCode, 0, len(SupportedTaxDepartments))
 	for region := range SupportedTaxDepartments {
+		if _, ok := SupportedRegionsCodes[region]; !ok {
+			continue
+		}
 		supportedRegionsCodes = append(supportedRegionsCodes, region)
 	}
 }

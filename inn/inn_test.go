@@ -40,8 +40,6 @@ func TestValidate(t *testing.T) {
 			},
 		}
 		for i, tc := range testCases {
-			tc := tc
-
 			isValid, err := Validate(tc.Code)
 			assert.Equal(t, tc.IsValid, isValid, tc.Code)
 			if err != nil {
@@ -83,8 +81,6 @@ func TestValidate(t *testing.T) {
 			},
 		}
 		for i, tc := range testCases {
-			tc := tc
-
 			isValid, err := Validate(tc.Code)
 			assert.Equal(t, tc.IsValid, isValid, tc.Code)
 			if err != nil {
@@ -102,7 +98,7 @@ func TestGenerate(t *testing.T) {
 	t.Run("generate legal inn", func(t *testing.T) {
 		var inn string
 
-		for i := 0; i < 10; i++ {
+		for range 10 {
 			inn = GenerateLegal()
 			isValid, err := Validate(inn)
 			require.NoError(t, err, inn)
@@ -114,7 +110,7 @@ func TestGenerate(t *testing.T) {
 	t.Run("generate physical inn", func(t *testing.T) {
 		var inn string
 
-		for i := 0; i < 10; i++ {
+		for range 10 {
 			inn = GeneratePhysical()
 			isValid, err := Validate(inn)
 			require.NoError(t, err, inn)
@@ -126,7 +122,7 @@ func TestGenerate(t *testing.T) {
 	t.Run("generate random inn", func(t *testing.T) {
 		var inn string
 
-		for i := 0; i < 10; i++ {
+		for range 10 {
 			inn = Generate()
 			isValid, err := Validate(inn)
 			require.NoError(t, err, inn)
@@ -137,31 +133,31 @@ func TestGenerate(t *testing.T) {
 }
 
 func BenchmarkValidateCorrectLegal(b *testing.B) {
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		_, _ = Validate("7707083893")
 	}
 }
 
 func BenchmarkValidateCorrectPhysical(b *testing.B) {
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		_, _ = Validate("526317984689")
 	}
 }
 
 func BenchmarkGenerate(b *testing.B) {
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		Generate()
 	}
 }
 
 func BenchmarkGenerateLegal(b *testing.B) {
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		GenerateLegal()
 	}
 }
 
 func BenchmarkGeneratePhysical(b *testing.B) {
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		GeneratePhysical()
 	}
 }

@@ -43,6 +43,12 @@ const (
 	ForeignLegal
 )
 
+var _supportedTypes = []INNType{
+	Physical,
+	Legal,
+	ForeignLegal,
+}
+
 type SerialNumber struct {
 	val int
 	len int
@@ -124,6 +130,7 @@ func NewINN(innType INNType) *INNStruct {
 		taxRegionCode: taxRegionCode,
 		serialNumber:  serialNumber,
 		checkSums:     GenerateCheckSums(innType, append(taxRegionCode.Ints(), serialNumber.Ints()...)),
+		t:             innType,
 	}
 }
 
