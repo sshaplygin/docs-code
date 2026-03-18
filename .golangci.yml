@@ -24,6 +24,17 @@ linters:
     - gosec
     - gocritic
     - staticcheck
+  exclusions:
+    presets:
+      - comments
+      - std-error-handling
+    rules:
+      - linters:
+          - staticcheck
+        text: "ST1003"
+      - linters:
+          - staticcheck
+        text: "ST1000"
   settings:
     govet:
       enable:
@@ -37,9 +48,3 @@ linters:
 formatters:
   enable:
     - goimports
-
-issues:
-  exclude-use-default: false
-  exclude:
-    - ST1003
-    - ST1000
