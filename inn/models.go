@@ -43,6 +43,12 @@ const (
 	ForeignLegal
 )
 
+var _supportedTypes = []INNType{
+	Physical,
+	Legal,
+	ForeignLegal,
+}
+
 type SerialNumber struct {
 	val int
 	len int
