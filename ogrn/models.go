@@ -175,7 +175,6 @@ func ParseOGRN(requiredType OGRNType, ogrn string) (*OGRNStruct, error) {
 	}
 
 	if requiredType == Physical && len(ogrn) != physicalLength {
-		fmt.Println(requiredType, len(ogrn))
 		return nil, &models.CommonError{
 			Method: packageName,
 			Err:    models.ErrInvalidLength,

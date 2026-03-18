@@ -33,7 +33,6 @@ func Test_SliceToInt(t *testing.T) {
 	}
 
 	for _, tc := range tests {
-		tc := tc
 		t.Run(tc.name, func(t *testing.T) {
 			assert.Equal(t, tc.want, SliceToInt(tc.in))
 		})
@@ -64,7 +63,6 @@ func Test_StrCode_ValidInput(t *testing.T) {
 	}
 
 	for _, tc := range tests {
-		tc := tc
 		t.Run(tc.name, func(t *testing.T) {
 			assert.Equal(t, tc.want, StrCode(tc.val, tc.length))
 		})
@@ -92,7 +90,6 @@ func Test_Generate_InvalidInput(t *testing.T) {
 	}
 
 	for _, tc := range tests {
-		tc := tc
 		t.Run(tc.name, func(t *testing.T) {
 			require.Panics(t, func() {
 				StrCode(tc.val, tc.length)
@@ -131,8 +128,6 @@ func Test_GenerateRandomDigits(t *testing.T) {
 	var digits int64
 
 	for _, tc := range tests {
-		tc := tc
-
 		digits = RandomDigits(tc.len)
 		assert.True(t, digits >= tc.min && digits <= tc.max)
 	}

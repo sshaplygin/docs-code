@@ -19,17 +19,21 @@ func main() {
 	checkErr(err)
 
 	writer := devNull
-	fmt.Fprint(writer, "package main", "\n\n")
+	_, err = fmt.Fprint(writer, "package main", "\n\n")
+	checkErr(err)
 
 	printAvailablesBiks(writer, &biks)
 }
 
 func printAvailablesBiks(writer io.Writer, biks *Biks) {
-	fmt.Fprint(writer, "var existsBIKs = map[string]string{", "\n")
+	_, err := fmt.Fprint(writer, "var existsBIKs = map[string]string{", "\n")
+	checkErr(err)
 	for _, bik := range biks.BikRows {
-		fmt.Fprint(writer, "\t", `"`+bik.Bik+`": `+"`"+bik.Name+"`,", "\n")
+		_, err = fmt.Fprintf(writer, "\t\"%s\": `%s`,\n", bik.Bik, bik.Name)
+		checkErr(err)
 	}
-	fmt.Fprint(writer, "}", "\n")
+	_, err = fmt.Fprint(writer, "}", "\n")
+	checkErr(err)
 }
 
 type Biks struct {

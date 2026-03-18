@@ -43,7 +43,6 @@ func TestValidate(t *testing.T) {
 			},
 		}
 		for i, tc := range testCases {
-			tc := tc
 
 			isValid, err := Validate(tc.Code)
 			assert.Equal(t, tc.IsValid, isValid, tc.Code)
@@ -93,8 +92,6 @@ func TestValidate(t *testing.T) {
 			},
 		}
 		for i, tc := range testCases {
-			tc := tc
-
 			isValid, err := Validate(tc.Code)
 			assert.Equal(t, tc.IsValid, isValid, tc.Code, tc.IsValid)
 			if err != nil {
@@ -107,7 +104,7 @@ func TestValidate(t *testing.T) {
 }
 
 func Test_Generate(t *testing.T) {
-	for i := 0; i < 10; i++ {
+	for range 10 {
 		snils := Generate()
 		isValid, err := Validate(snils)
 		require.NoError(t, err, fmt.Sprintf("invalid ogrnip value: %s", snils))
@@ -117,12 +114,12 @@ func Test_Generate(t *testing.T) {
 }
 
 func BenchmarkValidateCorrect(b *testing.B) {
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		_, _ = Validate("112-233-445 95")
 	}
 }
 func BenchmarkGenerate(b *testing.B) {
-	for i := 0; i < b.N; i++ {
+	for b.Loop() {
 		Generate()
 	}
 }

@@ -41,8 +41,6 @@ func Test_Validete(t *testing.T) {
 	}
 
 	for i, tc := range testCases {
-		tc := tc
-
 		isValid, err := Validate(tc.Code)
 		if err != nil {
 			require.ErrorAs(t, err, &tc.Error, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
