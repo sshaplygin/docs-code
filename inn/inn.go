@@ -24,10 +24,10 @@ func Generate() string {
 
 // GenerateLegal generate legal type inn string value
 func GenerateLegal() string {
-	return NewINN(_supportedTypes[utils.Random(0, len(_supportedTypes)-1)]).String()
+	return NewINN(Legal).String()
 }
 
 // GeneratePhysical generate physical type inn string value
 func GeneratePhysical() string {
-	return NewINN(INNType(Physical)).String()
+	return NewINN(Physical).String()
 }

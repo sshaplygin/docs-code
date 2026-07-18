@@ -72,7 +72,7 @@ func ParseKPP(kpp string) (*KPPStruct, error) {
 		return nil, fmt.Errorf("parse tax region code raw %s: %w", packageName, err)
 	}
 
-	servialNumberArr, err := utils.StrToArr(kpp[6:])
+	serialNumberArr, err := utils.StrToArr(kpp[6:])
 	if err != nil {
 		return nil, fmt.Errorf("parse serial number code raw %s: %w", packageName, err)
 	}
@@ -80,7 +80,7 @@ func ParseKPP(kpp string) (*KPPStruct, error) {
 	return &KPPStruct{
 		taxRegionCode: taxRegionCode,
 		reasonCode:    RegistrationReason(kpp[4:6]),
-		serialNumber:  SerialNumber(utils.SliceToInt(servialNumberArr)),
+		serialNumber:  SerialNumber(utils.SliceToInt(serialNumberArr)),
 	}, nil
 }
 

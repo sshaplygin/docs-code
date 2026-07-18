@@ -42,7 +42,7 @@ func TestValidate(t *testing.T) {
 		for i, tc := range testCases {
 			isValid, err := Validate(tc.Code)
 			if err != nil {
-				require.ErrorAs(t, err, &tc.Error, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
+				require.ErrorIs(t, err, tc.Error, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			} else {
 				require.NoError(t, err, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			}
@@ -87,7 +87,7 @@ func TestValidate(t *testing.T) {
 		for i, tc := range testCases {
 			isValid, err := Validate(tc.Code)
 			if err != nil {
-				require.ErrorAs(t, err, &tc.Error, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
+				require.ErrorIs(t, err, tc.Error, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			} else {
 				require.Empty(t, err, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			}

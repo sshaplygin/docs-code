@@ -3,10 +3,10 @@ package bik
 var countryCodes []CountryCode
 
 var supportedCountryCodes = map[CountryCode]string{
-	DirectParticipationCounty:   "Участник платежной системы с прямым участием",
-	IndirectParticipationCounty: "Участник платежной системы с косвенным участием",
-	NotMemberClientCBRF:         "Клиент Банка России, не являющийся участником платежной системы",
-	RussiaCountryCode:           "Код Российской Федерации",
+	DirectParticipationCountry:   "Участник платежной системы с прямым участием",
+	IndirectParticipationCountry: "Участник платежной системы с косвенным участием",
+	NotMemberClientCBRF:          "Клиент Банка России, не являющийся участником платежной системы",
+	RussiaCountryCode:            "Код Российской Федерации",
 }
 
 var existsBIKs = map[string]string{

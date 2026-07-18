@@ -42,7 +42,7 @@ func TestValidate(t *testing.T) {
 			isValid, err := Validate(tc.Code)
 			assert.Equal(t, tc.IsValid, isValid, tc.Code)
 			if err != nil {
-				assert.ErrorAs(t, err, &tc.Error, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
+				assert.ErrorIs(t, err, tc.Error, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			} else {
 				assert.Empty(t, err, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			}
@@ -82,9 +82,54 @@ func TestValidate(t *testing.T) {
 			isValid, err := Validate(tc.Code)
 			assert.Equal(t, tc.IsValid, isValid, tc.Code)
 			if err != nil {
-				assert.ErrorAs(t, err, &tc.Error, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
+				assert.ErrorIs(t, err, tc.Error, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			} else {
 				assert.Empty(t, err, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
+			}
+		}
+	})
+
+	t.Run("ogrn type detection", func(t *testing.T) {
+		type testCase struct {
+			Code    string
+			IsValid bool
+			Error   error
+		}
+
+		testCases := []testCase{
+			{
+				// government OGRN (leading 2) is now accepted
+				Code:    "2027700132194",
+				IsValid: true,
+			},
+			{
+				// government OGRN (leading 9) is now accepted
+				Code:    "9027700132198",
+				IsValid: true,
+			},
+			{
+				// leading 3 is an individual-entrepreneur (physical) code type
+				// that belongs to the ogrnip package, so it must be rejected here
+				Code:  "3027700132195",
+				Error: ErrInvalidCodeType,
+			},
+			{
+				Code:  "",
+				Error: models.ErrInvalidLength,
+			},
+			{
+				Code:  "A027700132195",
+				Error: models.ErrInvalidValue,
+			},
+		}
+
+		for i, tc := range testCases {
+			isValid, err := Validate(tc.Code)
+			assert.Equal(t, tc.IsValid, isValid, tc.Code)
+			if tc.Error != nil {
+				assert.ErrorIs(t, err, tc.Error, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
+			} else {
+				assert.NoError(t, err, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			}
 		}
 	})

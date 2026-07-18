@@ -2,7 +2,7 @@ package okato
 
 var statesCodes []StateCode
 
-var fisrtLevelCodes = map[StateCode]string{
+var firstLevelCodes = map[StateCode]string{
 	0:  "Территория не определена", // Территория находится за пределами России
 	1:  "Алтайский край (г.Барнаул)",
 	3:  "Краснодарский край (г.Краснодар)",
@@ -93,8 +93,8 @@ var fisrtLevelCodes = map[StateCode]string{
 }
 
 func init() {
-	statesCodes = make([]StateCode, 0, len(fisrtLevelCodes))
-	for code := range fisrtLevelCodes {
+	statesCodes = make([]StateCode, 0, len(firstLevelCodes))
+	for code := range firstLevelCodes {
 		statesCodes = append(statesCodes, code)
 	}
 }

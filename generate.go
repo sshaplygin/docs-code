@@ -11,7 +11,7 @@ import (
 
 type GenerateFunc func() string
 
-func Generate(docType DocType) string {
+func Generate(docType DocType) (string, error) {
 	var callFunc GenerateFunc
 	switch docType {
 	case BIK:
@@ -29,8 +29,8 @@ func Generate(docType DocType) string {
 	}
 
 	if callFunc == nil {
-		panic("not implemented method")
+		return "", ErrUnsupportedDocType
 	}
 
-	return callFunc()
+	return callFunc(), nil
 }

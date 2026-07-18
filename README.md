@@ -19,7 +19,11 @@ Go library for validation and generation of Russian official document codes.
 | OGRN   | Primary State Registration Number (ОГРН)             | +        | +        |
 | OGRNIP | Primary State Registration Number for IE (ОГРНИП)    | +        | +        |
 | SNILS  | Insurance Individual Account Number (СНИЛС)          | +        | +        |
-| OKATO  | Russian Classification of Administrative Territories | -        | -        |
+| OKATO  | Russian Classification of Administrative Territories | +¹       | -        |
+
+¹ OKATO validation checks the format and level ranges only; existence lookup and
+generation are not implemented yet and return `okato.ErrNotImplemented`. OKATO is
+not part of the top-level `Validate`/`Generate` dispatch — use the `okato` package directly.
 
 ## Requirements
 
@@ -58,11 +62,15 @@ if !isValid {
 ```go
 import (
 	"fmt"
+	"log"
 
 	docs_code "github.com/sshaplygin/docs-code"
 )
 
-code := docs_code.Generate(docs_code.INN)
+code, err := docs_code.Generate(docs_code.INN)
+if err != nil {
+	log.Fatal(err)
+}
 fmt.Println("Generated INN:", code)
 ```
 

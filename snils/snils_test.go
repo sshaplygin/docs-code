@@ -47,7 +47,7 @@ func TestValidate(t *testing.T) {
 			isValid, err := Validate(tc.Code)
 			assert.Equal(t, tc.IsValid, isValid, tc.Code)
 			if err != nil {
-				assert.ErrorAs(t, err, &tc.Error, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
+				assert.ErrorIs(t, err, tc.Error, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			} else {
 				assert.Empty(t, err, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			}
@@ -95,7 +95,7 @@ func TestValidate(t *testing.T) {
 			isValid, err := Validate(tc.Code)
 			assert.Equal(t, tc.IsValid, isValid, tc.Code, tc.IsValid)
 			if err != nil {
-				assert.ErrorAs(t, err, &tc.Error, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
+				assert.ErrorIs(t, err, tc.Error, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			} else {
 				assert.Empty(t, err, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			}

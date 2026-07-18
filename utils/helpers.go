@@ -10,26 +10,38 @@ import (
 	"github.com/sshaplygin/docs-code/models"
 )
 
-// RandomDigits generate random digits required length. Required len > 0.
-func RandomDigits(len int) int64 {
-	if len <= 0 {
-		len = 1
+// RandomDigits generates a random positive integer with exactly length decimal
+// digits, i.e. in the inclusive range [10^(length-1), 10^length-1]. A length < 1
+// is clamped to 1. It uses big.Int arithmetic internally so it never overflows
+// for the length while producing the value.
+func RandomDigits(length int) int64 {
+	if length < 1 {
+		length = 1
 	}
 
-	max, _ := strconv.Atoi(strings.Repeat("9", len))
-	min, _ := strconv.Atoi("1" + strings.Repeat("0", len-1))
+	// min = 10^(length-1), the smallest number with exactly length digits.
+	min := new(big.Int).Exp(big.NewInt(10), big.NewInt(int64(length-1)), nil)
+	// span = 9 * 10^(length-1), the count of numbers with exactly length digits.
+	span := new(big.Int).Mul(min, big.NewInt(9))
 
-	num, _ := rand.Int(rand.Reader, big.NewInt(int64(max-min+1)))
-	return num.Int64() + int64(min)
+	num, err := rand.Int(rand.Reader, span)
+	if err != nil {
+		panic(fmt.Errorf("generate random digits: %w", err))
+	}
+
+	return num.Add(num, min).Int64()
 }
 
-// Random generate random digit in range [min, max]. Required max > 0.
+// Random generates a uniformly distributed random integer in the inclusive
+// range [min, max]. It requires min <= max, otherwise it panics.
 func Random(min, max int) int {
-	if max == 0 || min == max {
-		max += 1
+	if min > max {
+		panic(fmt.Errorf("invalid random range: min %d > max %d", min, max))
 	}
 
-	randomNumber, err := rand.Int(rand.Reader, big.NewInt(int64(max-min+1)))
+	span := int64(max-min) + 1
+
+	randomNumber, err := rand.Int(rand.Reader, big.NewInt(span))
 	if err != nil {
 		panic(fmt.Errorf("generate random number: %w", err))
 	}

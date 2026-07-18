@@ -9,15 +9,18 @@ var (
 	// ErrInvalidCode invalid okato code
 	ErrInvalidCode = errors.New("invalid okato code")
 
-	// ErrFirstLevelCode
-	ErrFirstLevelCode = errors.New("")
+	// ErrFirstLevelCode invalid first level (subject of the Russian Federation) code
+	ErrFirstLevelCode = errors.New("invalid okato first level code")
 
-	// ErrSecondLevelCode
-	ErrSecondLevelCode = errors.New("")
+	// ErrSecondLevelCode invalid second level code
+	ErrSecondLevelCode = errors.New("invalid okato second level code")
 
-	// ErrThirdLevelCode
-	ErrThirdLevelCode = errors.New("")
+	// ErrThirdLevelCode invalid third level code
+	ErrThirdLevelCode = errors.New("invalid okato third level code")
 
-	// ErrFourthLevelCode
-	ErrFourthLevelCode = errors.New("")
+	// ErrFourthLevelCode invalid fourth level code
+	ErrFourthLevelCode = errors.New("invalid okato fourth level code")
+
+	// ErrNotImplemented feature is not implemented yet
+	ErrNotImplemented = errors.New("not implemented")
 )

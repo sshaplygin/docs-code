@@ -43,6 +43,9 @@ const (
 	ForeignLegal
 )
 
+// foreignLegalPrefix is the fixed tax region prefix of a foreign legal-entity INN.
+const foreignLegalPrefix = "9909"
+
 var _supportedTypes = []INNType{
 	Physical,
 	Legal,
@@ -69,7 +72,7 @@ func (sn *SerialNumber) Ints() []int {
 	return res
 }
 
-func GenerateSerailNumber(innType INNType) SerialNumber {
+func GenerateSerialNumber(innType INNType) SerialNumber {
 	if innType == Physical {
 		return SerialNumber{
 			val: int(utils.RandomDigits(physicalSerialNumberLength)),
@@ -124,7 +127,13 @@ type INNStruct struct {
 
 func NewINN(innType INNType) *INNStruct {
 	taxRegionCode := fts.GenerateTaxRegionCode()
-	serialNumber := GenerateSerailNumber(innType)
+	if innType == ForeignLegal {
+		// Foreign legal-entity INNs always start with the fixed 9909 prefix,
+		// so the random tax region code must not be used for them.
+		taxRegionCode, _ = fts.ParseTaxRegionCode(foreignLegalPrefix)
+	}
+
+	serialNumber := GenerateSerialNumber(innType)
 
 	return &INNStruct{
 		taxRegionCode: taxRegionCode,
@@ -154,8 +163,7 @@ func ParseINN(inn string) (*INNStruct, error) {
 		snlen = legalSerialNumberLength
 		t = Legal
 		parseIdx = len(inn) - 1
-		const foreignLegalStartWith = "9909"
-		if inn[0:4] == foreignLegalStartWith {
+		if inn[0:4] == foreignLegalPrefix {
 			t = ForeignLegal
 		}
 	}
