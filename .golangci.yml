@@ -29,6 +29,11 @@ linters:
       - comments
       - std-error-handling
     rules:
+      # A lookup dataset: extracting repeated bank names into constants makes it
+      # harder to review and maintain without changing runtime behavior.
+      - path: bik/data.go
+        linters:
+          - goconst
       - linters:
           - staticcheck
         text: "ST1003"
