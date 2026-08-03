@@ -24,3 +24,7 @@ output.*
 # IDE
 .idea
 .vscode
+
+!docs/*.html
+!docs/*.txt
+!docs/*.xml

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sshaplygin.github.io/docs-code/sitemap.xml
