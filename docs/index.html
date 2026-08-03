@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="docs-code is a Go library to validate and generate Russian document codes: INN, BIK, KPP, OGRN, OGRNIP, and SNILS.">
+    <meta name="keywords" content="Go, Golang, Russian document codes, INN validator, BIK validator, KPP validator, OGRN validator, OGRNIP validator, SNILS validator">
+    <meta name="author" content="docs-code contributors">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#fcfcfa" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#151515" media="(prefers-color-scheme: dark)">
+    <link rel="canonical" href="https://sshaplygin.github.io/docs-code/">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sshaplygin.github.io/docs-code/">
+    <meta property="og:title" content="docs-code — Russian document codes for Go">
+    <meta property="og:description" content="Validate and generate Russian official document codes with Go.">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="docs-code — Russian document codes for Go">
+    <meta name="twitter:description" content="Validate and generate Russian official document codes with Go.">
+    <title>docs-code — Russian document codes for Go</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareSourceCode",
+        "name": "docs-code",
+        "codeRepository": "https://github.com/sshaplygin/docs-code",
+        "programmingLanguage": "Go",
+        "license": "https://github.com/sshaplygin/docs-code/blob/master/LICENSE",
+        "description": "Go library for validation and generation of Russian official document codes."
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/docs-code/">docs-code</a>
+      <nav aria-label="Main navigation">
+        <a href="#codes">Codes</a>
+        <a href="#usage">Usage</a>
+        <a href="https://github.com/sshaplygin/docs-code">GitHub</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="page-title">
+        <p class="kicker">GO LIBRARY</p>
+        <h1 id="page-title">Russian document codes,<br>without the ceremony.</h1>
+        <p>Validate and generate the codes your Go application needs.</p>
+        <div class="actions">
+          <a class="button" href="#usage">Get started</a>
+          <a class="quiet-link" href="https://pkg.go.dev/github.com/sshaplygin/docs-code">Package docs →</a>
+        </div>
+      </section>
+
+      <section class="section" id="codes" aria-labelledby="codes-title">
+        <div class="section-title">
+          <p class="kicker">SUPPORTED CODES</p>
+          <h2 id="codes-title">The essentials, covered.</h2>
+        </div>
+        <ul class="code-list">
+          <li><strong>INN</strong><span>Taxpayer Identification Number</span><em>Validate · Generate</em></li>
+          <li><strong>BIK</strong><span>Bank Identification Code</span><em>Validate · Generate</em></li>
+          <li><strong>KPP</strong><span>Tax Registration Reason Code</span><em>Validate · Generate</em></li>
+          <li><strong>OGRN</strong><span>Primary State Registration Number</span><em>Validate · Generate</em></li>
+          <li><strong>OGRNIP</strong><span>Registration Number for individuals</span><em>Validate · Generate</em></li>
+          <li><strong>SNILS</strong><span>Insurance Individual Account Number</span><em>Validate · Generate</em></li>
+        </ul>
+        <p class="fine-print">OKATO format and hierarchy validation is also available. Existence lookup and generation are not implemented.</p>
+      </section>
+
+      <section class="section usage" id="usage" aria-labelledby="usage-title">
+        <div class="section-title">
+          <p class="kicker">USAGE</p>
+          <h2 id="usage-title">A small API.</h2>
+        </div>
+        <div class="examples">
+          <article>
+            <h3>Install</h3>
+            <pre><code>go get github.com/sshaplygin/docs-code</code></pre>
+          </article>
+          <article>
+            <h3>Validate</h3>
+            <pre><code>valid, err := docs_code.Validate(
+  docs_code.INN,
+  "526317984689",
+)</code></pre>
+          </article>
+          <article>
+            <h3>Generate</h3>
+            <pre><code>code, err := docs_code.Generate(
+  docs_code.SNILS,
+)</code></pre>
+          </article>
+        </div>
+      </section>
+
+      <section class="callout" aria-labelledby="direct-title">
+        <div>
+          <p class="kicker">MORE CONTROL</p>
+          <h2 id="direct-title">Need a specific operation?</h2>
+        </div>
+        <p>Each document type is available as a focused package. Use it directly when your integration needs more than the common API.</p>
+        <a class="button button-light" href="https://pkg.go.dev/github.com/sshaplygin/docs-code">Explore packages</a>
+      </section>
+    </main>
+
+    <footer>
+      <span>docs-code</span>
+      <span>MIT License</span>
+      <a href="https://github.com/sshaplygin/docs-code">Source on GitHub ↗</a>
+    </footer>
+  </body>
+</html>
