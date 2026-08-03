@@ -29,7 +29,7 @@ func Validate(docType DocType, code string) (bool, error) {
 	}
 
 	if callFunc == nil {
-		panic("not implemented method")
+		return false, ErrUnsupportedDocType
 	}
 
 	return callFunc(code)

@@ -16,7 +16,7 @@ func Test_SliceToInt(t *testing.T) {
 
 	tests := []testCase{
 		{
-			"nil",
+			"nil slice",
 			nil,
 			0,
 		},
@@ -49,13 +49,13 @@ func Test_StrCode_ValidInput(t *testing.T) {
 
 	tests := []testCase{
 		{
-			"nil",
+			"two-digit padding",
 			1,
 			2,
 			"01",
 		},
 		{
-			"nil",
+			"three-digit padding",
 			1,
 			3,
 			"001",
@@ -78,12 +78,12 @@ func Test_Generate_InvalidInput(t *testing.T) {
 
 	tests := []testCase{
 		{
-			"nil",
+			"zero value and length",
 			0,
 			0,
 		},
 		{
-			"nil",
+			"value exceeds length",
 			100,
 			2,
 		},

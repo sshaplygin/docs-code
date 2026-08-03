@@ -8,8 +8,6 @@ import (
 	"os"
 )
 
-var devNull *os.File
-
 func main() {
 	file, err := os.ReadFile("base.xml")
 	checkErr(err)
@@ -18,7 +16,7 @@ func main() {
 	err = xml.Unmarshal(file, &biks)
 	checkErr(err)
 
-	writer := devNull
+	writer := os.Stdout
 	_, err = fmt.Fprint(writer, "package main", "\n\n")
 	checkErr(err)
 
@@ -64,10 +62,4 @@ func checkErr(e error) {
 	if e != nil {
 		log.Panic(e)
 	}
-}
-
-func init() {
-	var err error
-	devNull, err = os.OpenFile(os.DevNull, os.O_WRONLY, 0600)
-	checkErr(err)
 }

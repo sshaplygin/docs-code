@@ -35,6 +35,8 @@ func IsExist(bik string) (bool, error) {
 	return okatoData.IsExist()
 }
 
-func Generate() string {
-	panic("not implemented!")
+// Generate is not implemented yet: OKATO generation requires the full
+// classifier dataset and a control-number algorithm that are not available.
+func Generate() (string, error) {
+	return "", ErrNotImplemented
 }

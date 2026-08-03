@@ -29,8 +29,8 @@ const (
 )
 
 const (
-	minForuthLevelCodeLength = 0
-	maxForuthLevelCodeLength = 999
+	minFourthLevelCodeLength = 0
+	maxFourthLevelCodeLength = 999
 )
 
 // Структура кодового обозначения в блоке идентификации: XX XXX XXX XXX, где
@@ -113,7 +113,7 @@ func (ost *OKATOStruct) IsValid() (bool, error) {
 }
 
 func (ost *OKATOStruct) IsExist() (bool, error) {
-	panic("not implemented!")
+	return false, ErrNotImplemented
 }
 
 // Алейского сельсовета Алейского района Алтайского края - 01 201 802 000
@@ -125,7 +125,7 @@ func (s StateCode) IsValid() bool {
 }
 
 func (s StateCode) String() string {
-	_, ok := fisrtLevelCodes[s]
+	_, ok := firstLevelCodes[s]
 	if !ok {
 		return StateCode(0).String()
 	}
@@ -134,7 +134,7 @@ func (s StateCode) String() string {
 }
 
 func (s StateCode) GetName() string {
-	name, ok := fisrtLevelCodes[s]
+	name, ok := firstLevelCodes[s]
 	if !ok {
 		return StateCode(0).GetName()
 	}
@@ -161,5 +161,5 @@ func (s ThirdLevelCode) IsValid() bool {
 type FourthLevelCode int
 
 func (s FourthLevelCode) IsValid() bool {
-	return s >= minForuthLevelCodeLength && s <= maxForuthLevelCodeLength
+	return s >= minFourthLevelCodeLength && s <= maxFourthLevelCodeLength
 }

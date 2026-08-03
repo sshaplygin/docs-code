@@ -38,12 +38,12 @@ const (
 	unspecifiedCountryCode = "Неопределенный код страны"
 )
 
-var (
-	// DirectParticipationCounty - участник платежной системы с прямым участием
-	DirectParticipationCounty CountryCode = 0
+const (
+	// DirectParticipationCountry - участник платежной системы с прямым участием
+	DirectParticipationCountry CountryCode = 0
 
-	// IndirectParticipationCounty - участник платежной системы с косвенным участием
-	IndirectParticipationCounty CountryCode = 1
+	// IndirectParticipationCountry - участник платежной системы с косвенным участием
+	IndirectParticipationCountry CountryCode = 1
 
 	// NotMemberClientCBRF - клиент Банка России, не являющийся участником платежной системы
 	NotMemberClientCBRF CountryCode = 2
@@ -158,19 +158,7 @@ type BIKStruct struct {
 	lastNumber    LastAccountNumbers
 }
 
-// generateOptions TODO
-type generateOptions struct {
-}
-
-type GenerateOpt func(options *generateOptions)
-
-func NewBIK(opts ...GenerateOpt) *BIKStruct {
-	var options generateOptions
-
-	for _, o := range opts {
-		o(&options)
-	}
-
+func NewBIK() *BIKStruct {
 	return &BIKStruct{
 		country:       GenerateCountryCode(),
 		territoryCode: okato.GenerateStateCode(),

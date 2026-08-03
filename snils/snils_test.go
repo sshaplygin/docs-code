@@ -10,6 +10,11 @@ import (
 	"github.com/sshaplygin/docs-code/models"
 )
 
+const (
+	validSNILSFirst  = "112-233-445 95"
+	validSNILSSecond = "646-663-083 23"
+)
+
 func TestValidate(t *testing.T) {
 	t.Parallel()
 
@@ -22,12 +27,12 @@ func TestValidate(t *testing.T) {
 
 		testCases := []testCase{
 			{
-				Code:    "112-233-445 95",
+				Code:    validSNILSFirst,
 				Error:   nil,
 				IsValid: true,
 			},
 			{
-				Code:    "646-663-083 23",
+				Code:    validSNILSSecond,
 				Error:   nil,
 				IsValid: true,
 			},
@@ -47,7 +52,7 @@ func TestValidate(t *testing.T) {
 			isValid, err := Validate(tc.Code)
 			assert.Equal(t, tc.IsValid, isValid, tc.Code)
 			if err != nil {
-				assert.ErrorAs(t, err, &tc.Error, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
+				assert.ErrorIs(t, err, tc.Error, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			} else {
 				assert.Empty(t, err, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			}
@@ -82,11 +87,11 @@ func TestValidate(t *testing.T) {
 				IsValid: false,
 			},
 			{
-				Code:    "112-233-445 95",
+				Code:    validSNILSFirst,
 				IsValid: true,
 			},
 			{
-				Code:    "646-663-083 23",
+				Code:    validSNILSSecond,
 				Error:   nil,
 				IsValid: true,
 			},
@@ -95,7 +100,7 @@ func TestValidate(t *testing.T) {
 			isValid, err := Validate(tc.Code)
 			assert.Equal(t, tc.IsValid, isValid, tc.Code, tc.IsValid)
 			if err != nil {
-				assert.ErrorAs(t, err, &tc.Error, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
+				assert.ErrorIs(t, err, tc.Error, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			} else {
 				assert.Empty(t, err, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			}
@@ -115,7 +120,7 @@ func Test_Generate(t *testing.T) {
 
 func BenchmarkValidateCorrect(b *testing.B) {
 	for b.Loop() {
-		_, _ = Validate("112-233-445 95")
+		_, _ = Validate(validSNILSFirst)
 	}
 }
 func BenchmarkGenerate(b *testing.B) {

@@ -29,6 +29,11 @@ linters:
       - comments
       - std-error-handling
     rules:
+      # Lookup datasets: extracting repeated labels into constants makes them
+      # harder to review and maintain without changing runtime behavior.
+      - path: (bik|kpp)/data.go
+        linters:
+          - goconst
       - linters:
           - staticcheck
         text: "ST1003"

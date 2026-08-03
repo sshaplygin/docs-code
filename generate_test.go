@@ -7,7 +7,9 @@ import (
 )
 
 func Test_Generate(t *testing.T) {
-	inn := Generate(INN)
+	inn, err := Generate(INN)
+	require.NoError(t, err)
+
 	isValid, err := Validate(INN, inn)
 	require.NoError(t, err)
 
@@ -15,7 +17,6 @@ func Test_Generate(t *testing.T) {
 }
 
 func Test_Generate_Unsupported(t *testing.T) {
-	require.Panics(t, func() {
-		Generate(DocType(100500))
-	})
+	_, err := Generate(DocType(100500))
+	require.ErrorIs(t, err, ErrUnsupportedDocType)
 }

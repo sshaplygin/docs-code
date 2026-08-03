@@ -8,6 +8,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/sshaplygin/docs-code/models"
+	"github.com/sshaplygin/docs-code/ogrn"
 )
 
 func TestValidate(t *testing.T) {
@@ -47,7 +48,7 @@ func TestValidate(t *testing.T) {
 			isValid, err := Validate(tc.Code)
 			assert.Equal(t, tc.IsValid, isValid, tc.Code)
 			if err != nil {
-				assert.ErrorAs(t, err, &tc.Error, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
+				assert.ErrorIs(t, err, tc.Error, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			} else {
 				assert.Empty(t, err, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			}
@@ -73,8 +74,10 @@ func TestValidate(t *testing.T) {
 				IsValid: false,
 			},
 			{
+				// Valid OGRNIP length but a legal-entity code type (leading 5),
+				// so the underlying ogrn parser rejects it as a code-type error.
 				Code:    "512502904600034",
-				Error:   models.ErrInvalidValue,
+				Error:   ogrn.ErrInvalidCodeType,
 				IsValid: false,
 			},
 			{
@@ -92,7 +95,7 @@ func TestValidate(t *testing.T) {
 			isValid, err := Validate(tc.Code)
 			assert.Equal(t, tc.IsValid, isValid, tc.Code, tc.IsValid)
 			if err != nil {
-				assert.ErrorAs(t, err, &tc.Error, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
+				assert.ErrorIs(t, err, tc.Error, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			} else {
 				assert.Empty(t, err, fmt.Sprintf("invalid test case %d: input: %s", i, tc.Code))
 			}
